@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Admin Dashboard — Campus Connect Portal">
+  <title>Admin Dashboard — Campus Connect</title>
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/themes.css">
+  <link rel="stylesheet" href="css/dashboard.css">
+</head>
+<body>
+  <div class="dashboard-layout">
+    <!-- Sidebar Overlay -->
+    <div class="sidebar-overlay"></div>
+
+    <!-- Sidebar -->
+    <nav class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <div class="sidebar-logo">🛡️</div>
+        <div class="sidebar-brand">
+          <h3>Campus Connect</h3>
+          <small>Admin Portal</small>
+        </div>
+      </div>
+
+      <div class="sidebar-nav">
+        <div class="nav-section">
+          <div class="nav-section-title">Control Panel</div>
+          <button class="nav-item active" data-section="home"><span class="nav-icon">📊</span> Overview</button>
+          <button class="nav-item" data-section="emergency"><span class="nav-icon">🚨</span> Emergency Broadcast</button>
+          <button class="nav-item" data-section="complaints"><span class="nav-icon">📥</span> All Complaints</button>
+          <button class="nav-item" data-section="students"><span class="nav-icon">🎒</span> Student Directory</button>
+          <button class="nav-item" data-section="faculty"><span class="nav-icon">👨‍🏫</span> Faculty Directory</button>
+          <button class="nav-item" data-section="events"><span class="nav-icon">🎪</span> Manage Events</button>
+          <button class="nav-item" data-section="notices"><span class="nav-icon">📋</span> Manage Notices</button>
+        </div>
+      </div>
+
+      <div class="sidebar-footer">
+        <div class="sidebar-user" onclick="logout()">
+          <div class="avatar avatar-sm" style="background:var(--grad-danger)" id="sidebar-avatar">A</div>
+          <div class="sidebar-user-info">
+            <div class="sidebar-user-name" id="sidebar-name">Admin</div>
+            <div class="sidebar-user-role">🚪 Sign Out</div>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <!-- Header -->
+      <header class="main-header">
+        <div class="main-header-left">
+          <button class="hamburger" id="hamburger-btn">☰</button>
+          <div class="page-title">Admin Dashboard</div>
+        </div>
+        <div class="main-header-right">
+          <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle dark mode">
+            <span class="toggle-thumb">☀️</span>
+          </button>
+        </div>
+      </header>
+
+      <div class="main-body">
+        <!-- ═══════════════ OVERVIEW SECTION ═══════════════ -->
+        <section class="dashboard-section active" id="section-home">
+          <div class="section-header">
+            <div>
+              <h2>System Control Overview</h2>
+              <p>Campus-wide monitoring & controls</p>
+            </div>
+            <button class="btn btn-danger" onclick="switchToSection('emergency')">🚨 Broadcast Campus SOS</button>
+          </div>
+
+          <!-- Quick Stats Grid -->
+          <div class="grid-4" style="margin-bottom:var(--sp-6);">
+            <div class="card stat-card">
+              <div class="card-icon primary">🎒</div>
+              <div>
+                <div class="stat-value" id="admin-stat-students">0</div>
+                <div class="stat-label">Total Students</div>
+              </div>
+            </div>
+            <div class="card stat-card">
+              <div class="card-icon accent">👨‍🏫</div>
+              <div>
+                <div class="stat-value" id="admin-stat-faculty">0</div>
+                <div class="stat-label">Total Faculty</div>
+              </div>
+            </div>
+            <div class="card stat-card">
+              <div class="card-icon warning">📥</div>
+              <div>
+                <div class="stat-value" id="admin-stat-complaints">0</div>
+                <div class="stat-label">Active Complaints</div>
+              </div>
+            </div>
+            <div class="card stat-card">
+              <div class="card-icon danger">🚨</div>
+              <div>
+                <div class="stat-value" id="admin-stat-alerts">0</div>
+                <div class="stat-label">Active Broadcasts</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Active System Complaints -->
+          <div class="card" style="margin-bottom:var(--sp-6);">
+            <div class="card-header">
+              <h4>🔥 Recent Complaints Monitoring</h4>
+              <button class="btn btn-sm btn-secondary" onclick="switchToSection('complaints')">View All</button>
+            </div>
+            <div id="admin-recent-complaints"></div>
+          </div>
+        </section>
+
+        <!-- ═══════════════ EMERGENCY BROADCAST SECTION ═══════════════ -->
+        <section class="dashboard-section" id="section-emergency">
+          <div class="section-header">
+            <h2>🚨 Campus-Wide Emergency Broadcast</h2>
+          </div>
+          <div class="grid-2">
+            <div class="card" style="border:2px solid var(--clr-danger-500)">
+              <h4 style="color:var(--clr-danger-500);margin-bottom:var(--sp-4)">Send Emergency Alert</h4>
+              <div class="form-group">
+                <label class="form-label">Alert Priority</label>
+                <select class="form-input" id="broadcast-priority">
+                  <option value="urgent">CRITICAL / SOS (Campus Wide)</option>
+                  <option value="important">HIGH PRIORITY</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Headline / Title</label>
+                <input type="text" class="form-input" id="broadcast-title" placeholder="e.g., Severe Weather Alert / Campus Lockdown">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Alert Details</label>
+                <textarea class="form-input" id="broadcast-content" placeholder="Immediate instructions for students & staff..."></textarea>
+              </div>
+              <button class="btn btn-danger btn-lg w-full" onclick="sendEmergencyBroadcast()">🚨 SEND CAMPUS BROADCAST</button>
+            </div>
+
+            <div class="card">
+              <h4 style="margin-bottom:var(--sp-4)">Active Broadcast History</h4>
+              <div id="broadcast-history"></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ═══════════════ ALL COMPLAINTS SECTION ═══════════════ -->
+        <section class="dashboard-section" id="section-complaints">
+          <div class="section-header">
+            <h2>📥 Complaint Monitoring</h2>
+            <div class="tab-nav">
+              <button class="tab-btn active" onclick="filterAdminComplaints('all')">All</button>
+              <button class="tab-btn" onclick="filterAdminComplaints('hostel')">Hostel</button>
+              <button class="tab-btn" onclick="filterAdminComplaints('academic')">Academic</button>
+              <button class="tab-btn" onclick="filterAdminComplaints('campus')">Campus</button>
+            </div>
+          </div>
+          <div class="flex flex-col gap-4" id="admin-complaints-list"></div>
+        </section>
+
+        <!-- ═══════════════ STUDENTS SECTION ═══════════════ -->
+        <section class="dashboard-section" id="section-students">
+          <div class="section-header">
+            <h2>🎒 Student Directory & Controls</h2>
+            <div class="search-bar">
+              <span class="search-icon">🔍</span>
+              <input type="text" placeholder="Search student..." id="admin-student-search">
+            </div>
+          </div>
+          <div id="admin-student-table"></div>
+        </section>
+
+        <!-- ═══════════════ FACULTY SECTION ═══════════════ -->
+        <section class="dashboard-section" id="section-faculty">
+          <div class="section-header">
+            <h2>👨‍🏫 Faculty Directory</h2>
+            <div class="search-bar">
+              <span class="search-icon">🔍</span>
+              <input type="text" placeholder="Search faculty..." id="admin-faculty-search">
+            </div>
+          </div>
+          <div id="admin-faculty-table"></div>
+        </section>
+
+        <!-- ═══════════════ MANAGE EVENTS SECTION ═══════════════ -->
+        <section class="dashboard-section" id="section-events">
+          <div class="section-header">
+            <h2>🎪 Event Management</h2>
+            <button class="btn btn-primary" onclick="openModal('modal-create-event')">+ Create Event</button>
+          </div>
+          <div class="grid-2" id="admin-events-list"></div>
+        </section>
+
+        <!-- ═══════════════ MANAGE NOTICES SECTION ═══════════════ -->
+        <section class="dashboard-section" id="section-notices">
+          <div class="section-header">
+            <h2>📋 Notice Management</h2>
+            <button class="btn btn-primary" onclick="openModal('modal-create-notice')">+ Create Notice</button>
+          </div>
+          <div class="flex flex-col gap-4" id="admin-notices-list"></div>
+        </section>
+      </div>
+    </main>
+  </div>
+
+  <!-- Modal: Create Event -->
+  <div class="modal-overlay" id="modal-create-event">
+    <div class="modal">
+      <div class="modal-header">
+        <h3>Add Campus Event</h3>
+        <button class="modal-close" onclick="closeModal('modal-create-event')">✕</button>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Event Title</label>
+        <input type="text" class="form-input" id="evt-title" placeholder="e.g., Annual Sports Meet 2025">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Event Type</label>
+        <select class="form-input" id="evt-type">
+          <option value="fest">Fest / Hackathon</option>
+          <option value="exam">Examination</option>
+          <option value="cultural">Cultural</option>
+          <option value="sports">Sports</option>
+          <option value="academic">Academic / Seminar</option>
+          <option value="workshop">Workshop</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Start Date</label>
+        <input type="date" class="form-input" id="evt-date">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Venue</label>
+        <input type="text" class="form-input" id="evt-venue" placeholder="e.g., Main Auditorium">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Description</label>
+        <textarea class="form-input" id="evt-desc" placeholder="Details about event..."></textarea>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" onclick="closeModal('modal-create-event')">Cancel</button>
+        <button class="btn btn-primary" onclick="submitAdminEvent()">Publish Event</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: Create Notice -->
+  <div class="modal-overlay" id="modal-create-notice">
+    <div class="modal">
+      <div class="modal-header">
+        <h3>Publish Notice</h3>
+        <button class="modal-close" onclick="closeModal('modal-create-notice')">✕</button>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Title</label>
+        <input type="text" class="form-input" id="not-title" placeholder="Headline">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Priority</label>
+        <select class="form-input" id="not-priority">
+          <option value="normal">Normal</option>
+          <option value="important">Important</option>
+          <option value="urgent">Urgent</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Content</label>
+        <textarea class="form-input" id="not-content" placeholder="Detailed notice text..."></textarea>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" onclick="closeModal('modal-create-notice')">Cancel</button>
+        <button class="btn btn-primary" onclick="submitAdminNotice()">Publish Notice</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/utils.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/theme.js"></script>
+  <script src="js/components.js"></script>
+  <script src="js/admin.js"></script>
+</body>
+</html>

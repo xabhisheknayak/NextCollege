@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Campus Connect — Student Login">
+  <title>Student Login — Campus Connect</title>
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/themes.css">
+  <link rel="stylesheet" href="css/login.css">
+</head>
+<body>
+  <div class="login-page">
+    <div class="login-bg">
+      <div class="login-mesh"></div>
+      <div class="glowing-orb orb-1"></div>
+      <div class="glowing-orb orb-2"></div>
+      <div class="glowing-orb orb-3"></div>
+    </div>
+
+    <div class="login-wrapper">
+      <!-- HERO SIDE -->
+      <div class="login-hero">
+        <div>
+          <a href="portals.html" style="display:inline-block; margin-bottom:var(--sp-4); color:rgba(255,255,255,0.8); text-decoration:none; font-size:var(--fs-sm);">← Back to Portal Selection</a>
+          <div class="hero-badge">🎒 Student Portal</div>
+          <h1 class="hero-title">Your Campus, Your Way</h1>
+          <p class="hero-desc">Access class schedules, emergency SOS alerts, AI study assistants, and hostel services all in one place.</p>
+        </div>
+      </div>
+
+      <!-- FORM SIDE -->
+      <div class="login-card">
+        <div class="login-top-bar">
+          <div class="brand-pill">
+            <div class="brand-icon">🎓</div>
+            <div class="brand-text">
+              <h2>Student Login</h2>
+              <p>Welcome back</p>
+            </div>
+          </div>
+          <button class="theme-toggle" onclick="toggleTheme()" id="theme-toggle-btn" aria-label="Toggle dark mode">
+            <span class="toggle-thumb">☀️</span>
+          </button>
+        </div>
+
+        <div class="login-error" id="login-error"></div>
+
+        <form class="login-form active" id="form-student">
+          <div class="input-group-modern">
+            <label>Registration Number</label>
+            <div class="input-field-wrap composite-wrap" style="background: var(--bg-surface); border: 1.5px solid var(--border-color); border-radius: var(--radius-xl); padding-left: 2.75rem; padding-right: var(--sp-2); display: flex; align-items: center; gap: 4px; transition: all var(--transition-base);">
+              <span class="field-icon" style="left: var(--sp-3);">🎫</span>
+              <select id="student-reg-year" style="background: transparent; border: none; color: var(--text-primary); outline: none; padding: var(--sp-2.5) 0; cursor: pointer; appearance: none; -webkit-appearance: none; font-weight: var(--fw-medium); text-align: center;">
+                <option value="20">20</option><option value="21">21</option><option value="22">22</option><option value="23">23</option><option value="24">24</option><option value="25" selected>25</option><option value="26">26</option><option value="27">27</option><option value="28">28</option><option value="29">29</option><option value="30">30</option><option value="31">31</option><option value="32">32</option><option value="33">33</option><option value="34">34</option><option value="35">35</option><option value="36">36</option><option value="37">37</option><option value="38">38</option><option value="39">39</option><option value="40">40</option><option value="41">41</option><option value="42">42</option><option value="43">43</option><option value="44">44</option><option value="45">45</option><option value="46">46</option><option value="47">47</option><option value="48">48</option><option value="49">49</option><option value="50">50</option>
+              </select>
+              <span style="color: var(--text-tertiary);">-</span>
+              <select id="student-reg-branch" style="background: transparent; border: none; color: var(--text-primary); outline: none; padding: var(--sp-2.5) 0; cursor: pointer; appearance: none; -webkit-appearance: none; font-weight: var(--fw-medium); text-align: center;">
+                <option value="101">101</option><option value="102">102</option><option value="103">103</option><option value="104">104</option><option value="105" selected>105</option><option value="106">106</option><option value="107">107</option><option value="108">108</option><option value="109">109</option><option value="151">151</option>
+              </select>
+              <span style="color: var(--text-tertiary);">-</span>
+              <span style="color: var(--text-primary); font-weight: var(--fw-medium);">131</span>
+              <span style="color: var(--text-tertiary);">-</span>
+              <input type="text" id="student-reg-roll" maxlength="3" placeholder="003" autocomplete="off" style="border: none; background: transparent; padding: var(--sp-2.5) 0; min-width: 40px; flex: 1; outline: none; font-size: inherit; font-weight: var(--fw-medium);">
+            </div>
+            <span class="field-hint">Select Year, Branch, and enter Roll Number</span>
+          </div>
+
+          <div class="input-group-modern">
+            <label for="student-password">Numeric Password (Mobile)</label>
+            <div class="input-field-wrap">
+              <span class="field-icon">🔒</span>
+              <input type="password" id="student-password" placeholder="Enter password" autocomplete="off">
+              <button type="button" class="field-toggle-pwd" onclick="togglePasswordVisibility('student-password', this)">👁️</button>
+            </div>
+          </div>
+
+          <label class="custom-checkbox">
+            <input type="checkbox" id="student-hosteler">
+            <span>🏠 I am a Hosteler (Unlocks Hostel Complaints & Gate Pass)</span>
+          </label>
+
+          <button type="submit" class="btn-login-submit" id="student-login-btn">
+            <span>Sign In to Dashboard</span>
+            <span>→</span>
+          </button>
+        </form>
+
+        <div class="demo-section">
+          <div class="demo-title">⚡ 1-Click Auto-Fill Demo Credentials</div>
+          <div class="demo-chips">
+            <button type="button" class="demo-chip" onclick="autoFillDemo('student-hostel')"><span>🎒 Hosteler Student</span></button>
+            <button type="button" class="demo-chip" onclick="autoFillDemo('student-dayscholar')"><span>🚌 Day Scholar</span></button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/utils.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/theme.js"></script>
+  <script src="js/components.js"></script>
+  <script src="js/auth.js"></script>
+</body>
+</html>

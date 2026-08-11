@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Campus Platform — Introduction">
+  <title>Features — Campus Platform</title>
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/themes.css">
+  <link rel="stylesheet" href="css/login.css">
+  <style>
+    .features-page {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: var(--sp-8) var(--sp-6);
+      position: relative;
+      z-index: 1;
+    }
+    .features-container {
+      max-width: 1000px;
+      width: 100%;
+      background: var(--bg-glass);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: var(--radius-2xl);
+      padding: var(--sp-8);
+      color: var(--text-primary);
+      box-shadow: 0 25px 60px rgba(0,0,0,0.2);
+      animation: scaleIn 0.5s ease-out;
+    }
+    .features-header {
+      text-align: center;
+      margin-bottom: var(--sp-8);
+    }
+    .features-header h2 {
+      font-size: var(--fs-3xl);
+      font-weight: var(--fw-extrabold);
+      margin-bottom: var(--sp-3);
+    }
+    .features-header p {
+      font-size: var(--fs-md);
+      color: var(--text-secondary);
+    }
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: var(--sp-6);
+      margin-bottom: var(--sp-8);
+    }
+    .feature-item {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-xl);
+      padding: var(--sp-6);
+      transition: transform 0.2s ease;
+    }
+    .feature-item:hover {
+      transform: translateY(-5px);
+      border-color: var(--clr-primary-400);
+      box-shadow: var(--shadow-md);
+    }
+    .feature-icon-large {
+      font-size: 2.5rem;
+      margin-bottom: var(--sp-4);
+      display: inline-block;
+      padding: var(--sp-3);
+      background: var(--bg-surface-alt);
+      border-radius: var(--radius-lg);
+    }
+    .feature-item h3 {
+      margin-bottom: var(--sp-2);
+    }
+    .feature-item p {
+      color: var(--text-tertiary);
+      font-size: var(--fs-sm);
+      margin: 0;
+      line-height: 1.5;
+    }
+    .features-footer {
+      text-align: center;
+      margin-top: var(--sp-6);
+    }
+    .btn-continue {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--sp-3);
+      padding: var(--sp-4) var(--sp-8);
+      font-size: var(--fs-lg);
+      font-weight: var(--fw-bold);
+      color: white;
+      background: var(--grad-primary);
+      border-radius: var(--radius-full);
+      text-decoration: none;
+      box-shadow: 0 10px 30px rgba(99, 102, 241, 0.4);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .btn-continue:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 15px 40px rgba(99, 102, 241, 0.6);
+    }
+  </style>
+</head>
+<body data-theme="dark">
+  <div class="login-bg">
+    <div class="login-mesh"></div>
+    <div class="glowing-orb orb-1"></div>
+    <div class="glowing-orb orb-2"></div>
+    <div class="glowing-orb orb-3"></div>
+  </div>
+
+  <div class="features-page">
+    <div class="features-container">
+      <div class="features-header">
+        <div class="hero-badge">📖 Platform Introduction</div>
+        <h2>Discover What's Inside</h2>
+        <p>A completely decentralized, smart ecosystem built to streamline every aspect of your campus life.</p>
+      </div>
+
+      <div class="features-grid">
+        <div class="feature-item">
+          <div class="feature-icon-large">🤖</div>
+          <h3>AI Study Copilot</h3>
+          <p>Get instant answers to academic queries, generate study schedules, and access guided exam preparation directly from your dashboard.</p>
+        </div>
+        <div class="feature-item">
+          <div class="feature-icon-large">🗺️</div>
+          <h3>Smart Campus Navigator</h3>
+          <p>Never get lost again. Interactive vector maps that guide you to classes, labs, and hostels with pinpoint accuracy.</p>
+        </div>
+        <div class="feature-item">
+          <div class="feature-icon-large">🆘</div>
+          <h3>24/7 Emergency SOS</h3>
+          <p>Campus security and emergency medical services are just one click away. Real-time alerts for ultimate safety.</p>
+        </div>
+        <div class="feature-item">
+          <div class="feature-icon-large">📚</div>
+          <h3>Digital Library</h3>
+          <p>Access thousands of textbooks, lab manuals, and previous year question papers instantly without physical queues.</p>
+        </div>
+        <div class="feature-item">
+          <div class="feature-icon-large">💬</div>
+          <h3>Campus Connect Chat</h3>
+          <p>Engage with your branch, communicate with the entire campus, or use the anonymous forum for honest discussions.</p>
+        </div>
+        <div class="feature-item">
+          <div class="feature-icon-large">🏠</div>
+          <h3>Hostel & Admin Desk</h3>
+          <p>Request out-passes, submit infrastructure complaints directly to wardens, and view dynamic ruleboards.</p>
+        </div>
+      </div>
+
+      <div class="features-footer">
+        <a href="portals.html" class="btn-continue">
+          Proceed to Login Portals <span>→</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/utils.js"></script>
+  <script src="js/theme.js"></script>
+</body>
+</html>

@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Campus Connect — Next-Gen Campus Operating System Portal">
+  <title>Campus Connect — Welcome</title>
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/themes.css">
+  <link rel="stylesheet" href="css/login.css">
+  <style>
+    .portal-link {
+      display: flex;
+      align-items: center;
+      gap: var(--sp-4);
+      padding: var(--sp-5);
+      text-decoration: none;
+      color: inherit;
+      transition: all 0.2s ease;
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-xl);
+      background: var(--bg-surface-alt);
+    }
+    .portal-link:hover {
+      transform: translateY(-3px);
+      border-color: var(--clr-primary-400);
+      background: var(--bg-surface);
+      box-shadow: var(--shadow-md);
+    }
+    .portal-icon {
+      font-size: 2.5rem;
+      flex-shrink: 0;
+    }
+    .portal-info h3 {
+      margin-bottom: 4px;
+      font-size: var(--fs-lg);
+    }
+    .portal-info p {
+      margin: 0;
+      font-size: var(--fs-xs);
+      color: var(--text-tertiary);
+    }
+    .portal-arrow {
+      margin-left: auto;
+      color: var(--clr-primary-500);
+      font-weight: bold;
+      font-size: 1.2rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="login-page">
+    <!-- Animated Background Orbs & Mesh -->
+    <div class="login-bg">
+      <div class="login-mesh"></div>
+      <div class="glowing-orb orb-1"></div>
+      <div class="glowing-orb orb-2"></div>
+      <div class="glowing-orb orb-3"></div>
+    </div>
+
+    <!-- Main Login Split Container -->
+    <div class="login-wrapper">
+      
+      <!-- ═══════════════ LEFT HERO SHOWCASE ═══════════════ -->
+      <div class="login-hero">
+        <div>
+          <div class="hero-badge">✨ Next-Gen Campus OS</div>
+          <h1 class="hero-title">Empowering Smart Campus Life</h1>
+          <p class="hero-desc">Access class schedules, emergency SOS alerts, AI study assistants, hostel services, and instant batch communication all in one place.</p>
+        </div>
+
+        <div class="hero-features">
+          <div class="hero-feature-card">
+            <div class="hero-feature-icon">🤖</div>
+            <div class="hero-feature-text">
+              <h5>AI Study Copilot</h5>
+              <p>Instant academic guidance</p>
+            </div>
+          </div>
+          <div class="hero-feature-card">
+            <div class="hero-feature-icon">🆘</div>
+            <div class="hero-feature-text">
+              <h5>Emergency SOS</h5>
+              <p>24/7 instant response</p>
+            </div>
+          </div>
+          <div class="hero-feature-card">
+            <div class="hero-feature-icon">🏠</div>
+            <div class="hero-feature-text">
+              <h5>Hostel Desk</h5>
+              <p>Complaints & out-pass</p>
+            </div>
+          </div>
+          <div class="hero-feature-card">
+            <div class="hero-feature-icon">🗺️</div>
+            <div class="hero-feature-text">
+              <h5>Campus Map</h5>
+              <p>Interactive direction guide</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ═══════════════ RIGHT FORM CARD ═══════════════ -->
+      <div class="login-card">
+        
+        <!-- Header & Theme Switch -->
+        <div class="login-top-bar">
+          <div class="brand-pill">
+            <div class="brand-icon">🎓</div>
+            <div class="brand-text">
+              <h2>Campus Connect</h2>
+              <p>Select your portal to continue</p>
+            </div>
+          </div>
+          <button class="theme-toggle" onclick="toggleTheme()" id="theme-toggle-btn" aria-label="Toggle dark mode">
+            <span class="toggle-thumb">☀️</span>
+          </button>
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: var(--sp-4); margin-top: var(--sp-6);">
+          <a href="student-login.html" class="portal-link">
+            <div class="portal-icon">🎒</div>
+            <div class="portal-info">
+              <h3>Student Portal</h3>
+              <p>Access classes, ID, and campus services</p>
+            </div>
+            <div class="portal-arrow">→</div>
+          </a>
+          
+          <a href="professor-login.html" class="portal-link">
+            <div class="portal-icon">👨‍🏫</div>
+            <div class="portal-info">
+              <h3>Faculty Portal</h3>
+              <p>Manage assignments and broadcast alerts</p>
+            </div>
+            <div class="portal-arrow">→</div>
+          </a>
+          
+          <a href="admin-login.html" class="portal-link">
+            <div class="portal-icon">🛡️</div>
+            <div class="portal-info">
+              <h3>Admin Portal</h3>
+              <p>Campus-wide system controls & oversight</p>
+            </div>
+            <div class="portal-arrow">→</div>
+          </a>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <script src="js/utils.js"></script>
+  <script src="js/theme.js"></script>
+  <script src="js/components.js"></script>
+</body>
+</html>

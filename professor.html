@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Professor Dashboard — Campus Connect Portal">
+  <title>Professor Dashboard — Campus Connect</title>
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/themes.css">
+  <link rel="stylesheet" href="css/dashboard.css">
+</head>
+<body>
+  <div class="dashboard-layout">
+    <!-- Sidebar Overlay -->
+    <div class="sidebar-overlay"></div>
+
+    <!-- Sidebar -->
+    <nav class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <div class="sidebar-logo">👨‍🏫</div>
+        <div class="sidebar-brand">
+          <h3>Campus Connect</h3>
+          <small>Faculty Portal</small>
+        </div>
+      </div>
+
+      <div class="sidebar-nav">
+        <div class="nav-section">
+          <div class="nav-section-title">Main</div>
+          <button class="nav-item active" data-section="home"><span class="nav-icon">🏠</span> Home</button>
+          <button class="nav-item" data-section="assignments"><span class="nav-icon">📝</span> Assignments</button>
+          <button class="nav-item" data-section="alerts"><span class="nav-icon">📢</span> Batch Alerts</button>
+          <button class="nav-item" data-section="complaints"><span class="nav-icon">📥</span> Complaints Inbox</button>
+          <button class="nav-item" data-section="directory"><span class="nav-icon">🔍</span> Student Search</button>
+        </div>
+      </div>
+
+      <div class="sidebar-footer">
+        <div class="sidebar-user" onclick="logout()">
+          <div class="avatar avatar-sm" style="background:var(--grad-accent)" id="sidebar-avatar">P</div>
+          <div class="sidebar-user-info">
+            <div class="sidebar-user-name" id="sidebar-name">Dr. Sharma</div>
+            <div class="sidebar-user-role">🚪 Sign Out</div>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <!-- Header -->
+      <header class="main-header">
+        <div class="main-header-left">
+          <button class="hamburger" id="hamburger-btn">☰</button>
+          <div class="page-title">Professor Dashboard</div>
+        </div>
+        <div class="main-header-right">
+          <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle dark mode">
+            <span class="toggle-thumb">☀️</span>
+          </button>
+        </div>
+      </header>
+
+      <div class="main-body">
+        <!-- ═══════════════ HOME SECTION ═══════════════ -->
+        <section class="dashboard-section active" id="section-home">
+          <div class="section-header">
+            <div>
+              <h2 id="greeting-text">Welcome, Professor!</h2>
+              <p id="greeting-dept">Department of Mechanical Engineering</p>
+            </div>
+            <button class="btn btn-primary" onclick="switchToSection('assignments')">+ Create Assignment</button>
+          </div>
+
+          <!-- Quick Stats -->
+          <div class="grid-3" style="margin-bottom: var(--sp-6);">
+            <div class="card stat-card">
+              <div class="card-icon primary">📝</div>
+              <div>
+                <div class="stat-value" id="stat-active-assignments">0</div>
+                <div class="stat-label">Active Assignments</div>
+              </div>
+            </div>
+            <div class="card stat-card">
+              <div class="card-icon accent">📢</div>
+              <div>
+                <div class="stat-value" id="stat-total-alerts">0</div>
+                <div class="stat-label">Alerts Broadcasted</div>
+              </div>
+            </div>
+            <div class="card stat-card">
+              <div class="card-icon warning">📥</div>
+              <div>
+                <div class="stat-value" id="stat-pending-complaints">0</div>
+                <div class="stat-label">Pending Complaints</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Time-Bound Alerts Preview -->
+          <div class="card" style="margin-bottom: var(--sp-6);">
+            <div class="card-header">
+              <h4>⏳ Upcoming Deadline Reminders (Auto-Alerts)</h4>
+              <span class="badge badge-warning">Time-Bound System</span>
+            </div>
+            <div id="timebound-alerts"></div>
+          </div>
+
+          <!-- Recent Assignments -->
+          <div class="card">
+            <div class="card-header">
+              <h4>Recent Assignments Set</h4>
+            </div>
+            <div id="recent-assignments"></div>
+          </div>
+        </section>
+
+        <!-- ═══════════════ ASSIGNMENTS SECTION ═══════════════ -->
+        <section class="dashboard-section" id="section-assignments">
+          <div class="section-header">
+            <h2>📝 Assignment Notifier</h2>
+            <button class="btn btn-primary" onclick="openModal('modal-create-assignment')">+ New Assignment</button>
+          </div>
+          <div class="flex flex-col gap-4" id="assignments-list"></div>
+        </section>
+
+        <!-- ═══════════════ BATCH ALERTS SECTION ═══════════════ -->
+        <section class="dashboard-section" id="section-alerts">
+          <div class="section-header">
+            <h2>📢 Send Batch Alerts</h2>
+          </div>
+
+          <div class="grid-2">
+            <div class="card">
+              <h4 style="margin-bottom:var(--sp-4)">Create Announcement</h4>
+              <div class="form-group">
+                <label class="form-label">Target Branch</label>
+                <select class="form-input" id="alert-branch">
+                  <option value="all">All Branches</option>
+                  <option value="101">Computer Science (101)</option>
+                  <option value="102">Information Tech (102)</option>
+                  <option value="103">Electronics (103)</option>
+                  <option value="104">Electrical (104)</option>
+                  <option value="105">Mechanical (105)</option>
+                  <option value="106">Civil (106)</option>
+                  <option value="110">Data Science & AI (110)</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Target Year</label>
+                <select class="form-input" id="alert-year">
+                  <option value="all">All Years</option>
+                  <option value="1">Year 1</option>
+                  <option value="2">Year 2</option>
+                  <option value="3">Year 3</option>
+                  <option value="4">Year 4</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Notice Title</label>
+                <input type="text" class="form-input" id="alert-title" placeholder="Announcement headline...">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Notice Content</label>
+                <textarea class="form-input" id="alert-content" placeholder="Full message for students..."></textarea>
+              </div>
+              <button class="btn btn-primary w-full" onclick="sendBatchAlert()">📢 Broadcast Alert</button>
+            </div>
+
+            <div class="card">
+              <h4 style="margin-bottom:var(--sp-4)">Sent Batch Announcements</h4>
+              <div id="sent-alerts-list"></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ═══════════════ COMPLAINTS SECTION ═══════════════ -->
+        <section class="dashboard-section" id="section-complaints">
+          <div class="section-header">
+            <h2>📥 Smart Complaint Inbox</h2>
+          </div>
+          <div class="flex flex-col gap-4" id="complaints-inbox"></div>
+        </section>
+
+        <!-- ═══════════════ DIRECTORY SECTION ═══════════════ -->
+        <section class="dashboard-section" id="section-directory">
+          <div class="section-header">
+            <h2>🔍 Search Student Records</h2>
+            <div class="search-bar">
+              <span class="search-icon">🔍</span>
+              <input type="text" placeholder="Search student name or ID..." id="prof-student-search">
+            </div>
+          </div>
+          <div id="prof-student-list"></div>
+        </section>
+      </div>
+    </main>
+  </div>
+
+  <!-- Modal: Create Assignment -->
+  <div class="modal-overlay" id="modal-create-assignment">
+    <div class="modal">
+      <div class="modal-header">
+        <h3>Create Assignment</h3>
+        <button class="modal-close" onclick="closeModal('modal-create-assignment')">✕</button>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Title</label>
+        <input type="text" class="form-input" id="asg-title" placeholder="e.g., Fluid Mechanics Assignment 2">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Subject</label>
+        <input type="text" class="form-input" id="asg-subject" placeholder="e.g., Fluid Mechanics">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Deadline</label>
+        <input type="date" class="form-input" id="asg-deadline">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Target Branch</label>
+        <select class="form-input" id="asg-branch">
+          <option value="all">All Branches</option>
+          <option value="105">Mechanical (105)</option>
+          <option value="101">Computer Science (101)</option>
+          <option value="103">Electronics (103)</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Target Year</label>
+        <select class="form-input" id="asg-year">
+          <option value="1">Year 1</option>
+          <option value="2">Year 2</option>
+          <option value="3">Year 3</option>
+          <option value="4">Year 4</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Instructions / Description</label>
+        <textarea class="form-input" id="asg-desc" placeholder="Details and guidelines for students..."></textarea>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" onclick="closeModal('modal-create-assignment')">Cancel</button>
+        <button class="btn btn-primary" onclick="submitAssignment()">Publish Assignment</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/utils.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/theme.js"></script>
+  <script src="js/components.js"></script>
+  <script src="js/professor.js"></script>
+</body>
+</html>

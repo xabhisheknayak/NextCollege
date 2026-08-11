@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Student Dashboard — Campus Connect Portal">
+  <title>Student Dashboard — Campus Connect</title>
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/themes.css">
+  <link rel="stylesheet" href="css/dashboard.css">
+</head>
+<body>
+  <div class="dashboard-layout">
+    <!-- Sidebar Overlay (mobile) -->
+    <div class="sidebar-overlay"></div>
+
+    <!-- Sidebar -->
+    <nav class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <div class="sidebar-logo">🎓</div>
+        <div class="sidebar-brand">
+          <h3>Campus Connect</h3>
+          <small>Student Portal</small>
+        </div>
+      </div>
+
+      <div class="sidebar-nav">
+        <div class="nav-section">
+          <div class="nav-section-title">Main</div>
+          <button class="nav-item active" data-section="home"><span class="nav-icon">🏠</span> Home</button>
+          <button class="nav-item" data-section="schedule"><span class="nav-icon">📅</span> Schedule</button>
+          <button class="nav-item" data-section="idcard"><span class="nav-icon">🪪</span> Digital ID</button>
+          <button class="nav-item" data-section="profile"><span class="nav-icon">👤</span> My Profile</button>
+        </div>
+
+        <div class="nav-section">
+          <div class="nav-section-title">Academic</div>
+          <button class="nav-item" data-section="library"><span class="nav-icon">📚</span> Digital Library</button>
+          <button class="nav-item" data-section="copilot"><span class="nav-icon">🤖</span> AI Copilot</button>
+          <button class="nav-item" data-section="feedback"><span class="nav-icon">⭐</span> Feedback</button>
+        </div>
+
+        <div class="nav-section">
+          <div class="nav-section-title">Social</div>
+          <button class="nav-item" data-section="chat"><span class="nav-icon">💬</span> Branch Chat</button>
+          <button class="nav-item" data-section="anonchat"><span class="nav-icon">🎭</span> Anonymous Chat</button>
+          <button class="nav-item" data-section="directory"><span class="nav-icon">🔍</span> Directory</button>
+        </div>
+
+        <div class="nav-section">
+          <div class="nav-section-title">Campus</div>
+          <button class="nav-item" data-section="events"><span class="nav-icon">🎪</span> Events</button>
+          <button class="nav-item" data-section="notices"><span class="nav-icon">📋</span> Notice Board</button>
+          <button class="nav-item" data-section="lostfound"><span class="nav-icon">🔎</span> Lost & Found</button>
+          <button class="nav-item" data-section="map"><span class="nav-icon">🗺️</span> Campus Map</button>
+        </div>
+
+        <div class="nav-section">
+          <div class="nav-section-title">Emergency</div>
+          <button class="nav-item" data-section="sos"><span class="nav-icon">🆘</span> Emergency SOS</button>
+          <button class="nav-item" data-section="hospital"><span class="nav-icon">🏥</span> Hospital</button>
+        </div>
+
+        <div class="nav-section" id="hostel-nav" style="display:none">
+          <div class="nav-section-title">Hostel</div>
+          <button class="nav-item" data-section="hostel"><span class="nav-icon">🏠</span> Hostel Dashboard</button>
+        </div>
+      </div>
+
+      <div class="sidebar-footer">
+        <div class="sidebar-user" onclick="logout()">
+          <div class="avatar avatar-sm" id="sidebar-avatar">A</div>
+          <div class="sidebar-user-info">
+            <div class="sidebar-user-name" id="sidebar-name">Student</div>
+            <div class="sidebar-user-role">🚪 Sign Out</div>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <!-- Header -->
+      <header class="main-header">
+        <div class="main-header-left">
+          <button class="hamburger" id="hamburger-btn">☰</button>
+          <div>
+            <div class="page-title" id="page-title">Home</div>
+          </div>
+        </div>
+        <div class="main-header-right">
+          <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle dark mode">
+            <span class="toggle-thumb">☀️</span>
+          </button>
+        </div>
+      </header>
+
+      <div class="main-body">
+        <!-- ═══════════════ HOME SECTION ═══════════════ -->
+        <section class="dashboard-section active" id="section-home">
+          <div class="section-header">
+            <div>
+              <h2 id="greeting-text">Good Morning</h2>
+              <p id="greeting-name">Welcome back!</p>
+            </div>
+            <div class="flex items-center gap-3">
+              <span class="badge badge-primary" id="user-branch-badge">CSE</span>
+              <span class="badge badge-accent" id="user-year-badge">Year 1</span>
+            </div>
+          </div>
+
+          <!-- ID Card Preview -->
+          <div class="id-card" style="margin-bottom: var(--sp-6);">
+            <div class="id-card-content">
+              <div class="id-card-header">
+                <span class="id-card-college">Campus Connect — Student ID</span>
+                <span>🎓</span>
+              </div>
+              <div class="id-card-body">
+                <div class="id-card-avatar" id="home-avatar">A</div>
+                <div class="id-card-info">
+                  <h3 id="home-name">Student Name</h3>
+                  <p id="home-reg">Registration No.</p>
+                </div>
+                <div style="margin-left:auto" id="home-attendance-ring"></div>
+              </div>
+              <div class="id-card-meta">
+                <div class="id-card-meta-item">
+                  <label>Branch</label>
+                  <span id="home-branch">—</span>
+                </div>
+                <div class="id-card-meta-item">
+                  <label>Year / Sem</label>
+                  <span id="home-yearsem">—</span>
+                </div>
+                <div class="id-card-meta-item">
+                  <label>Attendance</label>
+                  <span id="home-attend-text">—</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Today's Schedule -->
+          <div class="card" style="margin-bottom: var(--sp-6);">
+            <div class="card-header">
+              <h4>📅 Today's Schedule</h4>
+              <span class="badge badge-neutral" id="today-day">Monday</span>
+            </div>
+            <div class="flex flex-col gap-3" id="today-schedule"></div>
+          </div>
+
+          <!-- Quick Actions -->
+          <h4 style="margin-bottom: var(--sp-4);">Quick Actions</h4>
+          <div class="quick-actions" id="quick-actions">
+            <div class="quick-action-item" onclick="switchToSection('sos')">
+              <div class="qa-icon" style="background:rgba(244,63,94,0.15)">🆘</div>
+              <span class="qa-label">Emergency SOS</span>
+            </div>
+            <div class="quick-action-item" onclick="switchToSection('copilot')">
+              <div class="qa-icon" style="background:rgba(99,102,241,0.15)">🤖</div>
+              <span class="qa-label">AI Copilot</span>
+            </div>
+            <div class="quick-action-item" onclick="switchToSection('library')">
+              <div class="qa-icon" style="background:rgba(20,184,166,0.15)">📚</div>
+              <span class="qa-label">Library</span>
+            </div>
+            <div class="quick-action-item" onclick="switchToSection('chat')">
+              <div class="qa-icon" style="background:rgba(139,92,246,0.15)">💬</div>
+              <span class="qa-label">Branch Chat</span>
+            </div>
+            <div class="quick-action-item" onclick="switchToSection('map')">
+              <div class="qa-icon" style="background:rgba(245,158,11,0.15)">🗺️</div>
+              <span class="qa-label">Campus Map</span>
+            </div>
+            <div class="quick-action-item" onclick="switchToSection('events')">
+              <div class="qa-icon" style="background:rgba(16,185,129,0.15)">🎪</div>
+              <span class="qa-label">Events</span>
+            </div>
+          </div>
+        </section>
+
+        <!-- ═══════════════ SCHEDULE SECTION ═══════════════ -->
+        <section class="dashboard-section" id="section-schedule">
+          <div class="section-header">
+            <h2>📅 Weekly Schedule</h2>
+          </div>
+          <div class="tab-nav" id="schedule-tabs" style="margin-bottom: var(--sp-6);"></div>
+          <div id="schedule-content"></div>
+        </section>
+
+        <!-- ═══════════════ DIGITAL ID SECTION ═══════════════ -->
+        <section class="dashboard-section" id="section-idcard">
+          <div class="section-header"><h2>🪪 Digital ID Card</h2></div>
+          <div style="max-width: 500px;">
+            <div class="id-card">
+              <div class="id-card-content">
+                <div class="id-card-header">
+                  <span class="id-card-college">Campus Connect — Student Identity</span>
+                  <span style="font-size:1.5rem;">🎓</span>
+                </div>
+                <div class="id-card-body">
+                  <div class="id-card-avatar" id="id-avatar">A</div>
+                  <div class="id-card-info">
+                    <h3 id="id-name">Student Name</h3>
+                    <p id="id-reg" style="color:rgba(255,255,255,0.7);margin:0;">Reg No.</p>
+                    <p id="id-email" style="color:rgba(255,255,255,0.6);margin:0;font-size:0.75rem;">email</p>
+                  </div>
+                </div>
+                <div class="id-card-meta">
+                  <div class="id-card-meta-item"><label>Branch</label><span id="id-branch">—</span></div>
+                  <div class="id-card-meta-item"><label>Year</label><span id="id-year">—</span></div>
+                  <div class="id-card-meta-item"><label>Attendance</label><span id="id-attendance">—</span></div>
+                  <div class="id-card-meta-item"><label>Status</label><span id="id-status">Active</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ═══════════════ PROFILE SECTION ═══════════════ -->
+        <section class="dashboard-section" id="section-profile">
+          <div class="section-header"><h2>👤 My Profile</h2></div>
+          <div class="grid-2">
+            <div class="card">
+              <div style="text-align:center;">
+                <div class="avatar avatar-xl" style="margin:0 auto var(--sp-4)" id="profile-avatar">A</div>
+                <h3 id="profile-name">Name</h3>
+                <p style="margin:var(--sp-1) 0" id="profile-reg">Reg No.</p>
+                <p style="margin:0" id="profile-branch-full">Branch</p>
+                <div class="flex justify-center gap-6" style="margin-top:var(--sp-5);">
+                  <div class="text-center"><div class="stat-value" style="font-size:var(--fs-2xl)" id="profile-followers">0</div><div class="stat-label">Followers</div></div>
+                  <div class="text-center"><div class="stat-value" style="font-size:var(--fs-2xl)" id="profile-following">0</div><div class="stat-label">Following</div></div>
+                </div>
+              </div>
+            </div>
+            <div class="card">
+              <h4 style="margin-bottom:var(--sp-4)">🏅 Badges & Achievements</h4>
+              <div class="flex flex-col gap-3" id="profile-badges"></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ═══════════════ LIBRARY SECTION ═══════════════ -->
+        <section class="dashboard-section" id="section-library">
+          <div class="section-header">
+            <h2>📚 Digital Library</h2>
+            <div class="search-bar">
+              <span class="search-icon">🔍</span>
+              <input type="text" placeholder="Search books, notes..." id="library-search">
+            </div>
+          </div>
+          <div class="tab-nav" style="margin-bottom:var(--sp-6)">
+            <button class="tab-btn active" onclick="filterLibrary('all')">All</button>
+            <button class="tab-btn" onclick="filterLibrary('textbook')">Textbooks</button>
+            <button class="tab-btn" onclick="filterLibrary('notes')">Notes</button>
+            <button class="tab-btn" onclick="filterLibrary('manual')">Manuals</button>
+            <button class="tab-btn" onclick="filterLibrary('question-paper')">Past Papers</button>
+          </div>
+          <div class="grid-2" id="library-grid"></div>
+        </section>
+
+        <!-- ═══════════════ AI COPILOT SECTION ═══════════════ -->
+        <section class="dashboard-section" id="section-copilot">
+          <div class="section-header"><h2>🤖 AI Study Copilot</h2></div>
+          <div class="card" style="max-width:600px;">
+            <div class="chat-container" id="copilot-chat" style="min-height:300px;"></div>
+            <div class="chat-input-bar">
+              <input type="text" id="copilot-input" placeholder="Ask me about study tips, exam prep...">
+              <button class="btn btn-primary" onclick="sendCopilotMessage()">Send</button>
+            </div>
+          </div>
+        </section>
+
+        <!-- ═══════════════ FEEDBACK SECTION ═══════════════ -->
+        <section class="dashboard-section" id="section-feedback">
+          <div class="section-header"><h2>⭐ Class Feedback</h2></div>
+          <div class="card" style="max-width:500px;margin-bottom:var(--sp-6);">
+            <h4 style="margin-bottom:var(--sp-4)">Rate a Class (Anonymous)</h4>
+            <div class="form-group">
+              <label class="form-label">Subject</label>
+              <select class="form-input" id="feedback-subject">
+                <option value="">Select Subject</option>
+                <option>Engineering Mathematics</option>
+                <option>Engineering Physics</option>
+                <option>Engineering Chemistry</option>
+                <option>Workshop Practice</option>
+                <option>Technical Drawing</option>
+                <option>Communication Skills</option>
+                <option>Environmental Science</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Rating</label>
+              <div id="feedback-stars"></div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Comments (optional)</label>
+              <textarea class="form-input" id="feedback-comment" placeholder="Share your experience..."></textarea>
+            </div>
+            <button class="btn btn-primary" onclick="submitFeedback()">Submit Feedback</button>
+          </div>
+          <h4 style="margin-bottom:var(--sp-4)">Recent Feedback</h4>
+          <div id="feedback-list"></div>
+        </section>
+
+        <!-- ═══════════════ BRANCH CHAT SECTION ═══════════════ -->
+        <section class="dashboard-section" id="section-chat">
+          <div class="section-header"><h2>💬 Campus Chat</h2></div>
+          <div class="tab-nav" style="margin-bottom:var(--sp-4)">
+            <button class="tab-btn active" id="chat-tab-branch" onclick="switchChatTab('branch')">My Branch</button>
+            <button class="tab-btn" id="chat-tab-all" onclick="switchChatTab('all')">All Campus</button>
+          </div>
+          <div class="card" style="max-width:600px;">
+            <div class="chat-container" id="chat-messages" style="min-height:300px;"></div>
+            <div class="chat-input-bar">
+              <input type="text" id="chat-input" placeholder="Type a message...">
+              <button class="btn btn-primary" onclick="sendChatMessage()">Send</button>
+            </div>
+          </div>
+        </section>
+
+        <!-- ═══════════════ ANONYMOUS CHAT SECTION ═══════════════ -->
+        <section class="dashboard-section" id="section-anonchat">
+          <div class="section-header">
+            <h2>🎭 Anonymous Chat</h2>
+            <span class="badge badge-neutral" id="anon-handle">Anonymous</span>
+          </div>
+          <div class="card" style="max-width:600px;">
+            <div class="chat-container" id="anon-messages" style="min-height:300px;"></div>
+            <div class="chat-input-bar">
+              <input type="text" id="anon-input" placeholder="Type anonymously...">
+              <button class="btn btn-primary" onclick="sendAnonMessage()">Send</button>
+            </div>
+          </div>
+        </section>
+
+        <!-- ═══════════════ DIRECTORY SECTION ═══════════════ -->
+        <section class="dashboard-section" id="section-directory">
+          <div class="section-header">
+            <h2>🔍 Campus Directory</h2>
+            <div class="search-bar">
+              <span class="search-icon">🔍</span>
+              <input type="text" placeholder="Search by name or ID..." id="directory-search">
+            </div>
+          </div>
+          <div class="tab-nav" style="margin-bottom:var(--sp-6)">
+            <button class="tab-btn active" onclick="filterDirectory('all')">All</button>
+            <button class="tab-btn" onclick="filterDirectory('students')">Students</button>
+            <button class="tab-btn" onclick="filterDirectory('faculty')">Faculty</button>
+          </div>
+          <div id="directory-list"></div>
+        </section>
+
+        <!-- ═══════════════ EVENTS SECTION ═══════════════ -->
+        <section class="dashboard-section" id="section-events">
+          <div class="section-header"><h2>🎪 Events & Calendar</h2></div>
+          <div class="grid-2">
+            <div class="card">
+              <div class="card-header">
+                <button class="btn btn-ghost btn-sm" onclick="changeCalendarMonth(-1)">◀</button>
+                <h4 id="calendar-title">August 2025</h4>
+                <button class="btn btn-ghost btn-sm" onclick="changeCalendarMonth(1)">▶</button>
+              </div>
+              <div id="calendar-container"></div>
+            </div>
+            <div class="card">
+              <h4 style="margin-bottom:var(--sp-4)">Upcoming Events</h4>
+              <div class="flex flex-col gap-3" id="events-list"></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ═══════════════ NOTICE BOARD SECTION ═══════════════ -->
+        <section class="dashboard-section" id="section-notices">
+          <div class="section-header"><h2>📋 Notice Board</h2></div>
+          <div class="flex flex-col gap-4" id="notices-list"></div>
+        </section>
+
+        <!-- ═══════════════ LOST & FOUND SECTION ═══════════════ -->
+        <section class="dashboard-section" id="section-lostfound">
+          <div class="section-header">
+            <h2>🔎 Lost & Found</h2>
+            <button class="btn btn-primary" onclick="openModal('modal-lostfound')">+ Report Item</button>
+          </div>
+          <div class="tab-nav" style="margin-bottom:var(--sp-6)">
+            <button class="tab-btn active" onclick="filterLostFound('all')">All</button>
+            <button class="tab-btn" onclick="filterLostFound('lost')">Lost</button>
+            <button class="tab-btn" onclick="filterLostFound('found')">Found</button>
+          </div>
+          <div class="grid-2" id="lostfound-list"></div>
+        </section>
+
+        <!-- ═══════════════ CAMPUS MAP SECTION ═══════════════ -->
+        <section class="dashboard-section" id="section-map">
+          <div class="section-header"><h2>🗺️ Smart Campus Navigator</h2></div>
+          <div class="card" style="overflow:hidden;">
+            <div id="campus-map" style="position:relative;width:100%;height:500px;background:var(--bg-surface-alt);border-radius:var(--radius-lg);overflow:hidden;"></div>
+          </div>
+          <div class="grid-3" style="margin-top:var(--sp-6)" id="map-legend"></div>
+        </section>
+
+        <!-- ═══════════════ SOS SECTION ═══════════════ -->
+        <section class="dashboard-section" id="section-sos">
+          <div class="section-header"><h2>🆘 Emergency SOS</h2></div>
+          <div style="text-align:center;padding:var(--sp-8) 0;">
+            <button class="sos-btn" onclick="triggerSOS()" id="sos-button">SOS</button>
+            <p style="margin-top:var(--sp-6);color:var(--text-tertiary);">Press for emergency assistance. Campus security will be alerted.</p>
+          </div>
+          <h4 style="margin: var(--sp-8) 0 var(--sp-4);">📞 Emergency Contacts</h4>
+          <div class="grid-2" id="emergency-contacts"></div>
+        </section>
+
+        <!-- ═══════════════ HOSPITAL SECTION ═══════════════ -->
+        <section class="dashboard-section" id="section-hospital">
+          <div class="section-header"><h2>🏥 Hospital & Health</h2></div>
+          <div style="text-align:center;padding:var(--sp-6) 0;">
+            <button class="btn btn-danger btn-lg" onclick="triggerSOS()" style="font-size:var(--fs-lg);">🚑 Request Ambulance</button>
+          </div>
+          <div class="grid-2" id="hospital-list"></div>
+        </section>
+
+        <!-- ═══════════════ HOSTEL SECTION ═══════════════ -->
+        <section class="dashboard-section" id="section-hostel">
+          <div class="section-header"><h2>🏠 Hostel Dashboard</h2></div>
+          
+          <!-- Hostel Quick Actions -->
+          <div class="grid-3" style="margin-bottom:var(--sp-6)">
+            <div class="card text-center" style="cursor:pointer;" onclick="openModal('modal-hostel-complaint')">
+              <div style="font-size:2rem;margin-bottom:var(--sp-2)">📝</div>
+              <h5>File Complaint</h5>
+              <p style="font-size:var(--fs-xs);margin:0;">Report to warden</p>
+            </div>
+            <div class="card text-center" style="cursor:pointer;" onclick="openModal('modal-outpass')">
+              <div style="font-size:2rem;margin-bottom:var(--sp-2)">🎫</div>
+              <h5>Out-Pass Request</h5>
+              <p style="font-size:var(--fs-xs);margin:0;">Apply for gate pass</p>
+            </div>
+            <div class="card text-center" style="cursor:pointer;" onclick="triggerSOS()">
+              <div style="font-size:2rem;margin-bottom:var(--sp-2)">🆘</div>
+              <h5>Hostel SOS</h5>
+              <p style="font-size:var(--fs-xs);margin:0;">Emergency alert</p>
+            </div>
+          </div>
+
+          <!-- Hostel Rules -->
+          <div class="card" style="margin-bottom:var(--sp-6);">
+            <h4 style="margin-bottom:var(--sp-4)">📜 Hostel Rules & Regulations</h4>
+            <div id="hostel-rules" class="flex flex-col gap-3"></div>
+          </div>
+
+          <!-- Hostel Complaints -->
+          <div class="card">
+            <h4 style="margin-bottom:var(--sp-4)">My Hostel Complaints</h4>
+            <div id="hostel-complaints"></div>
+          </div>
+        </section>
+
+      </div>
+    </main>
+  </div>
+
+  <!-- ═══════ MODALS ═══════ -->
+  <!-- Lost & Found Report Modal -->
+  <div class="modal-overlay" id="modal-lostfound">
+    <div class="modal">
+      <div class="modal-header">
+        <h3>Report Lost/Found Item</h3>
+        <button class="modal-close" onclick="closeModal('modal-lostfound')">✕</button>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Type</label>
+        <select class="form-input" id="lf-type">
+          <option value="lost">I Lost Something</option>
+          <option value="found">I Found Something</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Item Title</label>
+        <input type="text" class="form-input" id="lf-title" placeholder="e.g., Blue backpack">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Category</label>
+        <select class="form-input" id="lf-category">
+          <option>Electronics</option>
+          <option>Bag</option>
+          <option>ID Card</option>
+          <option>Books</option>
+          <option>Accessory</option>
+          <option>Other</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Location</label>
+        <input type="text" class="form-input" id="lf-location" placeholder="Where was it lost/found?">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Description</label>
+        <textarea class="form-input" id="lf-description" placeholder="Describe the item..."></textarea>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" onclick="closeModal('modal-lostfound')">Cancel</button>
+        <button class="btn btn-primary" onclick="submitLostFound()">Submit Report</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Hostel Complaint Modal -->
+  <div class="modal-overlay" id="modal-hostel-complaint">
+    <div class="modal">
+      <div class="modal-header">
+        <h3>File Hostel Complaint</h3>
+        <button class="modal-close" onclick="closeModal('modal-hostel-complaint')">✕</button>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Issue Category</label>
+        <select class="form-input" id="hc-category">
+          <option>Ragging</option>
+          <option>Food Quality</option>
+          <option>Water Supply</option>
+          <option>Electricity</option>
+          <option>Cleanliness</option>
+          <option>Late Return Issue</option>
+          <option>Home Leave</option>
+          <option>Other</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Title</label>
+        <input type="text" class="form-input" id="hc-title" placeholder="Brief title of your complaint">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Description</label>
+        <textarea class="form-input" id="hc-description" placeholder="Describe the issue in detail..."></textarea>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" onclick="closeModal('modal-hostel-complaint')">Cancel</button>
+        <button class="btn btn-danger" onclick="submitHostelComplaint()">Submit to Warden</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Out-Pass Modal -->
+  <div class="modal-overlay" id="modal-outpass">
+    <div class="modal">
+      <div class="modal-header">
+        <h3>Out-Pass Request</h3>
+        <button class="modal-close" onclick="closeModal('modal-outpass')">✕</button>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Purpose</label>
+        <select class="form-input" id="op-purpose">
+          <option>Going Home</option>
+          <option>Medical Visit</option>
+          <option>Shopping</option>
+          <option>Academic</option>
+          <option>Other</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Out Date & Time</label>
+        <input type="datetime-local" class="form-input" id="op-out-date">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Return Date & Time</label>
+        <input type="datetime-local" class="form-input" id="op-return-date">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Reason</label>
+        <textarea class="form-input" id="op-reason" placeholder="Brief reason for leaving..."></textarea>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" onclick="closeModal('modal-outpass')">Cancel</button>
+        <button class="btn btn-primary" onclick="submitOutpass()">Request Out-Pass</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- SOS Confirmation Modal -->
+  <div class="modal-overlay" id="modal-sos">
+    <div class="modal" style="text-align:center;">
+      <div style="font-size:4rem;margin-bottom:var(--sp-4);">🚨</div>
+      <h3 style="margin-bottom:var(--sp-2);">Emergency Alert Sent!</h3>
+      <p>Campus security has been notified. Help is on the way.</p>
+      <p style="font-size:var(--fs-sm);color:var(--text-tertiary);">Stay calm and remain at your location.</p>
+      <div class="modal-footer" style="justify-content:center;">
+        <button class="btn btn-primary" onclick="closeModal('modal-sos')">OK, I understand</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/utils.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/theme.js"></script>
+  <script src="js/components.js"></script>
+  <script src="js/student.js"></script>
+</body>
+</html>

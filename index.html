@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Campus Platform — Introduction">
+  <title>Welcome to Campus Platform</title>
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/themes.css">
+  <link rel="stylesheet" href="css/login.css">
+  <style>
+    .intro-page {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: var(--sp-6);
+      position: relative;
+      z-index: 1;
+      color: white;
+    }
+    .intro-content {
+      max-width: 800px;
+      animation: scaleIn 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .intro-title {
+      font-size: clamp(3rem, 6vw, 5rem);
+      font-weight: var(--fw-extrabold);
+      line-height: 1.1;
+      margin-bottom: var(--sp-6);
+      background: linear-gradient(to right, #ffffff, #a78bfa);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .intro-desc {
+      font-size: var(--fs-lg);
+      color: rgba(255,255,255,0.85);
+      margin-bottom: var(--sp-8);
+      line-height: 1.6;
+    }
+    .btn-get-started {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--sp-3);
+      padding: var(--sp-4) var(--sp-8);
+      font-size: var(--fs-lg);
+      font-weight: var(--fw-bold);
+      color: white;
+      background: var(--grad-primary);
+      border-radius: var(--radius-full);
+      text-decoration: none;
+      box-shadow: 0 10px 30px rgba(99, 102, 241, 0.4);
+      transition: all 0.3s ease;
+    }
+    .btn-get-started:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 15px 40px rgba(99, 102, 241, 0.6);
+    }
+    .intro-bg {
+      position: fixed;
+      inset: 0;
+      background: #0f172a;
+      z-index: 0;
+    }
+    .intro-bg::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 50% 50%, rgba(99, 102, 241, 0.2) 0%, transparent 60%);
+    }
+  </style>
+</head>
+<body>
+  <div class="intro-bg">
+    <div class="login-mesh"></div>
+    <div class="glowing-orb orb-1"></div>
+    <div class="glowing-orb orb-2"></div>
+    <div class="glowing-orb orb-3"></div>
+  </div>
+
+  <div class="intro-page">
+    <div class="intro-content">
+      <div class="hero-badge" style="margin: 0 auto var(--sp-6);">🚀 The Future of Education</div>
+      <h1 class="intro-title">Campus Platform</h1>
+      <p class="intro-desc">Experience a unified digital ecosystem designed for students, faculty, and administration. Seamlessly manage schedules, access the digital library, and communicate campus-wide.</p>
+      
+      <a href="introduction.html" class="btn-get-started">
+        Get Started <span>→</span>
+      </a>
+    </div>
+  </div>
+
+  <script src="js/utils.js"></script>
+  <script src="js/theme.js"></script>
+</body>
+</html>

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Campus Connect — Admin Login">
+  <title>Admin Login — Campus Connect</title>
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/themes.css">
+  <link rel="stylesheet" href="css/login.css">
+</head>
+<body>
+  <div class="login-page">
+    <div class="login-bg">
+      <div class="login-mesh"></div>
+      <div class="glowing-orb orb-1"></div>
+      <div class="glowing-orb orb-2"></div>
+      <div class="glowing-orb orb-3"></div>
+    </div>
+
+    <div class="login-wrapper">
+      <!-- HERO SIDE -->
+      <div class="login-hero">
+        <div>
+          <a href="portals.html" style="display:inline-block; margin-bottom:var(--sp-4); color:rgba(255,255,255,0.8); text-decoration:none; font-size:var(--fs-sm);">← Back to Portal Selection</a>
+          <div class="hero-badge">🛡️ Admin Portal</div>
+          <h1 class="hero-title">System Control Center</h1>
+          <p class="hero-desc">Monitor campus-wide operations, trigger emergency broadcasts, and manage student & faculty directories.</p>
+        </div>
+      </div>
+
+      <!-- FORM SIDE -->
+      <div class="login-card">
+        <div class="login-top-bar">
+          <div class="brand-pill">
+            <div class="brand-icon" style="background:var(--grad-danger)">🛡️</div>
+            <div class="brand-text">
+              <h2>Admin Login</h2>
+              <p>Secure system access</p>
+            </div>
+          </div>
+          <button class="theme-toggle" onclick="toggleTheme()" id="theme-toggle-btn" aria-label="Toggle dark mode">
+            <span class="toggle-thumb">☀️</span>
+          </button>
+        </div>
+
+        <div class="login-error" id="login-error"></div>
+
+        <form class="login-form active" id="form-admin">
+          <div class="input-group-modern">
+            <label for="admin-phone">Admin Phone Number</label>
+            <div class="input-field-wrap">
+              <span class="field-icon">📱</span>
+              <input type="tel" id="admin-phone" placeholder="e.g. 9999999999" autocomplete="off">
+            </div>
+          </div>
+
+          <div class="input-group-modern">
+            <label for="admin-email">Admin Email Address</label>
+            <div class="input-field-wrap">
+              <span class="field-icon">📧</span>
+              <input type="email" id="admin-email" placeholder="e.g. admin@campus.edu" autocomplete="off">
+            </div>
+          </div>
+
+          <button type="submit" class="btn-login-submit" id="admin-login-btn" style="background:var(--grad-danger); box-shadow: 0 8px 25px rgba(244, 63, 94, 0.4);">
+            <span>Sign In as Administrator</span>
+            <span>→</span>
+          </button>
+        </form>
+
+        <div class="demo-section">
+          <div class="demo-title">⚡ 1-Click Auto-Fill Demo Credentials</div>
+          <div class="demo-chips">
+            <button type="button" class="demo-chip" onclick="autoFillDemo('admin')"><span>🛡️ Admin</span></button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/utils.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/theme.js"></script>
+  <script src="js/components.js"></script>
+  <script src="js/auth.js"></script>
+</body>
+</html>
