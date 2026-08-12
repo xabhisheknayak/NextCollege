@@ -1,8 +1,14 @@
 /* Auth */
-document.addEventListener('DOMContentLoaded', () => {
+function initAuth() {
   if (typeof initDemoData === 'function') initDemoData();
   if (document.querySelector('.login-form')) initLoginPage();
-});
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initAuth);
+} else {
+  initAuth();
+}
 
 function initLoginPage() {
   /* TabLogic */

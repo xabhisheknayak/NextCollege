@@ -3,30 +3,31 @@
    ============================================ */
 
 [data-theme="dark"] {
-  --bg-body:        #05070c;   /* Deepest dark slate black */
-  --bg-surface:     #05070c;
-  --bg-surface-alt: #0f172a;   /* High contrast slate surface layer */
-  --bg-glass:       rgba(15, 23, 42, 0.95);
-  --bg-glass-hover: rgba(30, 41, 59, 0.98);
-  --bg-sidebar:     #05070c;
-  --bg-input:       #1e293b;   /* Solid dark slate input background */
-  --bg-overlay:     rgba(0, 0, 0, 0.80);
+  --bg-body:        #0e131f;   /* Rich dark slate neumorphic base */
+  --bg-surface:     #0e131f;   /* Matching surface for 3D extrusion */
+  --bg-surface-alt: #080c14;   /* Inset secondary area background */
+  --bg-glass:       rgba(14, 19, 31, 0.92);
+  --bg-glass-hover: rgba(20, 27, 43, 0.98);
+  --bg-sidebar:     #0e131f;
+  --bg-input:       #080c14;   /* Inset dark input background */
+  --bg-overlay:     rgba(0, 0, 0, 0.82);
 
-  --text-primary:   #ffffff;   /* Pure white text for absolute maximum contrast */
-  --text-secondary: #f1f5f9;   /* Near white secondary text */
-  --text-tertiary:  #cbd5e1;   /* High-visibility slate tertiary text */
-  --text-inverse:   #05070c;
+  --text-primary:   #f8fafc;
+  --text-secondary: #cbd5e1;
+  --text-tertiary:  #94a3b8;
+  --text-inverse:   #0e131f;
   --text-link:      #f87171;
 
-  --border-color:   #334155;   /* Crisp slate border for sharp separation */
-  --border-light:   rgba(71, 85, 105, 0.7);
+  --border-color:   rgba(255, 255, 255, 0.08);
+  --border-light:   rgba(255, 255, 255, 0.04);
 
-  /* Dark neumorphism shadows — Crisp 3D separation */
-  --neu-shadow:        6px 6px 14px #020306, -6px -6px 14px #151e30;
-  --neu-shadow-sm:     3px 3px 8px  #020306, -3px -3px 8px  #151e30;
-  --neu-shadow-lg:     10px 10px 24px #010204, -10px -10px 24px #1b263d;
-  --neu-shadow-inset:  inset 4px 4px 10px #020306, inset -4px -4px 10px #151e30;
-  --neu-shadow-pressed:inset 3px 3px 8px #010204, inset -3px -3px 8px #1b263d;
+  /* Dark neumorphism dual shadows */
+  --neu-shadow:        6px 6px 14px #06080e, -6px -6px 14px #161e30;
+  --neu-shadow-sm:     3px 3px 8px #06080e, -3px -3px 8px #161e30;
+  --neu-shadow-lg:     12px 12px 28px #04060a, -12px -12px 28px #182236;
+  --neu-shadow-inset:  inset 3px 3px 6px #05070c, inset -3px -3px 6px #171f32;
+  --neu-shadow-pressed:inset 4px 4px 8px #04060a, inset -4px -4px 8px #182236;
+  --neu-shadow-convex: linear-gradient(145deg, #101624, #0c101a);
 
   --shadow-xs:    var(--neu-shadow-sm);
   --shadow-sm:    var(--neu-shadow-sm);
@@ -34,7 +35,7 @@
   --shadow-lg:    var(--neu-shadow-lg);
   --shadow-xl:    var(--neu-shadow-lg);
   --shadow-2xl:   var(--neu-shadow-lg);
-  --shadow-glow:  0 0 16px rgba(220, 38, 38, 0.18); /* Low subtle glow */
+  --shadow-glow:  0 0 10px rgba(220, 38, 38, 0.15);
   --shadow-glass: var(--neu-shadow);
 
   --grad-sidebar: linear-gradient(180deg, #450a0a 0%, #7c2d12 40%, #c2410c 100%);
@@ -42,15 +43,15 @@
 
 /* Dark mode component overrides */
 [data-theme="dark"] .btn-secondary {
-  background: var(--bg-surface-alt);
+  background: var(--bg-surface);
   border-color: var(--border-color);
   color: var(--text-primary);
   box-shadow: var(--neu-shadow-sm);
 }
 
 [data-theme="dark"] .btn-secondary:hover {
-  background: #1c2740;
-  border-color: #3b4d70;
+  box-shadow: var(--neu-shadow);
+  border-color: rgba(255,255,255,0.15);
 }
 
 [data-theme="dark"] .btn-ghost:hover {
@@ -132,7 +133,8 @@
 }
 
 [data-theme="dark"] .modal-close:hover {
-  background: #1c2740;
+  box-shadow: var(--neu-shadow);
+  background: var(--bg-surface);
 }
 
 [data-theme="dark"] .toast {

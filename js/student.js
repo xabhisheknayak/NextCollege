@@ -266,10 +266,11 @@ function renderScheduleForDay(day) {
     const isCancelled = localStorage.getItem(cancelKey) === 'true';
     
     // Get attendance history for this subject
-    const historyData = DEMO_DATA.attendanceHistory?.[item.subject] || [];
+    const allAttendance = getSubjectAttendanceData().log;
+    const historyData = allAttendance.filter(l => l.subject === item.subject);
     const historyHtml = historyData.length > 0 ? historyData.map(h => `
       <div class="flex justify-between items-center" style="padding:var(--sp-2) 0; border-bottom:1px solid var(--border-color);">
-        <span class="text-secondary">${formatDate(h.date)}</span>
+        <span class="text-secondary">${escapeHtml(h.date)} (${escapeHtml(h.day)})</span>
         <span class="badge badge-${h.status === 'present' ? 'success' : h.status === 'absent' ? 'danger' : 'warning'}">${h.status.toUpperCase()}</span>
       </div>
     `).join('') : '<p class="text-tertiary" style="margin:var(--sp-2) 0;">No attendance history available.</p>';

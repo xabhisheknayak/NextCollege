@@ -201,7 +201,7 @@ function openEditProfileModal(userId, role, isAdmin = false) {
   document.getElementById('edit-profile-branch').value = user.branch || user.department || '';
   
   const parsed = user.parsed || (user.regNo ? parseRegNumber(user.regNo) : null);
-  document.getElementById('edit-profile-year').value = parsed ? \`Year \${parsed.currentYear}\` : (user.title || '');
+  document.getElementById('edit-profile-year').value = parsed ? `Year ${parsed.currentYear}` : (user.title || '');
   
   document.getElementById('edit-profile-age').value = user.age || '';
   document.getElementById('edit-profile-gender').value = user.gender || '';

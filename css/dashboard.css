@@ -222,8 +222,8 @@
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  border: none;
-  background: var(--bg-surface-alt);
+  border: 1px solid var(--border-color);
+  background: var(--bg-surface);
   color: var(--text-primary);
   font-size: 1.25rem;
   box-shadow: var(--neu-shadow-sm);
@@ -235,15 +235,15 @@
   gap: var(--sp-3);
   padding: var(--sp-2) var(--sp-3);
   border-radius: var(--radius-xl);
-  background: var(--bg-surface-alt);
-  border: none;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-light);
   cursor: pointer;
   transition: all var(--transition-base);
   box-shadow: var(--neu-shadow-sm);
 }
 
 .user-profile-btn:hover {
-  box-shadow: var(--neu-shadow-pressed);
+  box-shadow: var(--neu-shadow);
 }
 
 /* ── Content Layout ── */
@@ -503,18 +503,19 @@
   padding: var(--sp-4);
   border-radius: var(--radius-xl);
   background: var(--bg-surface);
-  border: 1.5px solid var(--border-color);
-  transition: border-color var(--transition-base), background var(--transition-base);
+  border: 1px solid var(--border-light);
+  box-shadow: var(--neu-shadow-sm);
+  transition: border-color var(--transition-base), box-shadow var(--transition-base);
 }
 
 .today-class-row:has(.attend-cb[data-status="present"]:checked) {
   border-color: var(--clr-success-500);
-  background: rgba(16, 185, 129, 0.04);
+  box-shadow: var(--neu-shadow-inset), 0 0 0 1.5px var(--clr-success-500);
 }
 
 .today-class-row:has(.attend-cb[data-status="absent"]:checked) {
   border-color: var(--clr-danger-500);
-  background: rgba(244, 63, 94, 0.04);
+  box-shadow: var(--neu-shadow-inset), 0 0 0 1.5px var(--clr-danger-500);
 }
 
 .tcr-left {
@@ -567,8 +568,9 @@
   cursor: pointer;
   padding: 4px 10px;
   border-radius: var(--radius-lg);
-  border: 1.5px solid var(--border-color);
-  background: var(--bg-base);
+  border: 1.5px solid var(--border-light);
+  background: var(--bg-surface);
+  box-shadow: var(--neu-shadow-sm);
   transition: all var(--transition-base);
   user-select: none;
 }
@@ -587,34 +589,35 @@
 
 .attend-checkbox-wrap.is-present {
   border-color: var(--clr-success-500);
-  background: rgba(16,185,129,0.12);
+  box-shadow: var(--neu-shadow-inset), 0 0 0 1px var(--clr-success-500);
 }
 
 .attend-checkbox-wrap.is-present .attend-cb-label {
-  color: var(--clr-success-500);
+  color: var(--clr-success-600);
 }
 
 .attend-checkbox-wrap.is-absent {
   border-color: var(--clr-danger-500);
-  background: rgba(244,63,94,0.10);
+  box-shadow: var(--neu-shadow-inset), 0 0 0 1px var(--clr-danger-500);
 }
 
 .attend-checkbox-wrap.is-absent .attend-cb-label {
-  color: var(--clr-danger-500);
+  color: var(--clr-danger-600);
 }
 
 .attend-checkbox-wrap.is-cancelled {
   border-color: var(--clr-warning-500, #f59e0b);
-  background: rgba(245,158,11,0.10);
+  box-shadow: var(--neu-shadow-inset), 0 0 0 1px #f59e0b;
 }
 
 .attend-checkbox-wrap.is-cancelled .attend-cb-label {
-  color: var(--clr-warning-500, #f59e0b);
+  color: #b45309;
+  text-decoration: line-through;
 }
 
 .attend-checkbox-wrap:hover {
+  box-shadow: var(--neu-shadow);
   transform: translateY(-1px);
-  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
 }
 
 @media (max-width: 600px) {

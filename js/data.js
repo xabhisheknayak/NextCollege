@@ -366,10 +366,17 @@ function getHostelName(student) {
 
 // Initialize demo data in localStorage if not exists
 function initDemoData() {
+  const CURRENT_DATA_VERSION = '1.2';
+  if (getStorage('dataVersion') !== CURRENT_DATA_VERSION) {
+    localStorage.removeItem('dataInitialized');
+    localStorage.removeItem('usersInitialized');
+    setStorage('dataVersion', CURRENT_DATA_VERSION);
+  }
+
   if (!getStorage('dataInitialized')) {
-    setStorage('assignments', DEMO_DATA.assignments);
-    setStorage('complaints', DEMO_DATA.complaints);
-    setStorage('lostFound', DEMO_DATA.lostFound);
+    setStorage('assignments', DEMO_DATA.assignments || []);
+    setStorage('complaints', DEMO_DATA.complaints || []);
+    setStorage('lostFound', DEMO_DATA.lostFound || []);
     setStorage('notices', DEMO_DATA.notices);
     setStorage('events', DEMO_DATA.events);
     setStorage('feedback', DEMO_DATA.feedback);
