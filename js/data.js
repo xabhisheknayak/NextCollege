@@ -26,10 +26,10 @@ const DEMO_DATA = {
 
   // ── Professor Accounts ──
   professors: [
-    { id: 'prof-001', name: 'Dr. Sharma', phone: '9876543210', department: 'Mechanical Engineering', branchCode: '105', email: 'sharma@campus.edu', title: 'Professor & HOD', isWarden: false, followers: 120, following: 15, badges: ['🎓 15+ Years Teaching', '📝 50+ Publications'] },
-    { id: 'prof-002', name: 'Dr. Anil Kapoor', phone: '9876543220', department: 'Computer Science', branchCode: '101', email: 'anil.k@campus.edu', title: 'Associate Professor', isWarden: false, followers: 89, following: 20, badges: ['🏆 Best Teacher Award'] },
-    { id: 'prof-003', name: 'Dr. Sunita Rao', phone: '9876543221', department: 'Civil Engineering', branchCode: '106', email: 'sunita.r@campus.edu', title: 'Assistant Professor', isWarden: true, followers: 65, following: 30, badges: ['📐 Structural Expert'] },
-    { id: 'prof-004', name: 'Dr. Rajesh Verma', phone: '9876543222', department: 'Data Science & AI', branchCode: '110', email: 'rajesh.v@campus.edu', title: 'Professor', isWarden: false, followers: 150, following: 10, badges: ['🤖 AI Research Lead'] },
+    { id: 'prof-001', name: 'prof. praveen', phone: '9876543210', department: 'computer science Engineering', branchCode: '105', email: 'sharma@campus.edu', title: 'Professor & HOD', isWarden: false, followers: 120, following: 15, badges: ['🎓 15+ Years Teaching', '📝 50+ Publications'] },
+    { id: 'prof-002', name: 'Prof. Subhalakshmi', phone: '9876543220', department: 'Computer Science', branchCode: '101', email: 'anil.k@campus.edu', title: 'Associate Professor', isWarden: false, followers: 89, following: 20, badges: ['🏆 Best Teacher Award'] },
+    { id: 'prof-003', name: 'Prof. R. Yezdhani', phone: '9876543221', department: 'Computer Science', branchCode: '101', email: 'sunita.r@campus.edu', title: 'Assistant Professor', isWarden: true, followers: 65, following: 30, badges: ['📐 Structural Expert'] },
+    { id: 'prof-004', name: 'Prof. Tapan', phone: '9876543222', department: 'Data Science & AI', branchCode: '110', email: 'rajesh.v@campus.edu', title: 'Professor', isWarden: false, followers: 150, following: 10, badges: ['🤖 AI Research Lead'] },
     { id: 'prof-005', name: 'Prof. Raju', phone: '9900012345', department: 'Computer Science', branchCode: '105', email: 'raju@campus.edu', title: 'HOD & Professor', isWarden: false, followers: 210, following: 8, badges: ['🎓 HOD CSE', '🏅 25 Years Experience', '💡 Innovation Award'] }
   ],
 
@@ -357,7 +357,7 @@ function getHostelName(student) {
   const femaleNames = ['kumari', 'anuska', 'akanksha', 'mausam', 'swati', 'shruti', 'aadya', 'sanjana'];
   const nameLower = student.name.toLowerCase();
   const isGirl = student.gender === 'Female' || femaleNames.some(n => nameLower.includes(n));
-  
+
   if (isGirl) return GIRLS_HOSTEL;
   // Randomly pick one of the boys hostels (but stable per roll number)
   const idx = parseInt(student.regNo.replace(/-/g, '').slice(-2)) % 2;
@@ -383,12 +383,12 @@ function initDemoData() {
     setStorage('chatMessages', DEMO_DATA.chatMessages);
     setStorage('dataInitialized', true);
   }
-  
+
   // Always ensure users exist (separate flag so it runs even after old dataInitialized)
   if (!getStorage('usersInitialized')) {
     const defaultProfile = { age: '', gender: '', avatarUrl: '', isBlocked: false };
-    const students = DEMO_DATA.students.map(s => ({ 
-      ...s, 
+    const students = DEMO_DATA.students.map(s => ({
+      ...s,
       ...defaultProfile,
       hostelName: s.isHosteler ? getHostelName(s) : null
     }));
