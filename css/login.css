@@ -20,9 +20,9 @@
   inset: 0;
   z-index: 0;
   overflow: hidden;
-  background: radial-gradient(circle at 15% 20%, rgba(99, 102, 241, 0.15) 0%, transparent 40%),
-              radial-gradient(circle at 85% 80%, rgba(139, 92, 246, 0.15) 0%, transparent 45%),
-              radial-gradient(circle at 50% 50%, rgba(20, 184, 166, 0.08) 0%, transparent 50%),
+  background: radial-gradient(circle at 15% 20%, rgba(220, 38, 38, 0.18) 0%, transparent 40%),
+              radial-gradient(circle at 85% 80%, rgba(234, 88, 12, 0.18) 0%, transparent 45%),
+              radial-gradient(circle at 50% 50%, rgba(220, 38, 38, 0.10) 0%, transparent 50%),
               var(--bg-body);
 }
 
@@ -30,11 +30,11 @@
   position: absolute;
   inset: -50%;
   background-image: 
-    radial-gradient(rgba(99, 102, 241, 0.12) 1px, transparent 1px),
-    radial-gradient(rgba(139, 92, 246, 0.08) 1px, transparent 1px);
+    radial-gradient(rgba(220, 38, 38, 0.15) 1px, transparent 1px),
+    radial-gradient(rgba(234, 88, 12, 0.12) 1px, transparent 1px);
   background-size: 32px 32px;
   background-position: 0 0, 16px 16px;
-  opacity: 0.6;
+  opacity: 0.7;
   animation: meshMove 40s linear infinite;
 }
 
@@ -48,7 +48,7 @@
   position: absolute;
   border-radius: 50%;
   filter: blur(80px);
-  opacity: 0.45;
+  opacity: 0.55;
   pointer-events: none;
   animation: floatOrb 14s ease-in-out infinite alternate;
 }
@@ -56,7 +56,7 @@
 .orb-1 {
   width: 400px;
   height: 400px;
-  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  background: linear-gradient(135deg, #dc2626, #ea580c);
   top: -100px;
   left: -100px;
 }
@@ -64,7 +64,7 @@
 .orb-2 {
   width: 450px;
   height: 450px;
-  background: linear-gradient(135deg, #14b8a6, #06b6d4);
+  background: linear-gradient(135deg, #ea580c, #f97316);
   bottom: -150px;
   right: -100px;
   animation-delay: -5s;
@@ -73,11 +73,11 @@
 .orb-3 {
   width: 300px;
   height: 300px;
-  background: linear-gradient(135deg, #f43f5e, #fb7185);
+  background: linear-gradient(135deg, #b91c1c, #dc2626);
   top: 40%;
   right: 15%;
   animation-delay: -8s;
-  opacity: 0.25;
+  opacity: 0.35;
 }
 
 @keyframes floatOrb {
@@ -107,11 +107,11 @@
   height: 100%;
   min-height: 540px;
   border-radius: var(--radius-2xl);
-  background: linear-gradient(135deg, rgba(99, 102, 241, 0.9) 0%, rgba(139, 92, 246, 0.85) 60%, rgba(124, 58, 237, 0.9) 100%);
+  background: var(--grad-hero);
   color: white;
   position: relative;
   overflow: hidden;
-  box-shadow: 0 20px 50px rgba(99, 102, 241, 0.3);
+  box-shadow: 0 20px 50px rgba(220, 38, 38, 0.4);
 }
 
 .login-hero::before {
@@ -205,14 +205,12 @@
 
 /* ── Form Side (Right) ── */
 .login-card {
-  background: var(--bg-glass);
-  backdrop-filter: blur(30px);
-  -webkit-backdrop-filter: blur(30px);
-  border: 1.5px solid rgba(255, 255, 255, 0.4);
+  background: var(--bg-surface);
+  border: none;
   border-radius: var(--radius-2xl);
   padding: var(--sp-8);
-  box-shadow: 0 25px 60px rgba(15, 23, 42, 0.12);
-  transition: background var(--transition-slow), border-color var(--transition-slow);
+  box-shadow: var(--neu-shadow-lg);
+  transition: background var(--transition-slow);
 }
 
 .login-top-bar {
@@ -238,7 +236,7 @@
   justify-content: center;
   font-size: 1.4rem;
   color: white;
-  box-shadow: 0 6px 18px rgba(99, 102, 241, 0.35);
+  box-shadow: 0 6px 18px rgba(220, 38, 38, 0.4);
 }
 
 .brand-text h2 {
@@ -259,11 +257,12 @@
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: var(--sp-2);
-  background: var(--clr-neutral-100);
+  background: var(--bg-surface-alt);
   padding: 5px;
   border-radius: var(--radius-xl);
   margin-bottom: var(--sp-6);
-  border: 1px solid var(--border-color);
+  border: none;
+  box-shadow: var(--neu-shadow-inset);
 }
 
 .role-btn {
@@ -292,8 +291,8 @@
 }
 
 .role-btn.active {
-  background: var(--bg-surface);
-  color: var(--clr-primary-600);
+  background: var(--grad-primary);
+  color: #ffffff;
   box-shadow: var(--shadow-md);
 }
 
@@ -306,7 +305,7 @@
 .input-group-modern label {
   display: block;
   font-size: var(--fs-xs);
-  font-weight: var(--fw-semibold);
+  font-weight: var(--fw-bold);
   color: var(--text-secondary);
   margin-bottom: var(--sp-2);
   text-transform: uppercase;
@@ -323,17 +322,17 @@
   width: 100%;
   padding: var(--sp-3) var(--sp-4) var(--sp-3) 2.75rem;
   background: var(--bg-surface);
-  border: 1.5px solid var(--border-color);
+  border: none;
   border-radius: var(--radius-xl);
   font-size: var(--fs-base);
   color: var(--text-primary);
   transition: all var(--transition-base);
-  font-weight: var(--fw-medium);
+  font-weight: var(--fw-semibold);
+  box-shadow: var(--neu-shadow-inset);
 }
 
 .input-field-wrap input:focus {
-  border-color: var(--clr-primary-500);
-  box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.15);
+  box-shadow: 0 0 0 4px rgba(220, 38, 38, 0.20), var(--neu-shadow-inset);
   background: var(--bg-input);
 }
 
@@ -341,7 +340,7 @@
   position: absolute;
   left: var(--sp-3);
   font-size: 1.15rem;
-  color: var(--text-tertiary);
+  color: var(--clr-crimson-600);
   pointer-events: none;
 }
 
@@ -371,26 +370,27 @@
   padding: var(--sp-3);
   border-radius: var(--radius-lg);
   background: var(--bg-surface-alt);
-  border: 1px solid var(--border-color);
+  border: none;
   cursor: pointer;
   transition: all var(--transition-fast);
   margin-bottom: var(--sp-5);
+  box-shadow: var(--neu-shadow-sm);
 }
 
 .custom-checkbox:hover {
-  border-color: var(--clr-primary-300);
+  box-shadow: var(--neu-shadow-pressed);
 }
 
 .custom-checkbox input[type="checkbox"] {
   width: 18px;
   height: 18px;
-  accent-color: var(--clr-primary-600);
+  accent-color: var(--clr-crimson-600);
   cursor: pointer;
 }
 
 .custom-checkbox span {
   font-size: var(--fs-xs);
-  font-weight: var(--fw-medium);
+  font-weight: var(--fw-semibold);
   color: var(--text-secondary);
 }
 
@@ -399,11 +399,11 @@
   width: 100%;
   padding: var(--sp-4);
   font-size: var(--fs-md);
-  font-weight: var(--fw-bold);
+  font-weight: var(--fw-extrabold);
   border-radius: var(--radius-xl);
   background: var(--grad-primary);
   color: white;
-  box-shadow: 0 8px 25px rgba(99, 102, 241, 0.4);
+  box-shadow: 0 8px 25px rgba(220, 38, 38, 0.45);
   transition: all var(--transition-base);
   border: none;
   cursor: pointer;
@@ -415,7 +415,7 @@
 
 .btn-login-submit:hover {
   transform: translateY(-2px);
-  box-shadow: 0 12px 30px rgba(99, 102, 241, 0.5);
+  box-shadow: 0 12px 30px rgba(220, 38, 38, 0.6);
 }
 
 .btn-login-submit:active {
@@ -490,14 +490,12 @@
 
 /* ── Dark Mode Overrides ── */
 [data-theme="dark"] .login-card {
-  background: rgba(21, 25, 41, 0.85);
-  border-color: rgba(255, 255, 255, 0.1);
-  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.4);
+  background: var(--bg-surface);
+  box-shadow: var(--neu-shadow-lg);
 }
 
 [data-theme="dark"] .role-selector {
   background: var(--bg-surface-alt);
-  border-color: var(--border-color);
 }
 
 [data-theme="dark"] .role-btn.active {
@@ -507,18 +505,15 @@
 
 [data-theme="dark"] .input-field-wrap input {
   background: var(--bg-surface-alt);
-  border-color: var(--border-color);
   color: var(--text-primary);
 }
 
 [data-theme="dark"] .input-field-wrap input:focus {
   background: var(--bg-surface);
-  border-color: var(--clr-primary-500);
 }
 
 [data-theme="dark"] .custom-checkbox {
   background: var(--bg-surface-alt);
-  border-color: var(--border-color);
 }
 
 [data-theme="dark"] .demo-chip {
@@ -528,7 +523,7 @@
 }
 
 [data-theme="dark"] .demo-chip:hover {
-  background: rgba(99, 102, 241, 0.2);
+  background: rgba(20, 184, 166, 0.2);
   color: var(--clr-primary-300);
   border-color: var(--clr-primary-600);
 }

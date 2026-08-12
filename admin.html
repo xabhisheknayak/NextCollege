@@ -10,6 +10,7 @@
   <link rel="stylesheet" href="css/components.css">
   <link rel="stylesheet" href="css/themes.css">
   <link rel="stylesheet" href="css/dashboard.css">
+  <link rel="stylesheet" href="css/social.css">
 </head>
 <body>
   <div class="dashboard-layout">
@@ -117,6 +118,14 @@
             </div>
             <div id="admin-recent-complaints"></div>
           </div>
+          <!-- Campus Feed Preview -->
+          <div class="card home-feed-preview-card">
+            <div class="home-feed-preview-header">
+              <h4>📱 Campus Feed Monitor</h4>
+              <button class="home-feed-see-all" onclick="goToSocial()">Moderate →</button>
+            </div>
+            <div id="home-feed-preview"></div>
+          </div>
         </section>
 
         <!-- ═══════════════ SOCIAL SECTION ═══════════════ -->
@@ -125,16 +134,10 @@
             <h2>🌐 Campus Social Network</h2>
             <span class="badge badge-primary">Admin Mod</span>
           </div>
-
-          <div class="card" style="max-width: 600px; margin: 0 auto var(--sp-6);">
-            <div class="flex items-center gap-4">
-              <div class="avatar avatar-sm" style="background:var(--grad-danger)" id="social-avatar">A</div>
-              <input type="text" id="new-post-caption" class="form-input" placeholder="Share an update with the campus..." style="flex:1;">
-              <button class="btn btn-primary" onclick="createSocialPost('admin')">Post</button>
-            </div>
+          <div class="social-section-wrap">
+            <div id="social-composer"></div>
+            <div id="social-feed-container"></div>
           </div>
-
-          <div id="social-feed-container" style="max-width: 600px; margin: 0 auto;"></div>
         </section>
 
         <!-- ═══════════════ EMERGENCY BROADCAST SECTION ═══════════════ -->
@@ -305,6 +308,7 @@
   <script src="js/auth.js"></script>
   <script src="js/theme.js"></script>
   <script src="js/components.js"></script>
+  <script src="js/social.js"></script>
   <script src="js/admin.js"></script>
 </body>
 </html>

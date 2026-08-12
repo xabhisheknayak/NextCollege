@@ -196,11 +196,10 @@
   align-items: center;
   justify-content: space-between;
   padding: var(--sp-4) var(--sp-8);
-  background: var(--bg-glass);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border-bottom: 1px solid var(--border-light);
+  background: var(--bg-surface);
+  border-bottom: none;
   height: var(--header-height);
+  box-shadow: var(--neu-shadow-sm);
 }
 
 .main-header-left {
@@ -224,29 +223,53 @@
   justify-content: center;
   cursor: pointer;
   border: none;
-  background: none;
+  background: var(--bg-surface-alt);
   color: var(--text-primary);
   font-size: 1.25rem;
+  box-shadow: var(--neu-shadow-sm);
 }
 
-.page-title {
-  font-size: var(--fs-xl);
-  font-weight: var(--fw-bold);
-  color: var(--text-primary);
+.user-profile-btn {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  padding: var(--sp-2) var(--sp-3);
+  border-radius: var(--radius-xl);
+  background: var(--bg-surface-alt);
+  border: none;
+  cursor: pointer;
+  transition: all var(--transition-base);
+  box-shadow: var(--neu-shadow-sm);
 }
 
-.page-subtitle {
-  font-size: var(--fs-sm);
-  color: var(--text-tertiary);
-  margin-top: 2px;
+.user-profile-btn:hover {
+  box-shadow: var(--neu-shadow-pressed);
 }
 
-.main-body {
-  padding: var(--sp-8);
+/* ── Content Layout ── */
+.dashboard-content {
+  padding: var(--sp-6) var(--sp-8);
   max-width: var(--max-content-width);
+  margin: 0 auto;
 }
 
-/* ── Dashboard Sections ── */
+.section-header {
+  margin-bottom: var(--sp-6);
+}
+
+.section-header h2 {
+  font-size: var(--fs-2xl);
+  margin-bottom: var(--sp-1);
+  color: var(--text-primary);
+  font-weight: var(--fw-extrabold);
+}
+
+.section-header p {
+  color: var(--text-secondary);
+  margin: 0;
+  font-weight: var(--fw-medium);
+}
+
 .dashboard-section {
   display: none;
   animation: fadeInUp 0.4s ease-out;
@@ -256,22 +279,6 @@
   display: block;
 }
 
-.section-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: var(--sp-6);
-  flex-wrap: wrap;
-  gap: var(--sp-4);
-}
-
-.section-header h2 {
-  font-size: var(--fs-2xl);
-}
-
-.section-header p {
-  font-size: var(--fs-sm);
-  color: var(--text-tertiary);
   margin: 0;
 }
 
@@ -301,7 +308,7 @@
   color: white;
   position: relative;
   overflow: hidden;
-  box-shadow: 0 15px 40px rgba(99,102,241,0.3);
+  box-shadow: 0 15px 40px rgba(20,184,166,0.3);
 }
 
 .id-card::before {

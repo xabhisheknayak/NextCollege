@@ -17,8 +17,11 @@ document.addEventListener('DOMContentLoaded', () => {
   initAdminFacultySection();
   initAdminEventsSection();
   initAdminNoticesSection();
-  renderSocialFeed('social-feed-container', 'admin');
+
+  // Social feed, home preview, and DM system
+  if (typeof initSocialPage === 'function') initSocialPage();
 });
+
 
 function switchToSection(sectionId) {
   const navItem = document.querySelector(`.nav-item[data-section="${sectionId}"]`);

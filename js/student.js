@@ -37,11 +37,12 @@ document.addEventListener('DOMContentLoaded', () => {
     initHostelSection();
   }
 
-  renderSocialFeed('social-feed-container', 'student');
+  // Social feed, home preview, and DM system
+  if (typeof initSocialPage === 'function') initSocialPage();
 
-  const avatar = document.getElementById('social-avatar');
-  if (avatar) avatar.textContent = getInitials(currentUser.name);
+  // Social feed is initialized by social.js (initSocialPage called on DOMContentLoaded)
 });
+
 
 // Helper to switch section from quick actions or buttons
 function switchToSection(sectionId) {

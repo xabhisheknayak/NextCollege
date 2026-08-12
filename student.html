@@ -10,6 +10,7 @@
   <link rel="stylesheet" href="css/components.css">
   <link rel="stylesheet" href="css/themes.css">
   <link rel="stylesheet" href="css/dashboard.css">
+  <link rel="stylesheet" href="css/social.css">
 </head>
 <body>
   <div class="dashboard-layout">
@@ -47,6 +48,7 @@
           <div class="nav-section-title">Social</div>
           <button class="nav-item" data-section="chat"><span class="nav-icon">💬</span> Branch Chat</button>
           <button class="nav-item" data-section="anonchat"><span class="nav-icon">🎭</span> Anonymous Chat</button>
+          <button class="nav-item" data-section="messages"><span class="nav-icon">✉️</span> Messages</button>
           <button class="nav-item" data-section="directory"><span class="nav-icon">🔍</span> Directory</button>
         </div>
 
@@ -162,6 +164,15 @@
             <div class="flex flex-col gap-3" id="today-schedule"></div>
           </div>
 
+          <!-- Campus Feed Preview -->
+          <div class="card home-feed-preview-card" style="margin-bottom: var(--sp-6);">
+            <div class="home-feed-preview-header">
+              <h4>📱 Campus Feed</h4>
+              <button class="home-feed-see-all" onclick="goToSocial()">See All →</button>
+            </div>
+            <div id="home-feed-preview"></div>
+          </div>
+
           <!-- Quick Actions -->
           <h4 style="margin-bottom: var(--sp-4);">Quick Actions</h4>
           <div class="quick-actions" id="quick-actions">
@@ -179,11 +190,11 @@
             </div>
             <div class="quick-action-item" onclick="switchToSection('social')">
               <div class="qa-icon" style="background:rgba(139,92,246,0.15)">🌐</div>
-              <span class="qa-label">Social Net</span>
+              <span class="qa-label">Social Feed</span>
             </div>
-            <div class="quick-action-item" onclick="switchToSection('chat')">
-              <div class="qa-icon" style="background:rgba(236,72,153,0.15)">💬</div>
-              <span class="qa-label">Branch Chat</span>
+            <div class="quick-action-item" onclick="switchToSection('messages')">
+              <div class="qa-icon" style="background:rgba(236,72,153,0.15)">✉️</div>
+              <span class="qa-label">Messages</span>
             </div>
             <div class="quick-action-item" onclick="switchToSection('map')">
               <div class="qa-icon" style="background:rgba(245,158,11,0.15)">🗺️</div>
@@ -199,18 +210,12 @@
         <!-- ═══════════════ SOCIAL SECTION ═══════════════ -->
         <section class="dashboard-section" id="section-social">
           <div class="section-header">
-            <h2>🌐 Campus Social Network</h2>
+            <h2>🌐 Campus Social</h2>
           </div>
-
-          <div class="card" style="max-width: 600px; margin: 0 auto var(--sp-6);">
-            <div class="flex items-center gap-4">
-              <div class="avatar avatar-sm" style="background:var(--grad-primary)" id="social-avatar">S</div>
-              <input type="text" id="new-post-caption" class="form-input" placeholder="Share an update with the campus..." style="flex:1;">
-              <button class="btn btn-primary" onclick="createSocialPost('student')">Post</button>
-            </div>
+          <div class="social-section-wrap">
+            <div id="social-composer"></div>
+            <div id="social-feed-container"></div>
           </div>
-
-          <div id="social-feed-container" style="max-width: 600px; margin: 0 auto;"></div>
         </section>
 
         <!-- Schedule -->
@@ -490,6 +495,22 @@
           </div>
         </section>
 
+        <!-- ═══════════════ MESSAGES SECTION ═══════════════ -->
+        <section class="dashboard-section" id="section-messages">
+          <div class="section-header">
+            <h2>✉️ Private Messages</h2>
+          </div>
+          <div style="max-width: 500px;">
+            <div class="card" style="padding:var(--sp-8); text-align:center;">
+              <div style="font-size:3rem; margin-bottom:var(--sp-4);">💌</div>
+              <h4 style="margin-bottom:var(--sp-2);">Your Direct Messages</h4>
+              <p style="color:var(--text-tertiary); margin-bottom:var(--sp-6);">Follow classmates on the social feed and tap ✉️ on any post to start a private conversation.</p>
+              <button class="btn btn-primary" onclick="toggleDMPanel()">Open Messages Panel</button>
+            </div>
+            <div id="messages-list" style="margin-top:var(--sp-4);"></div>
+          </div>
+        </section>
+
       </div>
     </main>
   </div>
@@ -628,6 +649,7 @@
   <script src="js/auth.js"></script>
   <script src="js/theme.js"></script>
   <script src="js/components.js"></script>
+  <script src="js/social.js"></script>
   <script src="js/student.js"></script>
 </body>
 </html>

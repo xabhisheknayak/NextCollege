@@ -15,11 +15,11 @@ document.addEventListener('DOMContentLoaded', () => {
   initAlertsSection();
   initComplaintsSection();
   initDirectorySection();
-  renderSocialFeed('social-feed-container', 'professor');
 
-  const avatar = document.getElementById('social-avatar');
-  if (avatar) avatar.textContent = getInitials(currentUser.name);
+  // Social feed, home preview, and DM system
+  if (typeof initSocialPage === 'function') initSocialPage();
 });
+
 
 function switchToSection(sectionId) {
   const navItem = document.querySelector(`.nav-item[data-section="${sectionId}"]`);

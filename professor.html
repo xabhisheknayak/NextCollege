@@ -10,6 +10,7 @@
   <link rel="stylesheet" href="css/components.css">
   <link rel="stylesheet" href="css/themes.css">
   <link rel="stylesheet" href="css/dashboard.css">
+  <link rel="stylesheet" href="css/social.css">
 </head>
 <body>
   <div class="dashboard-layout">
@@ -31,6 +32,7 @@
           <div class="nav-section-title">Main</div>
           <button class="nav-item active" data-section="home"><span class="nav-icon">🏠</span> Home</button>
           <button class="nav-item" data-section="social"><span class="nav-icon">🌐</span> Campus Social</button>
+          <button class="nav-item" data-section="messages"><span class="nav-icon">✉️</span> Messages</button>
           <button class="nav-item" data-section="class-schedule"><span class="nav-icon">📅</span> Class Schedule</button>
           <button class="nav-item" data-section="biometric-attendance"><span class="nav-icon">👆</span> Biometric Attendance</button>
           <button class="nav-item" data-section="assignments"><span class="nav-icon">📝</span> Assignments</button>
@@ -118,23 +120,40 @@
             </div>
             <div id="recent-assignments"></div>
           </div>
+          <!-- Campus Feed Preview -->
+          <div class="card home-feed-preview-card">
+            <div class="home-feed-preview-header">
+              <h4>📱 Campus Feed</h4>
+              <button class="home-feed-see-all" onclick="goToSocial()">See All →</button>
+            </div>
+            <div id="home-feed-preview"></div>
+          </div>
         </section>
 
         <!-- ═══════════════ SOCIAL SECTION ═══════════════ -->
         <section class="dashboard-section" id="section-social">
           <div class="section-header">
-            <h2>🌐 Campus Social Network</h2>
+            <h2>🌐 Campus Social</h2>
           </div>
+          <div class="social-section-wrap">
+            <div id="social-composer"></div>
+            <div id="social-feed-container"></div>
+          </div>
+        </section>
 
-          <div class="card" style="max-width: 600px; margin: 0 auto var(--sp-6);">
-            <div class="flex items-center gap-4">
-              <div class="avatar avatar-sm" style="background:var(--grad-primary)" id="social-avatar">F</div>
-              <input type="text" id="new-post-caption" class="form-input" placeholder="Share an update with the campus..." style="flex:1;">
-              <button class="btn btn-primary" onclick="createSocialPost('professor')">Post</button>
+        <!-- ═══════════════ MESSAGES SECTION ═══════════════ -->
+        <section class="dashboard-section" id="section-messages">
+          <div class="section-header">
+            <h2>✉️ Private Messages</h2>
+          </div>
+          <div style="max-width: 500px;">
+            <div class="card" style="padding:var(--sp-8); text-align:center;">
+              <div style="font-size:3rem; margin-bottom:var(--sp-4);">💌</div>
+              <h4 style="margin-bottom:var(--sp-2);">Your Direct Messages</h4>
+              <p style="color:var(--text-tertiary); margin-bottom:var(--sp-6);">Connect with students via the social feed and tap ✉️ on any post to start a conversation.</p>
+              <button class="btn btn-primary" onclick="toggleDMPanel()">Open Messages Panel</button>
             </div>
           </div>
-
-          <div id="social-feed-container" style="max-width: 600px; margin: 0 auto;"></div>
         </section>
 
         <!-- ═══════════════ CLASS SCHEDULE SECTION ═══════════════ -->
@@ -312,6 +331,7 @@
   <script src="js/auth.js"></script>
   <script src="js/theme.js"></script>
   <script src="js/components.js"></script>
+  <script src="js/social.js"></script>
   <script src="js/professor.js"></script>
 </body>
 </html>

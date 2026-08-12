@@ -22,7 +22,7 @@
       padding: var(--sp-6);
       position: relative;
       z-index: 1;
-      color: white;
+      color: var(--text-primary);
     }
 
     .intro-content {
@@ -35,14 +35,14 @@
       font-weight: var(--fw-extrabold);
       line-height: 1.1;
       margin-bottom: var(--sp-6);
-      background: linear-gradient(to right, #ffffff, #a78bfa);
+      background: var(--grad-primary);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
 
     .intro-desc {
       font-size: var(--fs-lg);
-      color: rgba(255, 255, 255, 0.85);
+      color: var(--text-secondary);
       margin-bottom: var(--sp-8);
       line-height: 1.6;
     }
@@ -58,19 +58,19 @@
       background: var(--grad-primary);
       border-radius: var(--radius-full);
       text-decoration: none;
-      box-shadow: 0 10px 30px rgba(99, 102, 241, 0.4);
+      box-shadow: 0 10px 30px rgba(20, 184, 166, 0.4);
       transition: all 0.3s ease;
     }
 
     .btn-get-started:hover {
       transform: translateY(-3px);
-      box-shadow: 0 15px 40px rgba(99, 102, 241, 0.6);
+      box-shadow: 0 15px 40px rgba(20, 184, 166, 0.6);
     }
 
     .intro-bg {
       position: fixed;
       inset: 0;
-      background: #0f172a;
+      background: var(--bg-body);
       z-index: 0;
     }
 
@@ -78,7 +78,7 @@
       content: '';
       position: absolute;
       inset: 0;
-      background: radial-gradient(circle at 50% 50%, rgba(99, 102, 241, 0.2) 0%, transparent 60%);
+      background: radial-gradient(circle at 50% 50%, rgba(20, 184, 166, 0.2) 0%, transparent 60%);
     }
   </style>
 </head>
