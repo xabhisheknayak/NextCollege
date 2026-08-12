@@ -30,6 +30,9 @@
         <div class="nav-section">
           <div class="nav-section-title">Main</div>
           <button class="nav-item active" data-section="home"><span class="nav-icon">🏠</span> Home</button>
+          <button class="nav-item" data-section="social"><span class="nav-icon">🌐</span> Campus Social</button>
+          <button class="nav-item" data-section="class-schedule"><span class="nav-icon">📅</span> Class Schedule</button>
+          <button class="nav-item" data-section="biometric-attendance"><span class="nav-icon">👆</span> Biometric Attendance</button>
           <button class="nav-item" data-section="assignments"><span class="nav-icon">📝</span> Assignments</button>
           <button class="nav-item" data-section="alerts"><span class="nav-icon">📢</span> Batch Alerts</button>
           <button class="nav-item" data-section="complaints"><span class="nav-icon">📥</span> Complaints Inbox</button>
@@ -114,6 +117,63 @@
               <h4>Recent Assignments Set</h4>
             </div>
             <div id="recent-assignments"></div>
+          </div>
+        </section>
+
+        <!-- ═══════════════ SOCIAL SECTION ═══════════════ -->
+        <section class="dashboard-section" id="section-social">
+          <div class="section-header">
+            <h2>🌐 Campus Social Network</h2>
+          </div>
+
+          <div class="card" style="max-width: 600px; margin: 0 auto var(--sp-6);">
+            <div class="flex items-center gap-4">
+              <div class="avatar avatar-sm" style="background:var(--grad-primary)" id="social-avatar">F</div>
+              <input type="text" id="new-post-caption" class="form-input" placeholder="Share an update with the campus..." style="flex:1;">
+              <button class="btn btn-primary" onclick="createSocialPost('professor')">Post</button>
+            </div>
+          </div>
+
+          <div id="social-feed-container" style="max-width: 600px; margin: 0 auto;"></div>
+        </section>
+
+        <!-- ═══════════════ CLASS SCHEDULE SECTION ═══════════════ -->
+        <section class="dashboard-section" id="section-class-schedule">
+          <div class="section-header">
+            <h2>📅 Upload Class Schedule</h2>
+            <span class="badge badge-primary">AI Powered</span>
+          </div>
+          
+          <div class="card" style="max-width: 600px;">
+            <h4 style="margin-bottom:var(--sp-2)">Upload Timetable PDF</h4>
+            <p class="text-tertiary" style="margin-bottom:var(--sp-4);font-size:var(--fs-sm);">Our AI will read the PDF and automatically update the Student Dashboard schedules.</p>
+            
+            <div class="form-group">
+              <input type="file" id="upload-schedule-file" class="form-input" accept=".pdf,.doc,.docx" style="padding:var(--sp-3)">
+            </div>
+            <button class="btn btn-primary w-full" onclick="simulateAIUpload('schedule')">
+              <span class="nav-icon">✨</span> Parse Schedule with AI
+            </button>
+          </div>
+        </section>
+
+        <!-- ═══════════════ BIOMETRIC ATTENDANCE SECTION ═══════════════ -->
+        <section class="dashboard-section" id="section-biometric-attendance">
+          <div class="section-header">
+            <h2>👆 Upload Biometric Attendance</h2>
+            <span class="badge badge-primary">AI Powered</span>
+          </div>
+          
+          <div class="card" style="max-width: 600px;">
+            <h4 style="margin-bottom:var(--sp-2)">Upload Biometric Logs</h4>
+            <p class="text-tertiary" style="margin-bottom:var(--sp-4);font-size:var(--fs-sm);">Upload biometric logs. AI will sync subject-wise attendance for all students.</p>
+            
+            <div class="form-group">
+              <input type="file" id="upload-attendance-file" class="form-input" accept=".csv,.xlsx,.txt" style="padding:var(--sp-3)">
+            </div>
+            <button class="btn btn-primary w-full" onclick="simulateAIUpload('attendance')">
+              <span class="nav-icon">✨</span> Sync Attendance Data
+            </button>
           </div>
         </section>
 
@@ -249,6 +309,7 @@
 
   <script src="js/utils.js"></script>
   <script src="js/data.js"></script>
+  <script src="js/auth.js"></script>
   <script src="js/theme.js"></script>
   <script src="js/components.js"></script>
   <script src="js/professor.js"></script>

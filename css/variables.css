@@ -3,22 +3,22 @@
    ============================================ */
 
 :root {
-  /* ── Primary Palette ── */
-  --clr-primary-50:  #eef2ff;
-  --clr-primary-100: #e0e7ff;
-  --clr-primary-200: #c7d2fe;
-  --clr-primary-300: #a5b4fc;
-  --clr-primary-400: #818cf8;
-  --clr-primary-500: #6366f1;
-  --clr-primary-600: #4f46e5;
-  --clr-primary-700: #4338ca;
-  --clr-primary-800: #3730a3;
-  --clr-primary-900: #312e81;
+  /* ── Primary Palette (Vibrant Violet) ── */
+  --clr-primary-50:  #f5f3ff;
+  --clr-primary-100: #ede9fe;
+  --clr-primary-200: #ddd6fe;
+  --clr-primary-300: #c4b5fd;
+  --clr-primary-400: #a78bfa;
+  --clr-primary-500: #8b5cf6;
+  --clr-primary-600: #7c3aed;
+  --clr-primary-700: #6d28d9;
+  --clr-primary-800: #5b21b6;
+  --clr-primary-900: #4c1d95;
 
-  /* ── Accent — Teal/Cyan ── */
-  --clr-accent-400: #2dd4bf;
-  --clr-accent-500: #14b8a6;
-  --clr-accent-600: #0d9488;
+  /* ── Accent — Sunset Orange ── */
+  --clr-accent-400: #fb923c;
+  --clr-accent-500: #f97316;
+  --clr-accent-600: #ea580c;
 
   /* ── Warning — Amber ── */
   --clr-warning-400: #fbbf24;
@@ -49,31 +49,31 @@
   --clr-neutral-950: #020617;
 
   /* ── Semantic Colors (Light Theme) ── */
-  --bg-body:        #f0f2f8;
+  --bg-body:        #f3f4f6; /* slightly warmer gray */
   --bg-surface:     #ffffff;
-  --bg-surface-alt: #f8f9fc;
-  --bg-glass:       rgba(255, 255, 255, 0.65);
-  --bg-glass-hover: rgba(255, 255, 255, 0.8);
+  --bg-surface-alt: #faf5ff; /* very subtle violet tint */
+  --bg-glass:       rgba(255, 255, 255, 0.75);
+  --bg-glass-hover: rgba(255, 255, 255, 0.9);
   --bg-sidebar:     rgba(255, 255, 255, 0.85);
   --bg-input:       #ffffff;
-  --bg-overlay:     rgba(15, 23, 42, 0.5);
+  --bg-overlay:     rgba(15, 23, 42, 0.6);
 
   --text-primary:   #0f172a;
   --text-secondary: #475569;
   --text-tertiary:  #94a3b8;
   --text-inverse:   #ffffff;
-  --text-link:      #4f46e5;
+  --text-link:      #7c3aed;
 
   --border-color:   #e2e8f0;
   --border-light:   rgba(226, 232, 240, 0.6);
 
   /* ── Gradients ── */
-  --grad-primary:   linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #a78bfa 100%);
-  --grad-accent:    linear-gradient(135deg, #14b8a6 0%, #06b6d4 100%);
-  --grad-danger:    linear-gradient(135deg, #f43f5e 0%, #fb7185 100%);
+  --grad-primary:   linear-gradient(135deg, #8b5cf6 0%, #d946ef 100%);
+  --grad-accent:    linear-gradient(135deg, #f97316 0%, #f43f5e 100%);
+  --grad-danger:    linear-gradient(135deg, #e11d48 0%, #be123c 100%);
   --grad-warm:      linear-gradient(135deg, #f59e0b 0%, #f97316 100%);
-  --grad-hero:      linear-gradient(135deg, #312e81 0%, #4f46e5 30%, #7c3aed 60%, #a78bfa 100%);
-  --grad-sidebar:   linear-gradient(180deg, #4f46e5 0%, #6366f1 50%, #7c3aed 100%);
+  --grad-hero:      linear-gradient(135deg, #4c1d95 0%, #7c3aed 30%, #d946ef 60%, #fb923c 100%);
+  --grad-sidebar:   linear-gradient(180deg, #7c3aed 0%, #8b5cf6 50%, #c084fc 100%);
 
   /* ── Typography ── */
   --font-body:    'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;

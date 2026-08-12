@@ -1,19 +1,13 @@
-/* ============================================
-   AUTHENTICATION & ROUTING
-   ============================================ */
-
+/* Auth */
 document.addEventListener('DOMContentLoaded', () => {
-  initDemoData();
-  initLoginPage();
+  if (typeof initDemoData === 'function') initDemoData();
+  if (document.querySelector('.login-form')) initLoginPage();
 });
 
 function initLoginPage() {
-  const tabs = document.querySelectorAll('.login-tab');
-  const forms = document.querySelectorAll('.login-form');
+  /* TabLogic */
 
-  // Tab switching logic removed as pages are now separated
-
-  // Student login
+  /* Student */
   document.getElementById('student-login-btn')?.addEventListener('click', (e) => {
     e.preventDefault();
     const year = document.getElementById('student-reg-year').value;
@@ -42,7 +36,7 @@ function initLoginPage() {
       return;
     }
 
-    // Set session
+    /* Session */
     setSession('currentUser', {
       ...student,
       role: 'student',
@@ -54,11 +48,12 @@ function initLoginPage() {
     setTimeout(() => window.location.href = 'student.html', 700);
   });
 
-  // Professor login
+  /* Professor */
   document.getElementById('professor-login-btn')?.addEventListener('click', (e) => {
     e.preventDefault();
     const phone = document.getElementById('prof-phone').value.trim();
     const name = document.getElementById('prof-name').value.trim();
+    const isWardenCheckbox = document.getElementById('prof-warden')?.checked || false;
 
     if (!phone || !name) {
       showError('Please fill in all fields');
@@ -74,12 +69,18 @@ function initLoginPage() {
       return;
     }
 
-    setSession('currentUser', { ...professor, role: 'professor' });
+    if (isWardenCheckbox && !professor.isWarden) {
+      showError('You do not have Warden privileges.');
+      return;
+    }
+
+    /* Session */
+    setSession('currentUser', { ...professor, role: 'professor', isWarden: isWardenCheckbox });
     showToast('Login successful!', 'success', 'Welcome Professor');
     setTimeout(() => window.location.href = 'professor.html', 700);
   });
 
-  // Admin login
+  /* Admin */
   document.getElementById('admin-login-btn')?.addEventListener('click', (e) => {
     e.preventDefault();
     const phone = document.getElementById('admin-phone').value.trim();
@@ -102,7 +103,7 @@ function initLoginPage() {
   });
 }
 
-// Password toggle helper
+/* Toggle */
 function togglePasswordVisibility(inputId, btn) {
   const input = document.getElementById(inputId);
   if (input) {
@@ -112,7 +113,7 @@ function togglePasswordVisibility(inputId, btn) {
   }
 }
 
-// 1-Click Auto-Fill Demo Credentials Helper
+/* AutoFill */
 function autoFillDemo(type) {
   hideError();
   if (type === 'student-hostel') {
@@ -135,9 +136,17 @@ function autoFillDemo(type) {
     }
   } else if (type === 'professor') {
     if (document.getElementById('prof-phone')) {
-      document.getElementById('prof-phone').value = '9876543210';
-      document.getElementById('prof-name').value = 'Dr. Sharma';
+      document.getElementById('prof-phone').value = '9900012345';
+      document.getElementById('prof-name').value = 'Prof. Raju';
+      if (document.getElementById('prof-warden')) document.getElementById('prof-warden').checked = false;
       showToast('Professor credentials filled!', 'info', 'Auto-Fill');
+    }
+  } else if (type === 'warden') {
+    if (document.getElementById('prof-phone')) {
+      document.getElementById('prof-phone').value = '9876543221';
+      document.getElementById('prof-name').value = 'Dr. Sunita Rao';
+      if (document.getElementById('prof-warden')) document.getElementById('prof-warden').checked = true;
+      showToast('Warden credentials filled!', 'info', 'Auto-Fill');
     }
   } else if (type === 'admin') {
     if (document.getElementById('admin-phone')) {
@@ -161,7 +170,7 @@ function hideError() {
   if (el) el.classList.remove('show');
 }
 
-// Check auth on dashboard pages
+/* Auth */
 function requireAuth(role) {
   const user = getSession('currentUser');
   if (!user || user.role !== role) {

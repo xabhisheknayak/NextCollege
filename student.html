@@ -13,7 +13,7 @@
 </head>
 <body>
   <div class="dashboard-layout">
-    <!-- Sidebar Overlay (mobile) -->
+    <!-- Overlay -->
     <div class="sidebar-overlay"></div>
 
     <!-- Sidebar -->
@@ -30,6 +30,7 @@
         <div class="nav-section">
           <div class="nav-section-title">Main</div>
           <button class="nav-item active" data-section="home"><span class="nav-icon">🏠</span> Home</button>
+          <button class="nav-item" data-section="social"><span class="nav-icon">🌐</span> Campus Social</button>
           <button class="nav-item" data-section="schedule"><span class="nav-icon">📅</span> Schedule</button>
           <button class="nav-item" data-section="idcard"><span class="nav-icon">🪪</span> Digital ID</button>
           <button class="nav-item" data-section="profile"><span class="nav-icon">👤</span> My Profile</button>
@@ -98,7 +99,7 @@
       </header>
 
       <div class="main-body">
-        <!-- ═══════════════ HOME SECTION ═══════════════ -->
+        <!-- Home -->
         <section class="dashboard-section active" id="section-home">
           <div class="section-header">
             <div>
@@ -143,6 +144,15 @@
             </div>
           </div>
 
+          <!-- Biometric Attendance -->
+          <div class="card" style="margin-bottom: var(--sp-6); display: none;" id="biometric-attendance-card">
+            <div class="card-header">
+              <h4>👆 Official Biometric Attendance</h4>
+              <span class="badge badge-accent">AI Synced</span>
+            </div>
+            <div id="biometric-attendance-content" class="flex flex-col gap-3"></div>
+          </div>
+
           <!-- Today's Schedule -->
           <div class="card" style="margin-bottom: var(--sp-6);">
             <div class="card-header">
@@ -167,8 +177,12 @@
               <div class="qa-icon" style="background:rgba(20,184,166,0.15)">📚</div>
               <span class="qa-label">Library</span>
             </div>
+            <div class="quick-action-item" onclick="switchToSection('social')">
+              <div class="qa-icon" style="background:rgba(139,92,246,0.15)">🌐</div>
+              <span class="qa-label">Social Net</span>
+            </div>
             <div class="quick-action-item" onclick="switchToSection('chat')">
-              <div class="qa-icon" style="background:rgba(139,92,246,0.15)">💬</div>
+              <div class="qa-icon" style="background:rgba(236,72,153,0.15)">💬</div>
               <span class="qa-label">Branch Chat</span>
             </div>
             <div class="quick-action-item" onclick="switchToSection('map')">
@@ -182,16 +196,34 @@
           </div>
         </section>
 
-        <!-- ═══════════════ SCHEDULE SECTION ═══════════════ -->
+        <!-- ═══════════════ SOCIAL SECTION ═══════════════ -->
+        <section class="dashboard-section" id="section-social">
+          <div class="section-header">
+            <h2>🌐 Campus Social Network</h2>
+          </div>
+
+          <div class="card" style="max-width: 600px; margin: 0 auto var(--sp-6);">
+            <div class="flex items-center gap-4">
+              <div class="avatar avatar-sm" style="background:var(--grad-primary)" id="social-avatar">S</div>
+              <input type="text" id="new-post-caption" class="form-input" placeholder="Share an update with the campus..." style="flex:1;">
+              <button class="btn btn-primary" onclick="createSocialPost('student')">Post</button>
+            </div>
+          </div>
+
+          <div id="social-feed-container" style="max-width: 600px; margin: 0 auto;"></div>
+        </section>
+
+        <!-- Schedule -->
         <section class="dashboard-section" id="section-schedule">
           <div class="section-header">
             <h2>📅 Weekly Schedule</h2>
+            <span class="badge badge-primary" id="schedule-ai-badge" style="display:none;">AI Managed</span>
           </div>
           <div class="tab-nav" id="schedule-tabs" style="margin-bottom: var(--sp-6);"></div>
           <div id="schedule-content"></div>
         </section>
 
-        <!-- ═══════════════ DIGITAL ID SECTION ═══════════════ -->
+        <!-- ID -->
         <section class="dashboard-section" id="section-idcard">
           <div class="section-header"><h2>🪪 Digital ID Card</h2></div>
           <div style="max-width: 500px;">
@@ -220,7 +252,7 @@
           </div>
         </section>
 
-        <!-- ═══════════════ PROFILE SECTION ═══════════════ -->
+        <!-- Profile -->
         <section class="dashboard-section" id="section-profile">
           <div class="section-header"><h2>👤 My Profile</h2></div>
           <div class="grid-2">
@@ -243,7 +275,7 @@
           </div>
         </section>
 
-        <!-- ═══════════════ LIBRARY SECTION ═══════════════ -->
+        <!-- Library -->
         <section class="dashboard-section" id="section-library">
           <div class="section-header">
             <h2>📚 Digital Library</h2>
@@ -262,19 +294,19 @@
           <div class="grid-2" id="library-grid"></div>
         </section>
 
-        <!-- ═══════════════ AI COPILOT SECTION ═══════════════ -->
+        <!-- Copilot -->
         <section class="dashboard-section" id="section-copilot">
           <div class="section-header"><h2>🤖 AI Study Copilot</h2></div>
           <div class="card" style="max-width:600px;">
             <div class="chat-container" id="copilot-chat" style="min-height:300px;"></div>
             <div class="chat-input-bar">
-              <input type="text" id="copilot-input" placeholder="Ask me about study tips, exam prep...">
+              <input type="text" id="copilot-input" placeholder="Ask me about study tips, exam prep..." onkeydown="if(event.key==='Enter') sendCopilotMessage()">
               <button class="btn btn-primary" onclick="sendCopilotMessage()">Send</button>
             </div>
           </div>
         </section>
 
-        <!-- ═══════════════ FEEDBACK SECTION ═══════════════ -->
+        <!-- Feedback -->
         <section class="dashboard-section" id="section-feedback">
           <div class="section-header"><h2>⭐ Class Feedback</h2></div>
           <div class="card" style="max-width:500px;margin-bottom:var(--sp-6);">
@@ -306,7 +338,7 @@
           <div id="feedback-list"></div>
         </section>
 
-        <!-- ═══════════════ BRANCH CHAT SECTION ═══════════════ -->
+        <!-- Chat -->
         <section class="dashboard-section" id="section-chat">
           <div class="section-header"><h2>💬 Campus Chat</h2></div>
           <div class="tab-nav" style="margin-bottom:var(--sp-4)">
@@ -316,13 +348,13 @@
           <div class="card" style="max-width:600px;">
             <div class="chat-container" id="chat-messages" style="min-height:300px;"></div>
             <div class="chat-input-bar">
-              <input type="text" id="chat-input" placeholder="Type a message...">
+              <input type="text" id="chat-input" placeholder="Type a message..." onkeydown="if(event.key==='Enter') sendChatMessage()">
               <button class="btn btn-primary" onclick="sendChatMessage()">Send</button>
             </div>
           </div>
         </section>
 
-        <!-- ═══════════════ ANONYMOUS CHAT SECTION ═══════════════ -->
+        <!-- Anonymous -->
         <section class="dashboard-section" id="section-anonchat">
           <div class="section-header">
             <h2>🎭 Anonymous Chat</h2>
@@ -331,13 +363,13 @@
           <div class="card" style="max-width:600px;">
             <div class="chat-container" id="anon-messages" style="min-height:300px;"></div>
             <div class="chat-input-bar">
-              <input type="text" id="anon-input" placeholder="Type anonymously...">
+              <input type="text" id="anon-input" placeholder="Type anonymously..." onkeydown="if(event.key==='Enter') sendAnonMessage()">
               <button class="btn btn-primary" onclick="sendAnonMessage()">Send</button>
             </div>
           </div>
         </section>
 
-        <!-- ═══════════════ DIRECTORY SECTION ═══════════════ -->
+        <!-- Directory -->
         <section class="dashboard-section" id="section-directory">
           <div class="section-header">
             <h2>🔍 Campus Directory</h2>
@@ -354,7 +386,7 @@
           <div id="directory-list"></div>
         </section>
 
-        <!-- ═══════════════ EVENTS SECTION ═══════════════ -->
+        <!-- Events -->
         <section class="dashboard-section" id="section-events">
           <div class="section-header"><h2>🎪 Events & Calendar</h2></div>
           <div class="grid-2">
@@ -373,13 +405,13 @@
           </div>
         </section>
 
-        <!-- ═══════════════ NOTICE BOARD SECTION ═══════════════ -->
+        <!-- Notices -->
         <section class="dashboard-section" id="section-notices">
           <div class="section-header"><h2>📋 Notice Board</h2></div>
           <div class="flex flex-col gap-4" id="notices-list"></div>
         </section>
 
-        <!-- ═══════════════ LOST & FOUND SECTION ═══════════════ -->
+        <!-- LostFound -->
         <section class="dashboard-section" id="section-lostfound">
           <div class="section-header">
             <h2>🔎 Lost & Found</h2>
@@ -393,7 +425,7 @@
           <div class="grid-2" id="lostfound-list"></div>
         </section>
 
-        <!-- ═══════════════ CAMPUS MAP SECTION ═══════════════ -->
+        <!-- Map -->
         <section class="dashboard-section" id="section-map">
           <div class="section-header"><h2>🗺️ Smart Campus Navigator</h2></div>
           <div class="card" style="overflow:hidden;">
@@ -402,7 +434,7 @@
           <div class="grid-3" style="margin-top:var(--sp-6)" id="map-legend"></div>
         </section>
 
-        <!-- ═══════════════ SOS SECTION ═══════════════ -->
+        <!-- SOS -->
         <section class="dashboard-section" id="section-sos">
           <div class="section-header"><h2>🆘 Emergency SOS</h2></div>
           <div style="text-align:center;padding:var(--sp-8) 0;">
@@ -413,7 +445,7 @@
           <div class="grid-2" id="emergency-contacts"></div>
         </section>
 
-        <!-- ═══════════════ HOSPITAL SECTION ═══════════════ -->
+        <!-- Hospital -->
         <section class="dashboard-section" id="section-hospital">
           <div class="section-header"><h2>🏥 Hospital & Health</h2></div>
           <div style="text-align:center;padding:var(--sp-6) 0;">
@@ -422,7 +454,7 @@
           <div class="grid-2" id="hospital-list"></div>
         </section>
 
-        <!-- ═══════════════ HOSTEL SECTION ═══════════════ -->
+        <!-- Hostel -->
         <section class="dashboard-section" id="section-hostel">
           <div class="section-header"><h2>🏠 Hostel Dashboard</h2></div>
           
@@ -462,8 +494,8 @@
     </main>
   </div>
 
-  <!-- ═══════ MODALS ═══════ -->
-  <!-- Lost & Found Report Modal -->
+  <!-- Modals -->
+  <!-- LostFound -->
   <div class="modal-overlay" id="modal-lostfound">
     <div class="modal">
       <div class="modal-header">
@@ -507,7 +539,7 @@
     </div>
   </div>
 
-  <!-- Hostel Complaint Modal -->
+  <!-- Complaint -->
   <div class="modal-overlay" id="modal-hostel-complaint">
     <div class="modal">
       <div class="modal-header">
@@ -542,7 +574,7 @@
     </div>
   </div>
 
-  <!-- Out-Pass Modal -->
+  <!-- Outpass -->
   <div class="modal-overlay" id="modal-outpass">
     <div class="modal">
       <div class="modal-header">
@@ -578,7 +610,7 @@
     </div>
   </div>
 
-  <!-- SOS Confirmation Modal -->
+  <!-- SOSModal -->
   <div class="modal-overlay" id="modal-sos">
     <div class="modal" style="text-align:center;">
       <div style="font-size:4rem;margin-bottom:var(--sp-4);">🚨</div>
@@ -593,6 +625,7 @@
 
   <script src="js/utils.js"></script>
   <script src="js/data.js"></script>
+  <script src="js/auth.js"></script>
   <script src="js/theme.js"></script>
   <script src="js/components.js"></script>
   <script src="js/student.js"></script>

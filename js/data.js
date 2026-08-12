@@ -14,15 +14,18 @@ const DEMO_DATA = {
     { regNo: '25-110-131-010', name: 'Karan Reddy', phone: '9876543216', password: '555555', isHosteler: true, branch: '110', attendance: 84, email: 'karan.r@campus.edu', avatar: null, followers: 52, following: 35, badges: ['🤖 AI Enthusiast', '🏆 Kaggle Expert'] },
     { regNo: '24-104-131-008', name: 'Divya Nair', phone: '9876543217', password: '666666', isHosteler: false, branch: '104', attendance: 91, email: 'divya.n@campus.edu', avatar: null, followers: 33, following: 25, badges: ['⚡ Power Systems Pro'] },
     { regNo: '25-108-131-006', name: 'Amit Joshi', phone: '9876543218', password: '777777', isHosteler: true, branch: '108', attendance: 76, email: 'amit.j@campus.edu', avatar: null, followers: 15, following: 12, badges: ['🧬 Bio Research Fellow'] },
-    { regNo: '24-105-131-009', name: 'Meera Iyer', phone: '9876543219', password: '888888', isHosteler: false, branch: '105', attendance: 88, email: 'meera.i@campus.edu', avatar: null, followers: 22, following: 16, badges: ['🔩 Design Engineer'] }
+    { regNo: '24-105-131-009', name: 'Meera Iyer', phone: '9876543219', password: '888888', isHosteler: false, branch: '105', attendance: 88, email: 'meera.i@campus.edu', avatar: null, followers: 22, following: 16, badges: ['🔩 Design Engineer'] },
+    { regNo: '24-101-131-011', name: 'Abhishek Nayak', phone: '9812345678', password: '999999', isHosteler: true, branch: '101', attendance: 82, email: 'abhishek.n@campus.edu', avatar: null, followers: 18, following: 14, badges: ['🎯 Consistent Learner'] },
+    { regNo: '24-101-131-012', name: 'Wadyant Giri', phone: '9876543210', password: 'wadyant', isHosteler: false, branch: '101', attendance: 95, email: 'wadyant.g@campus.edu', avatar: null, followers: 45, following: 30, badges: ['💻 Open Source Contributor'] }
   ],
 
   // ── Professor Accounts ──
   professors: [
-    { id: 'prof-001', name: 'Dr. Sharma', phone: '9876543210', department: 'Mechanical Engineering', branchCode: '105', email: 'sharma@campus.edu', title: 'Professor & HOD', followers: 120, following: 15, badges: ['🎓 15+ Years Teaching', '📝 50+ Publications'] },
-    { id: 'prof-002', name: 'Dr. Anil Kapoor', phone: '9876543220', department: 'Computer Science', branchCode: '101', email: 'anil.k@campus.edu', title: 'Associate Professor', followers: 89, following: 20, badges: ['🏆 Best Teacher Award'] },
-    { id: 'prof-003', name: 'Dr. Sunita Rao', phone: '9876543221', department: 'Civil Engineering', branchCode: '106', email: 'sunita.r@campus.edu', title: 'Assistant Professor', followers: 65, following: 30, badges: ['📐 Structural Expert'] },
-    { id: 'prof-004', name: 'Dr. Rajesh Verma', phone: '9876543222', department: 'Data Science & AI', branchCode: '110', email: 'rajesh.v@campus.edu', title: 'Professor', followers: 150, following: 10, badges: ['🤖 AI Research Lead'] }
+    { id: 'prof-001', name: 'Dr. Sharma', phone: '9876543210', department: 'Mechanical Engineering', branchCode: '105', email: 'sharma@campus.edu', title: 'Professor & HOD', isWarden: false, followers: 120, following: 15, badges: ['🎓 15+ Years Teaching', '📝 50+ Publications'] },
+    { id: 'prof-002', name: 'Dr. Anil Kapoor', phone: '9876543220', department: 'Computer Science', branchCode: '101', email: 'anil.k@campus.edu', title: 'Associate Professor', isWarden: false, followers: 89, following: 20, badges: ['🏆 Best Teacher Award'] },
+    { id: 'prof-003', name: 'Dr. Sunita Rao', phone: '9876543221', department: 'Civil Engineering', branchCode: '106', email: 'sunita.r@campus.edu', title: 'Assistant Professor', isWarden: true, followers: 65, following: 30, badges: ['📐 Structural Expert'] },
+    { id: 'prof-004', name: 'Dr. Rajesh Verma', phone: '9876543222', department: 'Data Science & AI', branchCode: '110', email: 'rajesh.v@campus.edu', title: 'Professor', isWarden: false, followers: 150, following: 10, badges: ['🤖 AI Research Lead'] },
+    { id: 'prof-005', name: 'Prof. Raju', phone: '9900012345', department: 'Computer Science', branchCode: '101', email: 'raju@campus.edu', title: 'HOD & Professor', isWarden: false, followers: 210, following: 8, badges: ['🎓 HOD CSE', '🏅 25 Years Experience', '💡 Innovation Award'] }
   ],
 
   // ── Admin Account ──
@@ -213,7 +216,52 @@ const DEMO_DATA = {
     'time management': '⏱️ **Time Management Tips**:\n\n1. Use a planner or digital calendar\n2. Prioritize tasks using Eisenhower Matrix\n3. Set specific study goals daily\n4. Avoid multitasking\n5. Use the 2-minute rule for quick tasks\n6. Review your day each evening',
     'stress': '🧘 **Stress Management**:\n\n1. Practice deep breathing exercises\n2. Take regular breaks during study\n3. Exercise for 30 min daily\n4. Maintain a healthy sleep schedule\n5. Talk to friends, family, or counselor\n6. Limit social media before exams',
     'default': '👋 I\'m your AI Study Copilot! Try asking about:\n\n• Study tips & techniques\n• Exam preparation strategies\n• Time management\n• Stress management\n• Note-taking methods\n• Any academic topic!'
-  }
+  },
+
+  // ── Social Posts ──
+  socialPosts: [
+    {
+      id: 'post-001',
+      authorName: 'Sneha Patel',
+      authorRole: 'Student • CSE',
+      authorAvatar: 'SP',
+      image: 'https://images.unsplash.com/photo-1541339907198-e08756dedf3f?auto=format&fit=crop&q=80&w=800',
+      caption: 'Incredible time at the Annual Tech Symposium! The AI workshop was mind-blowing. 🚀🤖 #TechFest #CampusLife',
+      likes: 124,
+      likedByMe: false,
+      timestamp: '2 hours ago',
+      comments: [
+        { name: 'Karan Reddy', text: 'Totally agree, the ML segment was top notch!' }
+      ]
+    },
+    {
+      id: 'post-002',
+      authorName: 'Prof. Raju',
+      authorRole: 'HOD • CSE',
+      authorAvatar: 'PR',
+      image: 'https://images.unsplash.com/photo-1524178232363-1fb2b075b655?auto=format&fit=crop&q=80&w=800',
+      caption: 'Proud of our 3rd-year students for presenting their innovative startup ideas today. Keep pushing boundaries! 💡👏',
+      likes: 342,
+      likedByMe: true,
+      timestamp: '5 hours ago',
+      comments: [
+        { name: 'Abhishek Nayak', text: 'Thank you sir for the guidance!' },
+        { name: 'Rahul Kumar', text: 'Great presentations everyone!' }
+      ]
+    },
+    {
+      id: 'post-003',
+      authorName: 'Campus Admin',
+      authorRole: 'Administration',
+      authorAvatar: 'CA',
+      image: 'https://images.unsplash.com/photo-1562774053-701939374585?auto=format&fit=crop&q=80&w=800',
+      caption: 'REMINDER: The main library will be closed this weekend for renovations. Please plan your study sessions accordingly. 📚🏢',
+      likes: 89,
+      likedByMe: false,
+      timestamp: '1 day ago',
+      comments: []
+    }
+  ]
 };
 
 // Initialize demo data in localStorage if not exists

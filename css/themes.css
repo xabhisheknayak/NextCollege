@@ -30,7 +30,7 @@
   --shadow-glow:  0 0 20px rgba(129,140,248,0.2);
   --shadow-glass: 0 8px 32px rgba(0,0,0,0.2);
 
-  --grad-sidebar: linear-gradient(180deg, #1e1b4b 0%, #312e81 50%, #3b0764 100%);
+  --grad-sidebar: linear-gradient(180deg, #2e1065 0%, #4c1d95 50%, #701a75 100%);
 }
 
 /* Dark mode specific component overrides */
@@ -155,7 +155,7 @@
 }
 
 [data-theme="dark"] ::selection {
-  background: rgba(99,102,241,0.3);
+  background: rgba(139,92,246,0.3);
   color: var(--clr-primary-200);
 }
 

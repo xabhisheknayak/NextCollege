@@ -15,6 +15,10 @@ document.addEventListener('DOMContentLoaded', () => {
   initAlertsSection();
   initComplaintsSection();
   initDirectorySection();
+  renderSocialFeed('social-feed-container', 'professor');
+
+  const avatar = document.getElementById('social-avatar');
+  if (avatar) avatar.textContent = getInitials(currentUser.name);
 });
 
 function switchToSection(sectionId) {
@@ -277,4 +281,22 @@ function renderStudentList() {
       }).join('')}
     </div>
   `;
+}
+function simulateAIUpload(type) {
+  const fileInput = document.getElementById(`upload-${type}-file`);
+  if (!fileInput.files || fileInput.files.length === 0) {
+    showError('Please select a file to upload first.');
+    return;
+  }
+
+  // Show loading toast
+  showToast(`AI is analyzing your ${type} document...`, 'info', 'Processing');
+  fileInput.value = ''; // clear input
+
+  // Simulate AI parsing delay
+  setTimeout(() => {
+    // Set flag in localStorage
+    localStorage.setItem(`ai_uploaded_${type}`, 'true');
+    showToast(`Successfully parsed and synced ${type} data!`, 'success', 'AI Complete');
+  }, 2000);
 }

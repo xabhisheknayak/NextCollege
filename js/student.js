@@ -36,6 +36,11 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('hostel-nav').style.display = 'block';
     initHostelSection();
   }
+
+  renderSocialFeed('social-feed-container', 'student');
+
+  const avatar = document.getElementById('social-avatar');
+  if (avatar) avatar.textContent = getInitials(currentUser.name);
 });
 
 // Helper to switch section from quick actions or buttons
@@ -106,20 +111,53 @@ function initHomeSection() {
   const todayDayName = getDayName(new Date().getDay());
   document.getElementById('today-day').textContent = todayDayName;
 
+  const isScheduleUploaded = localStorage.getItem('ai_uploaded_schedule') === 'true';
   const todayClasses = DEMO_DATA.schedule[todayDayName] || DEMO_DATA.schedule['Monday'];
   const todayContainer = document.getElementById('today-schedule');
   
   if (todayContainer) {
-    todayContainer.innerHTML = todayClasses.map(item => `
-      <div class="schedule-card">
-        <div class="schedule-time-bar ${item.color}"></div>
-        <div class="schedule-info">
-          <div class="schedule-subject">${escapeHtml(item.subject)}</div>
-          <div class="schedule-details">👨‍🏫 ${escapeHtml(item.faculty)} • 📍 ${escapeHtml(item.room)}</div>
+    if (!isScheduleUploaded) {
+      todayContainer.innerHTML = `
+        <div class="empty-state">
+          <div class="empty-state-icon">📄</div>
+          <h4>Schedule Not Uploaded</h4>
+          <p>Professors have not uploaded the timetable yet.</p>
         </div>
-        <div class="schedule-time">${escapeHtml(item.time)}</div>
-      </div>
-    `).join('');
+      `;
+    } else {
+      todayContainer.innerHTML = todayClasses.map(item => `
+        <div class="schedule-card">
+          <div class="schedule-time-bar ${item.color}"></div>
+          <div class="schedule-info">
+            <div class="schedule-subject">${escapeHtml(item.subject)}</div>
+            <div class="schedule-details">👨‍🏫 ${escapeHtml(item.faculty)} • 📍 ${escapeHtml(item.room)}</div>
+          </div>
+          <div class="schedule-time">${escapeHtml(item.time)}</div>
+        </div>
+      `).join('');
+    }
+  }
+
+  // Biometric Attendance
+  const isAttendanceUploaded = localStorage.getItem('ai_uploaded_attendance') === 'true';
+  const attendanceCard = document.getElementById('biometric-attendance-card');
+  const attendanceContent = document.getElementById('biometric-attendance-content');
+  if (attendanceCard && attendanceContent) {
+    if (isAttendanceUploaded) {
+      attendanceCard.style.display = 'block';
+      const userBranchClasses = todayClasses.filter(c => true); // Show all today's classes for simplicity
+      attendanceContent.innerHTML = userBranchClasses.map(item => `
+        <div class="card card-flat flex items-center justify-between" style="padding:var(--sp-3);">
+          <div>
+            <div style="font-weight:var(--fw-medium); font-size:var(--fs-sm);">${escapeHtml(item.subject)}</div>
+            <div style="font-size:var(--fs-xs); color:var(--text-tertiary);">${escapeHtml(item.time)}</div>
+          </div>
+          <span class="badge badge-success">Present</span>
+        </div>
+      `).join('');
+    } else {
+      attendanceCard.style.display = 'none';
+    }
   }
 
   // Digital ID card section
@@ -167,9 +205,26 @@ function renderScheduleForDay(day) {
     return;
   }
 
+  const isScheduleUploaded = localStorage.getItem('ai_uploaded_schedule') === 'true';
+  const badge = document.getElementById('schedule-ai-badge');
+  if (badge) badge.style.display = isScheduleUploaded ? 'inline-block' : 'none';
+
+  if (!isScheduleUploaded) {
+    container.innerHTML = `
+      <div class="empty-state">
+        <div class="empty-state-icon">📄</div>
+        <h4>Schedule Not Uploaded</h4>
+        <p>Your faculty hasn't uploaded the timetable yet.</p>
+      </div>
+    `;
+    return;
+  }
+
   container.innerHTML = `
     <div class="flex flex-col gap-4">
-      ${classes.map(item => `
+      ${classes.map((item, index) => {
+        const attendanceState = localStorage.getItem(`self_attend_${day}_${index}`) || 'unmarked';
+        return `
         <div class="card card-flat flex items-center justify-between" style="padding:var(--sp-5);">
           <div class="flex items-center gap-4">
             <div class="card-icon ${item.color}">📖</div>
@@ -180,13 +235,25 @@ function renderScheduleForDay(day) {
               </p>
             </div>
           </div>
-          <div style="font-weight:var(--fw-semibold);color:var(--clr-primary-600);font-size:var(--fs-sm)">
-            ${escapeHtml(item.time)} - ${escapeHtml(item.endTime)}
+          <div class="flex items-center gap-4">
+            <div style="font-weight:var(--fw-semibold);color:var(--clr-primary-600);font-size:var(--fs-sm)">
+              ${escapeHtml(item.time)} - ${escapeHtml(item.endTime)}
+            </div>
+            <div class="flex gap-2">
+              <button class="btn btn-sm ${attendanceState === 'present' ? 'btn-primary' : 'btn-secondary'}" onclick="markSelfAttendance('${day}', ${index}, 'present')" aria-label="Mark Present">✅</button>
+              <button class="btn btn-sm ${attendanceState === 'absent' ? 'btn-danger' : 'btn-secondary'}" onclick="markSelfAttendance('${day}', ${index}, 'absent')" aria-label="Mark Absent">❌</button>
+            </div>
           </div>
         </div>
-      `).join('')}
+        `;
+      }).join('')}
     </div>
   `;
+}
+
+function markSelfAttendance(day, index, status) {
+  localStorage.setItem(`self_attend_${day}_${index}`, status);
+  renderScheduleForDay(day);
 }
 
 /* ── 4. Digital Library ── */

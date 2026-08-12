@@ -30,6 +30,7 @@
         <div class="nav-section">
           <div class="nav-section-title">Control Panel</div>
           <button class="nav-item active" data-section="home"><span class="nav-icon">📊</span> Overview</button>
+          <button class="nav-item" data-section="social"><span class="nav-icon">🌐</span> Campus Social</button>
           <button class="nav-item" data-section="emergency"><span class="nav-icon">🚨</span> Emergency Broadcast</button>
           <button class="nav-item" data-section="complaints"><span class="nav-icon">📥</span> All Complaints</button>
           <button class="nav-item" data-section="students"><span class="nav-icon">🎒</span> Student Directory</button>
@@ -116,6 +117,24 @@
             </div>
             <div id="admin-recent-complaints"></div>
           </div>
+        </section>
+
+        <!-- ═══════════════ SOCIAL SECTION ═══════════════ -->
+        <section class="dashboard-section" id="section-social">
+          <div class="section-header">
+            <h2>🌐 Campus Social Network</h2>
+            <span class="badge badge-primary">Admin Mod</span>
+          </div>
+
+          <div class="card" style="max-width: 600px; margin: 0 auto var(--sp-6);">
+            <div class="flex items-center gap-4">
+              <div class="avatar avatar-sm" style="background:var(--grad-danger)" id="social-avatar">A</div>
+              <input type="text" id="new-post-caption" class="form-input" placeholder="Share an update with the campus..." style="flex:1;">
+              <button class="btn btn-primary" onclick="createSocialPost('admin')">Post</button>
+            </div>
+          </div>
+
+          <div id="social-feed-container" style="max-width: 600px; margin: 0 auto;"></div>
         </section>
 
         <!-- ═══════════════ EMERGENCY BROADCAST SECTION ═══════════════ -->
@@ -283,6 +302,7 @@
 
   <script src="js/utils.js"></script>
   <script src="js/data.js"></script>
+  <script src="js/auth.js"></script>
   <script src="js/theme.js"></script>
   <script src="js/components.js"></script>
   <script src="js/admin.js"></script>

@@ -17,6 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initAdminFacultySection();
   initAdminEventsSection();
   initAdminNoticesSection();
+  renderSocialFeed('social-feed-container', 'admin');
 });
 
 function switchToSection(sectionId) {
