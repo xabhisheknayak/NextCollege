@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Student Dashboard — Campus Connect Portal">
-  <title>Student Dashboard — Campus Connect</title>
+  <meta name="description" content="Student Dashboard — NextCollege Portal">
+  <title>Student Dashboard — NextCollege</title>
   <link rel="stylesheet" href="css/variables.css">
   <link rel="stylesheet" href="css/base.css">
   <link rel="stylesheet" href="css/components.css">
@@ -22,7 +22,8 @@
       <div class="sidebar-header">
         <div class="sidebar-logo">🎓</div>
         <div class="sidebar-brand">
-          <h3>Campus Connect</h3>
+          <h3>NextCollege</h3>
+          <p style="font-size:var(--fs-xs); color:var(--text-tertiary); margin:0;">Purnea College of Engineering</p>
           <small>Student Portal</small>
         </div>
       </div>
@@ -128,7 +129,7 @@
           <div class="id-card" style="margin-bottom: var(--sp-6);">
             <div class="id-card-content">
               <div class="id-card-header">
-                <span class="id-card-college">Campus Connect — Student ID</span>
+                <span class="id-card-college">NextCollege — Student ID</span>
                 <span>🎓</span>
               </div>
               <div class="id-card-body">
@@ -244,12 +245,12 @@
           </div>
 
           <!-- Overall Summary Card -->
-          <div class="card" style="margin-bottom:var(--sp-6);" id="overall-attendance-card">
+          <div class="card" style="margin-bottom:var(--sp-6);" id="biometric-attendance-card">
             <div class="card-header">
-              <h4>📈 Overall Attendance</h4>
+              <h4>👆 Biometric Attendance</h4>
               <span class="badge badge-primary" id="overall-pct-badge">0%</span>
             </div>
-            <div id="overall-attendance-bar" style="margin-top:var(--sp-3);"></div>
+            <div id="biometric-attendance-bar" style="margin-top:var(--sp-3);"></div>
           </div>
 
           <!-- Subject-wise Cards -->
@@ -283,7 +284,7 @@
             <div class="id-card">
               <div class="id-card-content">
                 <div class="id-card-header">
-                  <span class="id-card-college">Campus Connect — Student Identity</span>
+                  <span class="id-card-college">NextCollege — Student Identity</span>
                   <span style="font-size:1.5rem;">🎓</span>
                 </div>
                 <div class="id-card-body">
@@ -307,7 +308,10 @@
 
         <!-- Profile -->
         <section class="dashboard-section" id="section-profile">
-          <div class="section-header"><h2>👤 My Profile</h2></div>
+          <div class="section-header">
+            <h2>👤 My Profile</h2>
+            <button class="btn btn-outline btn-sm" onclick="openEditProfileModal(currentUser.regNo, 'student')">✏️ Edit Profile</button>
+          </div>
           <div class="grid-2">
             <div class="card">
               <div style="text-align:center;">
@@ -343,6 +347,8 @@
             <button class="tab-btn" onclick="filterLibrary('notes')">Notes</button>
             <button class="tab-btn" onclick="filterLibrary('manual')">Manuals</button>
             <button class="tab-btn" onclick="filterLibrary('question-paper')">Past Papers</button>
+            <button class="tab-btn" onclick="filterLibrary('midsem')">Midsem Papers</button>
+            <button class="tab-btn" onclick="filterLibrary('endsem')">Endsem Papers</button>
           </div>
           <div class="grid-2" id="library-grid"></div>
         </section>
@@ -509,8 +515,20 @@
 
         <!-- Hostel -->
         <section class="dashboard-section" id="section-hostel">
-          <div class="section-header"><h2>🏠 Hostel Dashboard</h2></div>
+          <div class="section-header"><h2 id="hostel-dashboard-title">🏠 Hostel Dashboard</h2></div>
           
+          <!-- Hostel Info Card -->
+          <div class="card" style="margin-bottom:var(--sp-6); background: linear-gradient(135deg, var(--clr-primary-600), var(--clr-accent-600)); color: white;">
+            <div class="flex items-center gap-4">
+              <div style="font-size:3rem;">🏛️</div>
+              <div>
+                <p style="margin:0; font-size:var(--fs-xs); opacity:0.8; text-transform:uppercase; letter-spacing:0.05em;">Your Hostel</p>
+                <h3 id="hostel-name-display" style="margin:var(--sp-1) 0; color:white;">—</h3>
+                <p style="margin:0; font-size:var(--fs-sm); opacity:0.85;">Purnea College of Engineering</p>
+              </div>
+            </div>
+          </div>
+
           <!-- Hostel Quick Actions -->
           <div class="grid-3" style="margin-bottom:var(--sp-6)">
             <div class="card text-center" style="cursor:pointer;" onclick="openModal('modal-hostel-complaint')">
@@ -564,6 +582,31 @@
   </div>
 
   <!-- Modals -->
+  <!-- Directory Profile Modal -->
+  <div class="modal-overlay" id="modal-directory-profile">
+    <div class="modal" style="max-width:600px;">
+      <div class="modal-header">
+        <h3>Profile</h3>
+        <button class="modal-close" onclick="closeModal('modal-directory-profile')">✕</button>
+      </div>
+      <div class="flex items-center gap-4" style="margin-bottom:var(--sp-4);">
+        <div class="avatar avatar-lg" id="dir-profile-avatar">U</div>
+        <div>
+          <h3 style="margin-bottom:2px" id="dir-profile-name">User Name</h3>
+          <p class="text-tertiary" style="margin:0;font-size:var(--fs-sm)" id="dir-profile-subtitle">Details</p>
+        </div>
+      </div>
+      <div class="flex gap-2" style="margin-bottom:var(--sp-6);">
+        <button class="btn btn-primary" id="dir-profile-follow-btn" onclick="toggleDirFollow(this)">➕ Follow</button>
+        <button class="btn btn-secondary" onclick="showToast('Message feature coming soon!', 'info')">✉️ Message</button>
+      </div>
+      <h4>Recent Posts</h4>
+      <div id="dir-profile-posts" class="flex flex-col gap-4" style="margin-top:var(--sp-4); max-height:400px; overflow-y:auto;">
+        <!-- Rendered via JS -->
+      </div>
+    </div>
+  </div>
+
   <!-- LostFound -->
   <div class="modal-overlay" id="modal-lostfound">
     <div class="modal">
@@ -715,6 +758,64 @@
       <div class="modal-footer" style="justify-content:center; gap:var(--sp-4);">
         <button class="btn btn-primary" id="up-follow-btn" onclick="toggleFollowUser()">Follow</button>
         <button class="btn btn-secondary" id="up-message-btn" onclick="messageUser()">Message</button>
+      </div>
+    </div>
+  </div>
+  <!-- Edit Profile Modal -->
+  <div class="modal-overlay" id="modal-edit-profile">
+    <div class="modal">
+      <div class="modal-header">
+        <h3>Edit Profile</h3>
+        <button class="modal-close" onclick="closeModal('modal-edit-profile')">✕</button>
+      </div>
+      <div class="form-group" style="text-align:center;">
+        <div class="avatar avatar-xl" id="edit-profile-avatar-preview" style="margin: 0 auto var(--sp-2);">?</div>
+        <input type="text" class="form-input" id="edit-profile-avatar" placeholder="Avatar Initials or URL (e.g., JD)">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Name</label>
+        <input type="text" class="form-input" id="edit-profile-name" disabled>
+      </div>
+      <div class="form-group">
+        <label class="form-label">ID / Roll No.</label>
+        <input type="text" class="form-input" id="edit-profile-id" disabled>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Branch / Dept</label>
+        <input type="text" class="form-input" id="edit-profile-branch" disabled>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Year / Role</label>
+        <input type="text" class="form-input" id="edit-profile-year" disabled>
+      </div>
+      <div class="grid-2">
+        <div class="form-group">
+          <label class="form-label">Age</label>
+          <input type="number" class="form-input" id="edit-profile-age" placeholder="e.g. 20">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Gender</label>
+          <select class="form-input" id="edit-profile-gender">
+            <option value="">Select</option>
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+      </div>
+      
+      <!-- Admin Specific Actions -->
+      <div id="admin-moderation-actions" style="display:none; margin-top:var(--sp-4); padding-top:var(--sp-4); border-top:1px solid var(--border-color);">
+        <h4 style="margin-bottom:var(--sp-2); color:var(--text-primary);">Danger Zone (Admin Only)</h4>
+        <div class="flex gap-2">
+          <button class="btn btn-warning flex-1" id="btn-block-account" onclick="toggleBlockAccount()">Block Account</button>
+          <button class="btn btn-danger flex-1" id="btn-delete-account" onclick="deleteAccount()">Delete Account</button>
+        </div>
+      </div>
+
+      <div class="modal-footer" style="margin-top:var(--sp-4);">
+        <button class="btn btn-secondary" onclick="closeModal('modal-edit-profile')">Cancel</button>
+        <button class="btn btn-primary" onclick="saveProfileChanges()">Save Changes</button>
       </div>
     </div>
   </div>

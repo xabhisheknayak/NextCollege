@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Professor Dashboard — Campus Connect Portal">
-  <title>Professor Dashboard — Campus Connect</title>
+  <meta name="description" content="Professor Dashboard — NextCollege Portal">
+  <title>Professor Dashboard — NextCollege</title>
   <link rel="stylesheet" href="css/variables.css">
   <link rel="stylesheet" href="css/base.css">
   <link rel="stylesheet" href="css/components.css">
@@ -22,7 +22,8 @@
       <div class="sidebar-header">
         <div class="sidebar-logo">👨‍🏫</div>
         <div class="sidebar-brand">
-          <h3>Campus Connect</h3>
+          <h3>NextCollege</h3>
+          <p style="font-size:var(--fs-xs); color:var(--text-tertiary); margin:0;">Purnea College of Engineering</p>
           <small>Faculty Portal</small>
         </div>
       </div>
@@ -76,7 +77,10 @@
               <h2 id="greeting-text">Welcome, Professor!</h2>
               <p id="greeting-dept">Department of Mechanical Engineering</p>
             </div>
-            <button class="btn btn-primary" onclick="switchToSection('assignments')">+ Create Assignment</button>
+            <div class="flex gap-2">
+              <button class="btn btn-outline" onclick="openEditProfileModal(currentUser.id, 'professor')">✏️ Edit Profile</button>
+              <button class="btn btn-primary" onclick="switchToSection('assignments')">+ Create Assignment</button>
+            </div>
           </div>
 
           <!-- Quick Stats -->
@@ -159,7 +163,7 @@
         <!-- ═══════════════ CLASS SCHEDULE SECTION ═══════════════ -->
         <section class="dashboard-section" id="section-class-schedule">
           <div class="section-header">
-            <h2>📅 Upload Class Schedule</h2>
+            <h2>📅 Manage Class Schedule</h2>
             <span class="badge badge-primary">AI Powered</span>
           </div>
           
@@ -173,6 +177,18 @@
             <button class="btn btn-primary w-full" onclick="simulateAIUpload('schedule')">
               <span class="nav-icon">✨</span> Parse Schedule with AI
             </button>
+          </div>
+
+          <!-- Manage Today's Classes -->
+          <div class="card" style="margin-top:var(--sp-6);">
+            <div class="card-header">
+              <h4>📋 Manage Today's Classes</h4>
+              <span class="badge badge-warning">Live Sync</span>
+            </div>
+            <p class="text-tertiary" style="margin-bottom:var(--sp-4);font-size:var(--fs-sm);">Cancel classes here. It will immediately reflect on the Student Dashboard.</p>
+            <div id="prof-todays-classes" class="flex flex-col gap-3">
+              <!-- Rendered via JS -->
+            </div>
           </div>
         </section>
 
@@ -194,6 +210,7 @@
               <span class="nav-icon">✨</span> Sync Attendance Data
             </button>
           </div>
+          <div id="biometric-attendance-panel" style="display:none;"></div>
         </section>
 
         <!-- ═══════════════ ASSIGNMENTS SECTION ═══════════════ -->
@@ -322,6 +339,30 @@
       <div class="modal-footer">
         <button class="btn btn-secondary" onclick="closeModal('modal-create-assignment')">Cancel</button>
         <button class="btn btn-primary" onclick="submitAssignment()">Publish Assignment</button>
+      </div>
+    </div>
+  </div>
+  <!-- Directory Profile Modal -->
+  <div class="modal-overlay" id="modal-directory-profile">
+    <div class="modal" style="max-width:600px;">
+      <div class="modal-header">
+        <h3>Profile</h3>
+        <button class="modal-close" onclick="closeModal('modal-directory-profile')">✕</button>
+      </div>
+      <div class="flex items-center gap-4" style="margin-bottom:var(--sp-4);">
+        <div class="avatar avatar-lg" id="dir-profile-avatar">U</div>
+        <div>
+          <h3 style="margin-bottom:2px" id="dir-profile-name">User Name</h3>
+          <p class="text-tertiary" style="margin:0;font-size:var(--fs-sm)" id="dir-profile-subtitle">Details</p>
+        </div>
+      </div>
+      <div class="flex gap-2" style="margin-bottom:var(--sp-6);">
+        <button class="btn btn-primary" id="dir-profile-follow-btn" onclick="toggleDirFollow(this)">➕ Follow</button>
+        <button class="btn btn-secondary" onclick="showToast('Message feature coming soon!', 'info')">✉️ Message</button>
+      </div>
+      <h4>Recent Posts</h4>
+      <div id="dir-profile-posts" class="flex flex-col gap-4" style="margin-top:var(--sp-4); max-height:400px; overflow-y:auto;">
+        <!-- Rendered via JS -->
       </div>
     </div>
   </div>

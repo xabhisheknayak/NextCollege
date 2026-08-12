@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Campus Connect — Professor Login">
-  <title>Faculty Login — Campus Connect</title>
+  <meta name="description" content="NextCollege — Professor Login">
+  <title>Faculty Login — NextCollege</title>
   <link rel="stylesheet" href="css/variables.css">
   <link rel="stylesheet" href="css/base.css">
   <link rel="stylesheet" href="css/components.css">
@@ -37,8 +37,9 @@
           <div class="brand-pill">
             <div class="brand-icon" style="background:var(--grad-accent)">👨‍🏫</div>
             <div class="brand-text">
-              <h2>Faculty Login</h2>
-              <p>Welcome back, Professor</p>
+              <h2>NextCollege</h2>
+              <p style="font-size:var(--fs-xs); color:var(--text-tertiary); margin:0;">Purnea College of Engineering</p>
+              <p>Faculty Portal Login</p>
             </div>
           </div>
           <button class="theme-toggle" onclick="toggleTheme()" id="theme-toggle-btn" aria-label="Toggle dark mode">
@@ -48,7 +49,7 @@
 
         <div class="login-error" id="login-error"></div>
 
-        <form class="login-form active" id="form-professor">
+        <form class="login-form active" id="form-professor" onsubmit="event.preventDefault(); document.getElementById('professor-login-btn').click();">
           <div class="input-group-modern">
             <label for="prof-phone">Registered Phone Number</label>
             <div class="input-field-wrap">
@@ -70,7 +71,7 @@
             <label for="prof-warden" style="font-size:var(--fs-sm); color:var(--text-secondary); cursor:pointer;">I am a Hostel Warden</label>
           </div>
 
-          <button type="submit" class="btn-login-submit" id="professor-login-btn">
+          <button type="button" class="btn-login-submit" id="professor-login-btn">
             <span>Sign In to Dashboard</span>
             <span>→</span>
           </button>

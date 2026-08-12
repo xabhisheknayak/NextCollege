@@ -603,6 +603,15 @@
   color: var(--clr-danger-500);
 }
 
+.attend-checkbox-wrap.is-cancelled {
+  border-color: var(--clr-warning-500, #f59e0b);
+  background: rgba(245,158,11,0.10);
+}
+
+.attend-checkbox-wrap.is-cancelled .attend-cb-label {
+  color: var(--clr-warning-500, #f59e0b);
+}
+
 .attend-checkbox-wrap:hover {
   transform: translateY(-1px);
   box-shadow: 0 2px 8px rgba(0,0,0,0.08);

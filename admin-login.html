@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Campus Connect — Admin Login">
-  <title>Admin Login — Campus Connect</title>
+  <meta name="description" content="NextCollege — Admin Login">
+  <title>Admin Login — NextCollege</title>
   <link rel="stylesheet" href="css/variables.css">
   <link rel="stylesheet" href="css/base.css">
   <link rel="stylesheet" href="css/components.css">
@@ -37,8 +37,9 @@
           <div class="brand-pill">
             <div class="brand-icon" style="background:var(--grad-danger)">🛡️</div>
             <div class="brand-text">
-              <h2>Admin Login</h2>
-              <p>Secure system access</p>
+              <h2>NextCollege</h2>
+              <p style="font-size:var(--fs-xs); color:var(--text-tertiary); margin:0;">Purnea College of Engineering</p>
+              <p>Admin Portal Login</p>
             </div>
           </div>
           <button class="theme-toggle" onclick="toggleTheme()" id="theme-toggle-btn" aria-label="Toggle dark mode">
@@ -48,7 +49,7 @@
 
         <div class="login-error" id="login-error"></div>
 
-        <form class="login-form active" id="form-admin">
+        <form class="login-form active" id="form-admin" onsubmit="event.preventDefault(); document.getElementById('admin-login-btn').click();">
           <div class="input-group-modern">
             <label for="admin-phone">Admin Phone Number</label>
             <div class="input-field-wrap">
@@ -65,7 +66,7 @@
             </div>
           </div>
 
-          <button type="submit" class="btn-login-submit" id="admin-login-btn" style="background:var(--grad-danger); box-shadow: 0 8px 25px rgba(244, 63, 94, 0.4);">
+          <button type="button" class="btn-login-submit" id="admin-login-btn" style="background:var(--grad-danger); box-shadow: 0 8px 25px rgba(244, 63, 94, 0.4);">
             <span>Sign In as Administrator</span>
             <span>→</span>
           </button>

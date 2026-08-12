@@ -120,7 +120,8 @@ const DEMO_DATA = {
     { id: 'lib-7', title: 'Machine Learning Fundamentals', author: 'Andrew Ng', subject: 'Data Science', semester: 5, type: 'textbook', format: 'PDF', pages: 520, downloads: 3210 },
     { id: 'lib-8', title: 'Strength of Materials', author: 'R.K. Rajput', subject: 'Mechanical', semester: 3, type: 'textbook', format: 'PDF', pages: 680, downloads: 1543 },
     { id: 'lib-9', title: 'Organic Chemistry Notes', author: 'Dr. Rao', subject: 'Chemistry', semester: 1, type: 'notes', format: 'PDF', pages: 95, downloads: 432 },
-    { id: 'lib-10', title: 'Previous Year Question Papers - Mathematics', author: 'Exam Cell', subject: 'Mathematics', semester: 1, type: 'question-paper', format: 'PDF', pages: 50, downloads: 5678 }
+    { id: 'lib-10', title: 'Midsem Papers - Mathematics 2024', author: 'Exam Cell', subject: 'Mathematics', semester: 1, type: 'midsem', format: 'PDF', pages: 15, downloads: 5678 },
+    { id: 'lib-11', title: 'Endsem Papers - Physics 2023', author: 'Exam Cell', subject: 'Physics', semester: 1, type: 'endsem', format: 'PDF', pages: 20, downloads: 4123 }
   ],
 
   // ── Assignments ──
@@ -133,31 +134,31 @@ const DEMO_DATA = {
 
   // ── Complaints ──
   complaints: [
-    { id: 'cmp-1', title: 'Water supply issue in Hostel Block A', category: 'hostel', status: 'pending', author: 'Arjun Mehta', regNo: '25-105-131-003', date: '2025-08-09', description: 'No water supply on 3rd floor since yesterday evening.', assignedTo: 'Warden' },
-    { id: 'cmp-2', title: 'Projector not working in LH-201', category: 'academic', status: 'in-progress', author: 'Sneha Patel', regNo: '25-101-131-002', date: '2025-08-08', description: 'The projector in Lecture Hall 201 has been malfunctioning for the past week.', assignedTo: 'IT Department' },
-    { id: 'cmp-3', title: 'Food quality in mess', category: 'hostel', status: 'pending', author: 'Vikram Singh', regNo: '24-103-131-005', date: '2025-08-07', description: 'Food quality has deteriorated significantly. Found insects in dal yesterday.', assignedTo: 'Warden' },
-    { id: 'cmp-4', title: 'Broken bench in classroom', category: 'campus', status: 'resolved', author: 'Ananya Gupta', regNo: '24-102-131-004', date: '2025-08-01', description: 'Multiple broken benches in Room 305.', assignedTo: 'Maintenance' }
+    { id: 'cmp-1', title: 'Water supply issue in Hostel Block A', category: 'hostel', status: 'pending', author: 'Abhishek Nayak', regNo: '25-105-131-003', date: '2025-08-09', description: 'No water supply on 3rd floor since yesterday evening.', assignedTo: 'Warden' },
+    { id: 'cmp-2', title: 'Projector not working in LH-201', category: 'academic', status: 'in-progress', author: 'Lakshya Raj', regNo: '25-105-131-029', date: '2025-08-08', description: 'The projector in Lecture Hall 201 has been malfunctioning for the past week.', assignedTo: 'IT Department' },
+    { id: 'cmp-3', title: 'Food quality in mess', category: 'hostel', status: 'pending', author: 'Vivek Kumar', regNo: '25-105-131-009', date: '2025-08-07', description: 'Food quality has deteriorated significantly. Found insects in dal yesterday.', assignedTo: 'Warden' },
+    { id: 'cmp-4', title: 'Broken bench in classroom', category: 'campus', status: 'resolved', author: 'Mausam Kumari', regNo: '25-105-131-042', date: '2025-08-01', description: 'Multiple broken benches in Room 305.', assignedTo: 'Maintenance' }
   ],
 
   // ── Lost & Found ──
   lostFound: [
-    { id: 'lf-1', title: 'Blue Backpack', type: 'lost', category: 'bag', location: 'Library', date: '2025-08-09', description: 'Blue JanSport backpack with laptop inside. Lost near the reading section.', author: 'Rahul Kumar', contact: '9876543212', status: 'open' },
-    { id: 'lf-2', title: 'Student ID Card', type: 'found', category: 'id-card', location: 'Canteen', date: '2025-08-08', description: 'Found a student ID card near the canteen billing counter.', author: 'Priya Sharma', contact: '9876543211', status: 'open' },
-    { id: 'lf-3', title: 'Casio Calculator', type: 'lost', category: 'electronics', location: 'Exam Hall 2', date: '2025-08-06', description: 'Casio fx-991ES scientific calculator. Name written on back.', author: 'Amit Joshi', contact: '9876543218', status: 'open' },
-    { id: 'lf-4', title: 'Umbrella (Black)', type: 'found', category: 'accessory', location: 'Bus Stop', date: '2025-08-05', description: 'Black automatic umbrella found at the campus bus stop.', author: 'Divya Nair', contact: '9876543217', status: 'claimed' }
+    { id: 'lf-1', title: 'Blue Backpack', type: 'lost', category: 'bag', location: 'Library', date: '2025-08-09', description: 'Blue JanSport backpack with laptop inside. Lost near the reading section.', author: 'Anish Kumar Jha', contact: '9876543212', status: 'open' },
+    { id: 'lf-2', title: 'Student ID Card', type: 'found', category: 'id-card', location: 'Canteen', date: '2025-08-08', description: 'Found a student ID card near the canteen billing counter.', author: 'Aadya Kumari', contact: '9876543211', status: 'open' },
+    { id: 'lf-3', title: 'Casio Calculator', type: 'lost', category: 'electronics', location: 'Exam Hall 2', date: '2025-08-06', description: 'Casio fx-991ES scientific calculator. Name written on back.', author: 'Sudhanshu Kumar', contact: '9876543218', status: 'open' },
+    { id: 'lf-4', title: 'Umbrella (Black)', type: 'found', category: 'accessory', location: 'Bus Stop', date: '2025-08-05', description: 'Black automatic umbrella found at the campus bus stop.', author: 'Akanksha Roy', contact: '9876543217', status: 'claimed' }
   ],
 
   // ── Chat Messages (demo) ──
   chatMessages: {
     'branch-105': [
-      { id: 'msg-1', sender: 'Arjun Mehta', text: 'Anyone has the mechanics assignment questions?', time: '2025-08-11T10:30:00', regNo: '25-105-131-003' },
-      { id: 'msg-2', sender: 'Meera Iyer', text: 'I have them! Will share after class.', time: '2025-08-11T10:32:00', regNo: '24-105-131-009' },
-      { id: 'msg-3', sender: 'Arjun Mehta', text: 'Thanks Meera! Also, did anyone understand the thermodynamics derivation?', time: '2025-08-11T10:35:00', regNo: '25-105-131-003' }
+      { id: 'msg-1', sender: 'Abhishek Nayak', text: 'Anyone has the mechanics assignment questions?', time: '2025-08-11T10:30:00', regNo: '25-105-131-003' },
+      { id: 'msg-2', sender: 'Anuska Ranjan', text: 'I have them! Will share after class.', time: '2025-08-11T10:32:00', regNo: '25-105-131-039' },
+      { id: 'msg-3', sender: 'Abhishek Nayak', text: 'Thanks Anuska! Also, did anyone understand the thermodynamics derivation?', time: '2025-08-11T10:35:00', regNo: '25-105-131-003' }
     ],
     'all-campus': [
-      { id: 'msg-4', sender: 'Sneha Patel', text: 'TechFest registrations are open! Sign up at the CS lab.', time: '2025-08-11T09:00:00', regNo: '25-101-131-002' },
-      { id: 'msg-5', sender: 'Karan Reddy', text: 'Who\'s forming a team for the hackathon? Need 2 more members.', time: '2025-08-11T09:15:00', regNo: '25-110-131-010' },
-      { id: 'msg-6', sender: 'Ananya Gupta', text: 'Library extended hours this week! Open till 10 PM.', time: '2025-08-11T09:30:00', regNo: '24-102-131-004' }
+      { id: 'msg-4', sender: 'Swati Kumari', text: 'TechFest registrations are open! Sign up at the CS lab.', time: '2025-08-11T09:00:00', regNo: '25-105-131-019' },
+      { id: 'msg-5', sender: 'Harsh Raj', text: 'Who\'s forming a team for the hackathon? Need 2 more members.', time: '2025-08-11T09:15:00', regNo: '25-105-131-017' },
+      { id: 'msg-6', sender: 'Wadyant Giri', text: 'Library extended hours this week! Open till 10 PM.', time: '2025-08-11T09:30:00', regNo: '25-105-131-057' }
     ],
     'anonymous': [
       { id: 'amsg-1', sender: 'CosmicEagle42', text: 'Anyone else think the cafeteria needs better vegan options?', time: '2025-08-11T11:00:00' },
@@ -234,6 +235,19 @@ const DEMO_DATA = {
     'default': '👋 I\'m your AI Study Copilot! Try asking about:\n\n• Study tips & techniques\n• Exam preparation strategies\n• Time management\n• Stress management\n• Note-taking methods\n• Any academic topic!'
   },
 
+  // ── Library Data ──
+  library: [
+    { title: 'Engineering Mathematics Vol 1', author: 'H.K. Dass', subject: 'Mathematics', type: 'textbook', semester: 1, format: 'PDF', pages: 850, downloads: 1240 },
+    { title: 'Physics for Engineers', author: 'Resnick Halliday', subject: 'Physics', type: 'textbook', semester: 1, format: 'PDF', pages: 920, downloads: 980 },
+    { title: 'Data Structures using C++', author: 'Dr. Sharma', subject: 'Computer Science', type: 'notes', semester: 3, format: 'PDF', pages: 120, downloads: 450 },
+    { title: 'Digital Electronics Lab Manual', author: 'Dept. of ECE', subject: 'Electronics', type: 'manual', semester: 3, format: 'PDF', pages: 45, downloads: 320 },
+    { title: 'Operating Systems PYQ 2024', author: 'University', subject: 'Computer Science', type: 'question-paper', semester: 4, format: 'PDF', pages: 15, downloads: 890 },
+    { title: 'Midsem OOP 2024', author: 'University', subject: 'Object Oriented Programming', type: 'midsem', semester: 3, format: 'PDF', pages: 4, downloads: 125 },
+    { title: 'Endsem OS 2023', author: 'University', subject: 'Operating System', type: 'endsem', semester: 4, format: 'PDF', pages: 8, downloads: 350 },
+    { title: 'Midsem DE 2023', author: 'University', subject: 'Digital Electronics', type: 'midsem', semester: 3, format: 'PDF', pages: 5, downloads: 140 },
+    { title: 'Endsem DSA 2022', author: 'University', subject: 'Data Structures', type: 'endsem', semester: 3, format: 'PDF', pages: 7, downloads: 410 }
+  ],
+
   // ── Social Posts ──
   socialPosts: [
     {
@@ -301,8 +315,54 @@ const DEMO_DATA = {
       timestamp: '1 day ago',
       comments: []
     }
-  ]
+  ],
+
+  // ── Simulated Attendance History (Past 4 Weeks) ──
+  attendanceHistory: {
+    // Subject names should loosely match those in the schedule
+    'Digital Electronics (DE)': [
+      { date: '2025-08-05', status: 'present' },
+      { date: '2025-08-01', status: 'absent' },
+      { date: '2025-07-29', status: 'present' }
+    ],
+    'Object Oriented Programming (OOP)': [
+      { date: '2025-08-05', status: 'present' },
+      { date: '2025-08-01', status: 'present' },
+      { date: '2025-07-29', status: 'present' }
+    ],
+    'Operating System (OS)': [
+      { date: '2025-08-06', status: 'present' },
+      { date: '2025-08-02', status: 'present' },
+      { date: '2025-07-30', status: 'cancelled' }
+    ],
+    'Data Structures & Algorithms (DSA)': [
+      { date: '2025-08-08', status: 'present' },
+      { date: '2025-08-04', status: 'absent' },
+      { date: '2025-07-31', status: 'present' }
+    ],
+    'Discrete Mathematics & Graph Theory (DM & GT)': [
+      { date: '2025-08-07', status: 'present' },
+      { date: '2025-08-03', status: 'present' },
+      { date: '2025-07-31', status: 'present' }
+    ]
+  }
 };
+
+// Hostel assignment logic
+const BOYS_HOSTELS = ['APJ Hall of Residence', 'CV Raman Hall of Residence'];
+const GIRLS_HOSTEL = 'Mother Teresa Hall of Residence';
+
+function getHostelName(student) {
+  // Determine gender from name heuristics or explicit gender field
+  const femaleNames = ['kumari', 'anuska', 'akanksha', 'mausam', 'swati', 'shruti', 'aadya', 'sanjana'];
+  const nameLower = student.name.toLowerCase();
+  const isGirl = student.gender === 'Female' || femaleNames.some(n => nameLower.includes(n));
+  
+  if (isGirl) return GIRLS_HOSTEL;
+  // Randomly pick one of the boys hostels (but stable per roll number)
+  const idx = parseInt(student.regNo.replace(/-/g, '').slice(-2)) % 2;
+  return BOYS_HOSTELS[idx];
+}
 
 // Initialize demo data in localStorage if not exists
 function initDemoData() {
@@ -315,5 +375,19 @@ function initDemoData() {
     setStorage('feedback', DEMO_DATA.feedback);
     setStorage('chatMessages', DEMO_DATA.chatMessages);
     setStorage('dataInitialized', true);
+  }
+  
+  // Always ensure users exist (separate flag so it runs even after old dataInitialized)
+  if (!getStorage('usersInitialized')) {
+    const defaultProfile = { age: '', gender: '', avatarUrl: '', isBlocked: false };
+    const students = DEMO_DATA.students.map(s => ({ 
+      ...s, 
+      ...defaultProfile,
+      hostelName: s.isHosteler ? getHostelName(s) : null
+    }));
+    setStorage('users_students', students);
+    setStorage('users_professors', DEMO_DATA.professors.map(p => ({ ...p, ...defaultProfile })));
+    setStorage('users_admins', DEMO_DATA.admins.map(a => ({ ...a, ...defaultProfile })));
+    setStorage('usersInitialized', true);
   }
 }

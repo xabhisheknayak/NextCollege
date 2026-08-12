@@ -15,6 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initAlertsSection();
   initComplaintsSection();
   initDirectorySection();
+  initClassScheduleSection();
 
   // Social feed, home preview, and DM system
   if (typeof initSocialPage === 'function') initSocialPage();
@@ -267,7 +268,7 @@ function renderStudentList() {
       ${students.map(s => {
         const parsed = parseRegNumber(s.regNo);
         return `
-          <div class="card card-flat flex items-center justify-between" style="padding:var(--sp-4)">
+          <div class="card card-flat flex items-center justify-between" style="padding:var(--sp-4); cursor:pointer;" onclick="openDirectoryProfile('${escapeHtml(s.name)}', 'student', '${s.regNo}', '${parsed ? parsed.branchShort : 'ME'}')">
             <div class="flex items-center gap-3">
               <div class="avatar avatar-md">${getInitials(s.name)}</div>
               <div>
@@ -275,7 +276,7 @@ function renderStudentList() {
                 <p style="font-size:var(--fs-xs);margin:0" class="text-tertiary">${s.regNo} • ${parsed ? parsed.branchShort : 'ME'} • Attn: ${s.attendance}%</p>
               </div>
             </div>
-            <a href="tel:${s.phone}" class="btn btn-sm btn-secondary">📞 Call</a>
+            <a href="tel:${s.phone}" class="btn btn-sm btn-secondary" onclick="event.stopPropagation()">📞 Call</a>
           </div>
         `;
       }).join('')}
@@ -284,19 +285,157 @@ function renderStudentList() {
 }
 function simulateAIUpload(type) {
   const fileInput = document.getElementById(`upload-${type}-file`);
-  if (!fileInput.files || fileInput.files.length === 0) {
+  if (!fileInput || !fileInput.files || fileInput.files.length === 0) {
     showError('Please select a file to upload first.');
     return;
   }
 
-  // Show loading toast
-  showToast(`AI is analyzing your ${type} document...`, 'info', 'Processing');
-  fileInput.value = ''; // clear input
+  showToast(`AI is reading your ${type} document...`, 'info', 'Processing');
+  fileInput.value = '';
 
-  // Simulate AI parsing delay
   setTimeout(() => {
-    // Set flag in localStorage
     localStorage.setItem(`ai_uploaded_${type}`, 'true');
-    showToast(`Successfully parsed and synced ${type} data!`, 'success', 'AI Complete');
+    if (type === 'attendance') {
+      showToast('AI parsed biometric data. Mark attendance below.', 'success', 'AI Complete');
+      renderBiometricAttendancePanel();
+    } else {
+      showToast(`Successfully parsed and synced ${type} data!`, 'success', 'AI Complete');
+    }
   }, 2000);
+}
+
+function renderBiometricAttendancePanel() {
+  const container = document.getElementById('biometric-attendance-panel');
+  if (!container) return;
+
+  const students = DEMO_DATA.students || [];
+  container.style.display = 'block';
+  container.innerHTML = `
+    <div class="card card-flat" style="padding:var(--sp-5); margin-top:var(--sp-4);">
+      <h4 style="margin-bottom:var(--sp-4);">🧬 Biometric Attendance — Mark Students</h4>
+      <p class="text-tertiary" style="font-size:var(--fs-sm); margin-bottom:var(--sp-4);">AI read your upload. Check each student who was present.</p>
+      <div class="flex flex-col gap-3" id="biometric-student-list">
+        ${students.map(s => `
+          <label class="flex items-center gap-3" style="cursor:pointer; padding:var(--sp-3); border:1px solid var(--border-color); border-radius:var(--radius-lg); transition: background 0.2s;">
+            <input type="checkbox" data-regno="${escapeHtml(s.regNo)}" data-name="${escapeHtml(s.name)}" style="width:18px;height:18px;cursor:pointer;" onchange="updateSubjectAttendance(this)">
+            <div class="avatar avatar-sm">${getInitials(s.name)}</div>
+            <div>
+              <strong style="font-size:var(--fs-sm)">${escapeHtml(s.name)}</strong>
+              <p style="margin:0;font-size:var(--fs-xs);" class="text-tertiary">${escapeHtml(s.regNo)}</p>
+            </div>
+          </label>
+        `).join('')}
+      </div>
+      <button class="btn btn-primary" style="margin-top:var(--sp-4); width:100%;" onclick="saveBiometricAttendance()">✅ Save Attendance</button>
+    </div>
+  `;
+}
+
+function updateSubjectAttendance(checkbox) {
+  const label = checkbox.closest('label');
+  if (label) {
+    label.style.background = checkbox.checked ? 'rgba(34,197,94,0.08)' : '';
+    label.style.borderColor = checkbox.checked ? 'var(--clr-success)' : 'var(--border-color)';
+  }
+}
+
+function saveBiometricAttendance() {
+  const checkboxes = document.querySelectorAll('#biometric-student-list input[type="checkbox"]');
+  const today = new Date().toISOString().split('T')[0];
+  const saved = JSON.parse(localStorage.getItem('cc_biometric_attendance') || '{}');
+  saved[today] = saved[today] || {};
+  
+  let presentCount = 0;
+  checkboxes.forEach(cb => {
+    const regNo = cb.dataset.regno;
+    const isPresent = cb.checked;
+    saved[today][regNo] = isPresent ? 'present' : 'absent';
+    if (isPresent) presentCount++;
+    
+    // Calculate total percentage for this student based on history
+    let daysPresent = 0;
+    let daysTotal = 0;
+    Object.keys(saved).forEach(dateKey => {
+      if (saved[dateKey][regNo]) {
+        daysTotal++;
+        if (saved[dateKey][regNo] === 'present') daysPresent++;
+      }
+    });
+    const pct = daysTotal > 0 ? Math.round((daysPresent / daysTotal) * 100) : 0;
+    localStorage.setItem(`biometric_attend_${regNo}`, pct);
+  });
+  
+  localStorage.setItem('cc_biometric_attendance', JSON.stringify(saved));
+  showToast(`Attendance saved: ${presentCount} present, ${checkboxes.length - presentCount} absent.`, 'success', 'Saved');
+  const panel = document.getElementById('biometric-attendance-panel');
+  if (panel) panel.style.display = 'none';
+}
+
+/* ── Manage Class Schedule ── */
+function initClassScheduleSection() {
+  renderProfTodaysClasses();
+}
+
+function renderProfTodaysClasses() {
+  const container = document.getElementById('prof-todays-classes');
+  if (!container) return;
+
+  const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+  const currentDay = days[new Date().getDay()];
+  
+  // Get today's classes for the professor's branch. For demo, we use the main schedule.
+  let classes = DEMO_DATA.schedule[currentDay] || [];
+  
+  // Fallback to Monday if today has no classes for demo purposes
+  if (classes.length === 0) {
+    classes = DEMO_DATA.schedule['Monday'] || [];
+  }
+
+  if (classes.length === 0) {
+    container.innerHTML = `<p class="text-tertiary">No classes scheduled for today.</p>`;
+    return;
+  }
+
+  container.innerHTML = classes.map((item, index) => {
+    // Generate a unique ID for this class slot to track cancellation
+    const cancelKey = `cancel_${currentDay}_${index}`;
+    const isCancelled = localStorage.getItem(cancelKey) === 'true';
+
+    return `
+      <div class="card card-flat flex items-center justify-between" style="padding:var(--sp-4);">
+        <div class="flex items-center gap-3">
+          <div class="card-icon ${item.color}" style="font-size:1.2rem;width:40px;height:40px;">📖</div>
+          <div>
+            <h4 style="font-size:var(--fs-sm);margin-bottom:2px" class="${isCancelled ? 'text-tertiary' : ''}">
+              ${isCancelled ? '<s>' : ''}${escapeHtml(item.subject)}${isCancelled ? '</s>' : ''}
+            </h4>
+            <p style="font-size:var(--fs-xs);margin:0" class="text-tertiary">
+              ${escapeHtml(item.time)} - ${escapeHtml(item.endTime)} • Room ${escapeHtml(item.room)}
+            </p>
+          </div>
+        </div>
+        <div class="flex items-center gap-2">
+          <label style="font-size:var(--fs-xs); display:flex; align-items:center; gap:var(--sp-2); cursor:pointer;">
+            <input type="checkbox" onchange="toggleCancelClass('${currentDay}', ${index}, this.checked)" ${isCancelled ? 'checked' : ''}>
+            Cancel Class
+          </label>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+function toggleCancelClass(day, index, isCancelled) {
+  const cancelKey = `cancel_${day}_${index}`;
+  localStorage.setItem(cancelKey, isCancelled.toString());
+  showToast(isCancelled ? 'Class marked as Cancelled.' : 'Class cancellation reverted.', isCancelled ? 'warning' : 'success');
+  // Update visual in-place to avoid re-render (fixes double-click bug)
+  const card = document.querySelector(`input[onchange*="'${day}', ${index},"]`)?.closest('.card');
+  if (card) {
+    const h4 = card.querySelector('h4');
+    if (h4) {
+      h4.className = isCancelled ? 'text-tertiary' : '';
+      h4.innerHTML = isCancelled ? `<s>${h4.textContent.trim()}</s>` : h4.textContent.trim();
+    }
+  }
 }

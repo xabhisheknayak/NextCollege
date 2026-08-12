@@ -55,12 +55,26 @@ function switchToSection(sectionId) {
 
 /* ── 1. Init Profile & Header Data ── */
 function initStudentProfile() {
-  const avatarText = getInitials(currentUser.name);
+  // Sync latest user data from storage (in case admin edited profile)
+  const storedStudents = getStorage('users_students') || DEMO_DATA.students;
+  const freshUser = storedStudents.find(s => s.regNo === currentUser.regNo);
+  if (freshUser) {
+    // Merge into currentUser (session keeps isHosteler/role overrides)
+    Object.assign(currentUser, freshUser);
+  }
 
-  // Set avatars
+  const parsed = currentUser.parsed || parseRegNumber(currentUser.regNo);
+
+  // Avatar — use URL if set, else initials
+  const avatarText = getInitials(currentUser.name);
   ['sidebar-avatar', 'home-avatar', 'id-avatar', 'profile-avatar'].forEach(id => {
     const el = document.getElementById(id);
-    if (el) el.textContent = avatarText;
+    if (!el) return;
+    if (currentUser.avatarUrl) {
+      el.innerHTML = `<img src="${currentUser.avatarUrl}" alt="avatar" style="width:100%;height:100%;border-radius:var(--radius-full);object-fit:cover;">`;
+    } else {
+      el.textContent = avatarText;
+    }
   });
 
   // Sidebar
@@ -71,22 +85,30 @@ function initStudentProfile() {
   document.getElementById('greeting-text').textContent = `${getGreeting()}, ${currentUser.name.split(' ')[0]}!`;
   document.getElementById('greeting-name').textContent = `Reg: ${currentUser.regNo} • ${currentUser.isHosteler ? 'Hosteler 🏠' : 'Day Scholar 🚌'}`;
 
-  const parsed = currentUser.parsed || parseRegNumber(currentUser.regNo);
   if (parsed) {
-    document.getElementById('user-branch-badge').textContent = parsed.branchShort;
-    document.getElementById('user-year-badge').textContent = `Year ${parsed.currentYear}`;
+    const ub = document.getElementById('user-branch-badge');
+    const uy = document.getElementById('user-year-badge');
+    if (ub) ub.textContent = parsed.branchShort;
+    if (uy) uy.textContent = `Year ${parsed.currentYear}`;
   }
 
   // Profile Section
-  document.getElementById('profile-name').textContent = currentUser.name;
-  document.getElementById('profile-reg').textContent = `Registration No: ${currentUser.regNo}`;
-  document.getElementById('profile-branch-full').textContent = `${parsed ? parsed.branchName : 'Engineering'} (Year ${parsed ? parsed.currentYear : 1}, Sem ${parsed ? parsed.semester : 1})`;
-  document.getElementById('profile-followers').textContent = currentUser.followers || 0;
-  document.getElementById('profile-following').textContent = currentUser.following || 0;
+  const pn = document.getElementById('profile-name');
+  const pr = document.getElementById('profile-reg');
+  const pb = document.getElementById('profile-branch-full');
+  if (pn) pn.textContent = currentUser.name;
+  if (pr) pr.textContent = `Registration No: ${currentUser.regNo}`;
+  if (pb) pb.textContent = `${parsed ? parsed.branchName : 'Engineering'} • Year ${parsed ? parsed.currentYear : 1}, Sem ${parsed ? parsed.semester : 1}${currentUser.age ? ` • Age: ${currentUser.age}` : ''}${currentUser.gender ? ` • ${currentUser.gender}` : ''}`;
+
+  const pfollowers = document.getElementById('profile-followers');
+  const pfollowing = document.getElementById('profile-following');
+  if (pfollowers) pfollowers.textContent = currentUser.followers || 0;
+  if (pfollowing) pfollowing.textContent = currentUser.following || 0;
 
   const badgesContainer = document.getElementById('profile-badges');
   if (badgesContainer) {
-    badgesContainer.innerHTML = (currentUser.badges || ['🎓 Active Student']).map(badge => `
+    const badges = currentUser.badges && currentUser.badges.length > 0 ? currentUser.badges : ['🎓 Active Student'];
+    badgesContainer.innerHTML = badges.map(badge => `
       <div class="card card-flat flex items-center gap-3" style="padding:var(--sp-3) var(--sp-4)">
         <span style="font-size:1.25rem">${badge.split(' ')[0]}</span>
         <span style="font-weight:var(--fw-medium);font-size:var(--fs-sm)">${badge.split(' ').slice(1).join(' ')}</span>
@@ -152,6 +174,10 @@ function initHomeSection() {
                 <input type="checkbox" class="attend-cb" data-day="${todayDayName}" data-idx="${idx}" data-status="absent" ${status === 'absent' ? 'checked' : ''} onchange="markTodayAttend('${todayDayName}', ${idx}, 'absent', this)">
                 <span class="attend-cb-label">❌ Absent</span>
               </label>
+              <label class="attend-checkbox-wrap ${status === 'cancelled' ? 'is-cancelled' : ''}" title="Cancelled">
+                <input type="checkbox" class="attend-cb" data-day="${todayDayName}" data-idx="${idx}" data-status="cancelled" ${status === 'cancelled' ? 'checked' : ''} onchange="markTodayAttend('${todayDayName}', ${idx}, 'cancelled', this)">
+                <span class="attend-cb-label">🚫 Cancelled</span>
+              </label>
             </div>
           </div>`;
         }).join('');
@@ -165,6 +191,11 @@ function initHomeSection() {
   if (attendanceCard && attendanceContent) {
     if (isAttendanceUploaded) {
       attendanceCard.style.display = 'block';
+      const savedAttendance = JSON.parse(localStorage.getItem('cc_biometric_attendance') || '{}');
+      const today = new Date().toISOString().split('T')[0];
+      const todayRecord = savedAttendance[today] || {};
+      const myStatus = todayRecord[currentUser.regNo] || 'present'; // Default to present if marked uploaded but no specific record (for backward compatibility demo)
+
       const userBranchClasses = todayClasses.filter(c => true); // Show all today's classes for simplicity
       attendanceContent.innerHTML = userBranchClasses.map(item => `
         <div class="card card-flat flex items-center justify-between" style="padding:var(--sp-3);">
@@ -172,7 +203,7 @@ function initHomeSection() {
             <div style="font-weight:var(--fw-medium); font-size:var(--fs-sm);">${escapeHtml(item.subject)}</div>
             <div style="font-size:var(--fs-xs); color:var(--text-tertiary);">${escapeHtml(item.time)}</div>
           </div>
-          <span class="badge badge-success">Present</span>
+          <span class="badge badge-${myStatus === 'present' ? 'success' : 'danger'}">${myStatus === 'present' ? 'Present' : 'Absent'}</span>
         </div>
       `).join('');
     } else {
@@ -231,26 +262,48 @@ function renderScheduleForDay(day) {
   container.innerHTML = `
     <div class="flex flex-col gap-4">
       ${classes.map((item, index) => {
-    const attendanceState = localStorage.getItem(`self_attend_${day}_${index}`) || 'unmarked';
+    const cancelKey = `cancel_${day}_${index}`;
+    const isCancelled = localStorage.getItem(cancelKey) === 'true';
+    
+    // Get attendance history for this subject
+    const historyData = DEMO_DATA.attendanceHistory?.[item.subject] || [];
+    const historyHtml = historyData.length > 0 ? historyData.map(h => `
+      <div class="flex justify-between items-center" style="padding:var(--sp-2) 0; border-bottom:1px solid var(--border-color);">
+        <span class="text-secondary">${formatDate(h.date)}</span>
+        <span class="badge badge-${h.status === 'present' ? 'success' : h.status === 'absent' ? 'danger' : 'warning'}">${h.status.toUpperCase()}</span>
+      </div>
+    `).join('') : '<p class="text-tertiary" style="margin:var(--sp-2) 0;">No attendance history available.</p>';
+
     return `
-        <div class="card card-flat flex items-center justify-between" style="padding:var(--sp-5);">
-          <div class="flex items-center gap-4">
-            <div class="card-icon ${item.color}">📖</div>
-            <div>
-              <h4 style="margin-bottom:2px">${escapeHtml(item.subject)}</h4>
-              <p style="margin:0;font-size:var(--fs-xs)" class="text-tertiary">
-                👨‍🏫 ${escapeHtml(item.faculty)} • 📍 Room ${escapeHtml(item.room)} • <span class="badge badge-neutral">${item.type}</span>
-              </p>
+        <div class="card card-flat" style="padding:var(--sp-5);">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-4">
+              <div class="card-icon ${item.color}">📖</div>
+              <div>
+                <h4 style="margin-bottom:2px" class="${isCancelled ? 'text-tertiary' : ''}">
+                  ${isCancelled ? '<s>' : ''}${escapeHtml(item.subject)}${isCancelled ? '</s>' : ''}
+                </h4>
+                <p style="margin:0;font-size:var(--fs-xs)" class="text-tertiary">
+                  👨‍🏫 ${escapeHtml(item.faculty)} • 📍 Room ${escapeHtml(item.room)} • <span class="badge badge-neutral">${item.type}</span>
+                </p>
+              </div>
+            </div>
+            <div class="flex items-center gap-4">
+              <div style="font-weight:var(--fw-semibold);color:var(--clr-primary-600);font-size:var(--fs-sm)">
+                ${escapeHtml(item.time)} - ${escapeHtml(item.endTime)}
+              </div>
+              <div class="flex gap-2">
+                ${isCancelled ? '<span class="badge badge-danger">🚫 Cancelled</span>' : ''}
+                <button class="btn btn-sm btn-secondary" onclick="toggleAttendanceHistory('hist_${day}_${index}')" aria-label="View History">
+                  🗓️ History
+                </button>
+              </div>
             </div>
           </div>
-          <div class="flex items-center gap-4">
-            <div style="font-weight:var(--fw-semibold);color:var(--clr-primary-600);font-size:var(--fs-sm)">
-              ${escapeHtml(item.time)} - ${escapeHtml(item.endTime)}
-            </div>
-            <div class="flex gap-2">
-              <button class="btn btn-sm ${attendanceState === 'present' ? 'btn-primary' : 'btn-secondary'}" onclick="markSelfAttendance('${day}', ${index}, 'present')" aria-label="Mark Present">✅</button>
-              <button class="btn btn-sm ${attendanceState === 'absent' ? 'btn-danger' : 'btn-secondary'}" onclick="markSelfAttendance('${day}', ${index}, 'absent')" aria-label="Mark Absent">❌</button>
-            </div>
+          <!-- Attendance History Accordion -->
+          <div id="hist_${day}_${index}" style="display:none; margin-top:var(--sp-4); padding-top:var(--sp-4); border-top:1px solid var(--border-color);">
+            <h5 style="margin-bottom:var(--sp-2);">Recent Attendance</h5>
+            ${historyHtml}
           </div>
         </div>
         `;
@@ -259,10 +312,13 @@ function renderScheduleForDay(day) {
   `;
 }
 
-function markSelfAttendance(day, index, status) {
-  localStorage.setItem(`self_attend_${day}_${index}`, status);
-  renderScheduleForDay(day);
-}
+window.toggleAttendanceHistory = function(elementId) {
+  const el = document.getElementById(elementId);
+  if (el) {
+    const isHidden = window.getComputedStyle(el).display === 'none' || el.style.display === 'none';
+    el.style.display = isHidden ? 'block' : 'none';
+  }
+};
 
 /* ── 4. Digital Library ── */
 function initLibrarySection() {
@@ -273,7 +329,7 @@ function initLibrarySection() {
 function filterLibrary(type) {
   currentLibraryFilter = type;
   document.querySelectorAll('#section-library .tab-btn').forEach(b => {
-    b.classList.toggle('active', b.textContent.toLowerCase().includes(type === 'question-paper' ? 'paper' : type));
+    b.classList.toggle('active', b.getAttribute('onclick').includes(`('${type}')`));
   });
   renderLibrary();
 }
@@ -571,7 +627,7 @@ function renderDirectory() {
   students.forEach(s => {
     const parsed = parseRegNumber(s.regNo);
     html += `
-      <div class="card card-flat flex items-center justify-between" style="padding:var(--sp-4)">
+      <div class="card card-flat flex items-center justify-between" style="padding:var(--sp-4); cursor:pointer;" onclick="openDirectoryProfile('${escapeHtml(s.name)}', 'student', '${s.regNo}', '${parsed ? parsed.branchShort : 'ME'}')">
         <div class="flex items-center gap-3">
           <div class="avatar avatar-md">${getInitials(s.name)}</div>
           <div>
@@ -586,7 +642,7 @@ function renderDirectory() {
 
   faculty.forEach(f => {
     html += `
-      <div class="card card-flat flex items-center justify-between" style="padding:var(--sp-4)">
+      <div class="card card-flat flex items-center justify-between" style="padding:var(--sp-4); cursor:pointer;" onclick="openDirectoryProfile('${escapeHtml(f.name)}', 'faculty', '${escapeHtml(f.title)}', '${escapeHtml(f.department)}')">
         <div class="flex items-center gap-3">
           <div class="avatar avatar-md" style="background:var(--grad-accent)">${getInitials(f.name)}</div>
           <div>
@@ -852,6 +908,17 @@ function initHospitalSection() {
 
 /* ── 15. Hostel Section ── */
 function initHostelSection() {
+  // Display hostel name
+  const students = getStorage('users_students') || DEMO_DATA.students;
+  const meStudent = students.find(s => s.regNo === currentUser.regNo);
+  const hostelName = meStudent?.hostelName || (typeof getHostelName === 'function' ? getHostelName(currentUser) : 'Hostel');
+  
+  const hostelTitleEl = document.getElementById('hostel-dashboard-title');
+  if (hostelTitleEl) hostelTitleEl.textContent = `🏠 Hostel Dashboard`;
+  
+  const hostelNameEl = document.getElementById('hostel-name-display');
+  if (hostelNameEl) hostelNameEl.textContent = hostelName;
+  
   const rulesContainer = document.getElementById('hostel-rules');
   if (rulesContainer) {
     rulesContainer.innerHTML = DEMO_DATA.hostelRules.map((rule, idx) => `
@@ -1053,21 +1120,17 @@ function getTodayKey() {
 function markTodayAttend(day, idx, status, checkbox) {
   const dateKey = getTodayKey();
   const storageKey = `attend_${dateKey}_${day}_${idx}`;
-  const currentStatus = localStorage.getItem(storageKey) || 'unmarked';
-
-  // Toggle: if clicking same status again, unmark it
-  if (currentStatus === status) {
-    localStorage.removeItem(storageKey);
-    checkbox.checked = false;
-  } else {
+  if (checkbox.checked) {
     localStorage.setItem(storageKey, status);
-    // Uncheck the other checkbox in same row
+    // Uncheck other checkboxes in row
     const row = document.getElementById(`tcr-${idx}`);
     if (row) {
       row.querySelectorAll('.attend-cb').forEach(cb => {
-        if (cb.dataset.status !== status) cb.checked = false;
+        if (cb !== checkbox) cb.checked = false;
       });
     }
+  } else {
+    localStorage.removeItem(storageKey);
   }
 
   // Refresh row styles
@@ -1075,9 +1138,11 @@ function markTodayAttend(day, idx, status, checkbox) {
   if (row) {
     const newStatus = localStorage.getItem(storageKey) || 'unmarked';
     row.querySelectorAll('.attend-checkbox-wrap').forEach(wrap => {
-      wrap.classList.remove('is-present', 'is-absent');
-      if (newStatus === 'present') wrap.querySelector('.attend-cb').dataset.status === 'present' && wrap.classList.add('is-present');
-      if (newStatus === 'absent') wrap.querySelector('.attend-cb').dataset.status === 'absent' && wrap.classList.add('is-absent');
+      wrap.classList.remove('is-present', 'is-absent', 'is-cancelled');
+      const cb = wrap.querySelector('.attend-cb');
+      if (newStatus === cb.dataset.status) {
+        wrap.classList.add(`is-${newStatus}`);
+      }
     });
   }
 
@@ -1120,9 +1185,11 @@ function getSubjectAttendanceData() {
         const storageKey = `attend_${dateKey}_${day}_${idx}`;
         const status = localStorage.getItem(storageKey);
         if (status) {
-          subjects[subj].total++;
-          if (status === 'present') subjects[subj].present++;
-          else subjects[subj].absent++;
+          if (status !== 'cancelled') {
+            subjects[subj].total++;
+            if (status === 'present') subjects[subj].present++;
+            else if (status === 'absent') subjects[subj].absent++;
+          }
           log.push({ date: `${d.getDate()}/${d.getMonth() + 1}`, day, subject: subj, status, time: item.time });
         }
       }
@@ -1136,27 +1203,26 @@ function getSubjectAttendanceData() {
 function renderAttendanceSection() {
   const { subjects, log } = getSubjectAttendanceData();
 
-  // Overall
-  let totalPresent = 0, totalClasses = 0;
-  Object.values(subjects).forEach(s => { totalPresent += s.present; totalClasses += s.total; });
-  const overallPct = totalClasses > 0 ? Math.round((totalPresent / totalClasses) * 100) : 0;
+  // Biometric Attendance (Set by Faculty)
+  let biometricPct = parseInt(localStorage.getItem(`biometric_attend_${currentUser.regNo}`)) || 0;
+  
   const pctBadge = document.getElementById('overall-pct-badge');
   if (pctBadge) {
-    pctBadge.textContent = `${overallPct}%`;
-    pctBadge.className = `badge ${overallPct >= 75 ? 'badge-success' : overallPct >= 60 ? 'badge-warning' : 'badge-danger'}`;
+    pctBadge.textContent = `${biometricPct}%`;
+    pctBadge.className = `badge ${biometricPct >= 75 ? 'badge-success' : biometricPct >= 60 ? 'badge-warning' : 'badge-danger'}`;
   }
 
-  const barEl = document.getElementById('overall-attendance-bar');
+  const barEl = document.getElementById('biometric-attendance-bar');
   if (barEl) {
-    const barColor = overallPct >= 75 ? 'var(--clr-success-500)' : overallPct >= 60 ? '#f59e0b' : 'var(--clr-danger-500)';
+    const barColor = biometricPct >= 75 ? 'var(--clr-success-500)' : biometricPct >= 60 ? '#f59e0b' : 'var(--clr-danger-500)';
     barEl.innerHTML = `
       <div style="display:flex; align-items:center; gap:var(--sp-3);">
         <div style="flex:1; height:12px; border-radius:99px; background:var(--border-color); overflow:hidden;">
-          <div style="height:100%; width:${overallPct}%; background:${barColor}; border-radius:99px; transition:width 0.6s ease;"></div>
+          <div style="height:100%; width:${biometricPct}%; background:${barColor}; border-radius:99px; transition:width 0.6s ease;"></div>
         </div>
-        <span style="font-weight:var(--fw-bold); font-size:var(--fs-sm); color:${barColor};">${overallPct}%</span>
+        <span style="font-weight:var(--fw-bold); font-size:var(--fs-sm); color:${barColor};">${biometricPct}%</span>
       </div>
-      <div style="margin-top:var(--sp-2); font-size:var(--fs-xs); color:var(--text-tertiary);">${totalPresent} present out of ${totalClasses} tracked classes &bull; ${totalClasses === 0 ? 'Mark attendance from Today\'s Schedule on Home page' : (overallPct < 75 ? '⚠️ Below 75% threshold — attend more classes!' : '🙌 Great attendance!')}</div>
+      <div style="margin-top:var(--sp-2); font-size:var(--fs-xs); color:var(--text-tertiary);">This biometric attendance is evaluated and updated directly by your faculty members.</div>
     `;
   }
 
@@ -1210,13 +1276,13 @@ function renderAttendanceSection() {
       logList.innerHTML = log.slice(0, 20).map(entry => `
         <div style="display:flex; align-items:center; justify-content:space-between; padding:var(--sp-3) var(--sp-4); border-radius:var(--radius-lg); background:var(--bg-surface); border:1px solid var(--border-color);">
           <div style="display:flex; align-items:center; gap:var(--sp-3);">
-            <span style="font-size:1.1rem;">${entry.status === 'present' ? '✅' : '❌'}</span>
+            <span style="font-size:1.1rem;">${entry.status === 'present' ? '✅' : entry.status === 'cancelled' ? '🚫' : '❌'}</span>
             <div>
               <div style="font-weight:var(--fw-medium); font-size:var(--fs-sm);">${escapeHtml(entry.subject)}</div>
-              <div style="font-size:var(--fs-xs); color:var(--text-tertiary);">${entry.day} &bull; ${entry.time}</div>
+              <div style="font-size:var(--fs-xs); color:var(--text-tertiary);">${entry.day}, ${entry.date} &bull; ${entry.time}</div>
             </div>
           </div>
-          <span class="badge ${entry.status === 'present' ? 'badge-success' : 'badge-danger'}">${entry.status === 'present' ? 'Present' : 'Absent'}</span>
+          <span class="badge ${entry.status === 'present' ? 'badge-success' : entry.status === 'cancelled' ? 'badge-warning' : 'badge-danger'}">${entry.status.charAt(0).toUpperCase() + entry.status.slice(1)}</span>
         </div>
       `).join('');
     }

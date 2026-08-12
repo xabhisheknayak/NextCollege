@@ -22,8 +22,8 @@ function getSocialPosts() {
       downvotes: 2,
       userVote: null,
       comments: [
-        { id: 'c1', authorId: 'stu-001', name: 'Alex Johnson', avatar: 'AJ', text: 'Thank you professor! It was a great experience.', time: '2h ago' },
-        { id: 'c2', authorId: 'stu-002', name: 'Priya Patel', avatar: 'PP', text: 'Loved the session! 🙌', time: '1h ago' }
+        { id: 'c1', authorId: 'stu-001', name: 'Sanjana Kumari', avatar: 'SK', text: 'Thank you professor! It was a great experience.', time: '2h ago' },
+        { id: 'c2', authorId: 'stu-002', name: 'Lakshya Raj', avatar: 'LR', text: 'Loved the session! 🙌', time: '1h ago' }
       ],
       shares: 8,
       timestamp: '3h ago',
@@ -32,9 +32,9 @@ function getSocialPosts() {
     {
       id: 'sp-002',
       authorId: 'stu-001',
-      authorName: 'Alex Johnson',
+      authorName: 'Sanjana Kumari',
       authorRole: 'Student',
-      authorAvatar: 'AJ',
+      authorAvatar: 'SK',
       mediaUrl: 'https://images.unsplash.com/photo-1592280771190-3e2e4d571952?auto=format&fit=crop&w=800&q=80',
       mediaType: 'image',
       caption: '📚 Pulling an all-nighter for the data structures exam tomorrow. Anyone else in the same boat? Drop a 🙋 if you are!',
@@ -42,7 +42,7 @@ function getSocialPosts() {
       downvotes: 1,
       userVote: null,
       comments: [
-        { id: 'c3', authorId: 'stu-003', name: 'Rahul Singh', avatar: 'RS', text: '🙋 Me! Let\'s go study group?', time: '30m ago' }
+        { id: 'c3', authorId: 'stu-003', name: 'Harsh Raj', avatar: 'HR', text: '🙋 Me! Let\'s go study group?', time: '30m ago' }
       ],
       shares: 3,
       timestamp: '5h ago',
@@ -51,9 +51,9 @@ function getSocialPosts() {
     {
       id: 'sp-003',
       authorId: 'stu-002',
-      authorName: 'Priya Patel',
+      authorName: 'Lakshya Raj',
       authorRole: 'Student',
-      authorAvatar: 'PP',
+      authorAvatar: 'LR',
       mediaUrl: null,
       mediaType: 'text',
       caption: '🌸 Beautiful campus morning vibes! The garden near Block C is absolutely gorgeous right now. Perfect spot to read before class.',
@@ -68,9 +68,9 @@ function getSocialPosts() {
     {
       id: 'sp-004',
       authorId: 'stu-003',
-      authorName: 'Rahul Singh',
+      authorName: 'Harsh Raj',
       authorRole: 'Student',
-      authorAvatar: 'RS',
+      authorAvatar: 'HR',
       mediaUrl: 'https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&w=800&q=80',
       mediaType: 'image',
       caption: '💻 Just finished building my first full-stack web app! React + Node + MongoDB. Big thanks to everyone who helped debug at 2am 😄',
@@ -79,11 +79,45 @@ function getSocialPosts() {
       userVote: null,
       comments: [
         { id: 'c4', authorId: 'prof-001', name: 'Dr. Sharma', avatar: 'DS', text: 'Impressive work! Would love to see a demo in class.', time: '4h ago' },
-        { id: 'c5', authorId: 'stu-001', name: 'Alex Johnson', avatar: 'AJ', text: 'Bro you are crazy talented!! 🔥', time: '3h ago' }
+        { id: 'c5', authorId: 'stu-001', name: 'Sanjana Kumari', avatar: 'SK', text: 'Bro you are crazy talented!! 🔥', time: '3h ago' }
       ],
       shares: 21,
       timestamp: '2d ago',
       timeMs: Date.now() - 48 * 3600000
+    },
+    {
+      id: 'sp-005',
+      authorId: 'stu-10',
+      authorName: 'Akanksha Roy',
+      authorRole: 'Student',
+      authorAvatar: 'AR',
+      mediaUrl: null,
+      mediaType: 'text',
+      caption: 'Anyone want to group up for the new physics assignment? 📚',
+      upvotes: 12,
+      downvotes: 0,
+      userVote: null,
+      comments: [],
+      shares: 1,
+      timestamp: '1d ago',
+      timeMs: Date.now() - 25 * 3600000
+    },
+    {
+      id: 'sp-006',
+      authorId: 'stu-04',
+      authorName: 'Vivek Kumar',
+      authorRole: 'Student',
+      authorAvatar: 'VK',
+      mediaUrl: null,
+      mediaType: 'text',
+      caption: 'Just won the local chess tournament! ♟️🏆',
+      upvotes: 45,
+      downvotes: 0,
+      userVote: null,
+      comments: [],
+      shares: 5,
+      timestamp: '3d ago',
+      timeMs: Date.now() - 72 * 3600000
     }
   ];
   localStorage.setItem('cc_socialPosts', JSON.stringify(demo));
@@ -312,7 +346,11 @@ function buildPostCard(post, role, following) {
         </div>
         ${isAdmin
       ? `<button class="post-delete-btn" onclick="deleteSocialPost('${post.id}')">🗑️ Delete</button>`
-      : (isMine ? ''
+      : (isMine ? `
+          <div class="flex gap-2">
+            <button class="btn btn-sm btn-secondary" onclick="editSocialPost('${post.id}')" style="padding:4px 10px;font-size:11px;">✏️ Edit</button>
+            <button class="post-delete-btn" onclick="deleteSocialPost('${post.id}')">🗑️</button>
+          </div>`
         : `<button class="follow-btn ${isFollowing ? 'following' : ''}" id="follow-btn-${post.id}" onclick="toggleFollow('${post.authorId}', '${post.id}')">
                 ${isFollowing ? '✓ Following' : '+ Follow'}
                </button>`)
@@ -488,14 +526,36 @@ function toggleFollow(userId, postId) {
   }
 }
 
-/* ── Delete (Admin) ── */
+/* ── Delete ── */
 function deleteSocialPost(postId) {
   if (!confirm('Delete this post permanently?')) return;
   const posts = getSocialPosts().filter(p => p.id !== postId);
   saveSocialPosts(posts);
-  if (typeof showToast === 'function') showToast('Post removed by Admin', 'warning');
-  renderSocialFeed('social-feed-container', 'admin');
-  renderHomeFeedPreview('home-feed-preview', 'admin');
+  if (typeof showToast === 'function') showToast('Post deleted.', 'warning');
+  const role = getCurrentSocialRole();
+  renderSocialFeed('social-feed-container', role);
+  renderHomeFeedPreview('home-feed-preview', role);
+}
+
+/* ── Edit ── */
+function editSocialPost(postId) {
+  const posts = getSocialPosts();
+  const post = posts.find(p => p.id === postId);
+  if (!post) return;
+
+  const newCaption = prompt('Edit your post:', post.caption);
+  if (newCaption === null) return; // cancelled
+  if (!newCaption.trim()) {
+    if (typeof showToast === 'function') showToast('Caption cannot be empty.', 'warning');
+    return;
+  }
+  post.caption = newCaption.trim();
+  post.timestamp = 'Edited · Just now';
+  saveSocialPosts(posts);
+  if (typeof showToast === 'function') showToast('Post updated! ✏️', 'success');
+  const role = getCurrentSocialRole();
+  renderSocialFeed('social-feed-container', role);
+  renderHomeFeedPreview('home-feed-preview', role);
 }
 
 /* ── Home Feed Preview ── */
@@ -788,3 +848,45 @@ function initSocialPage() {
    after the user is authenticated.  Do NOT auto-init here.
 */
 
+/* ── Directory Profile View ── */
+function openDirectoryProfile(name, role, regNoOrTitle, emailOrDept) {
+  const avatar = document.getElementById('dir-profile-avatar');
+  const nameEl = document.getElementById('dir-profile-name');
+  const subtitleEl = document.getElementById('dir-profile-subtitle');
+  const postsContainer = document.getElementById('dir-profile-posts');
+
+  if (!avatar || !nameEl || !subtitleEl || !postsContainer) return;
+
+  avatar.innerHTML = getInitials(name);
+  if (role === 'faculty') {
+    avatar.style.background = 'var(--grad-accent)';
+  } else {
+    avatar.style.background = 'var(--bg-surface-alt)';
+  }
+
+  nameEl.textContent = name;
+  subtitleEl.textContent = `${regNoOrTitle} • ${emailOrDept}`;
+
+  // Find posts uploaded by this user (approximate by name for demo purposes)
+  const allPosts = getSocialPosts();
+  const userPosts = allPosts.filter(p => p.authorName === name);
+
+  if (userPosts.length === 0) {
+    postsContainer.innerHTML = '<p class="text-tertiary" style="font-size:var(--fs-sm)">No recent posts.</p>';
+  } else {
+    postsContainer.innerHTML = userPosts.map(post => {
+      return `
+        <div class="card card-flat" style="padding:var(--sp-3)">
+          <p style="margin:0; font-size:var(--fs-sm);">${escapeHtml(post.caption)}</p>
+          <div class="flex gap-2" style="margin-top:var(--sp-2); font-size:10px; color:var(--text-tertiary)">
+            <span>👍 ${post.upvotes}</span>
+            <span>💬 ${post.comments.length}</span>
+            <span>${escapeHtml(post.timestamp)}</span>
+          </div>
+        </div>
+      `;
+    }).join('');
+  }
+
+  openModal('modal-directory-profile');
+}

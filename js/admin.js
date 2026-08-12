@@ -181,6 +181,11 @@ function adminDeleteComplaint(id) {
   initAdminHome();
 }
 
+function renderAdminDirectory() {
+  if (typeof renderAdminStudentsTable === 'function') renderAdminStudentsTable();
+  if (typeof renderAdminFacultyTable === 'function') renderAdminFacultyTable();
+}
+
 /* ── Students Section ── */
 function initAdminStudentsSection() {
   renderAdminStudentsTable();
@@ -189,7 +194,8 @@ function initAdminStudentsSection() {
 
 function renderAdminStudentsTable() {
   const query = document.getElementById('admin-student-search')?.value || '';
-  const students = filterItems(DEMO_DATA.students, query, ['name', 'regNo', 'email', 'phone']);
+  const allStudents = getStorage('users_students') || DEMO_DATA.students;
+  const students = filterItems(allStudents, query, ['name', 'regNo', 'branch', 'phone']);
   
   const container = document.getElementById('admin-student-table');
   if (!container) return;
@@ -205,6 +211,7 @@ function renderAdminStudentsTable() {
             <th>Attendance</th>
             <th>Hosteler</th>
             <th>Phone</th>
+            <th>Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -218,6 +225,9 @@ function renderAdminStudentsTable() {
                 <td><span class="badge badge-${s.attendance >= 85 ? 'success' : s.attendance >= 75 ? 'warning' : 'danger'}">${s.attendance}%</span></td>
                 <td>${s.isHosteler ? '🏠 Yes' : '🚌 No'}</td>
                 <td>${s.phone}</td>
+                <td>
+                  <button class="btn btn-sm btn-outline" onclick="openEditProfileModal('${s.regNo}', 'student', true)">Edit</button>
+                </td>
               </tr>
             `;
           }).join('')}
@@ -235,7 +245,8 @@ function initAdminFacultySection() {
 
 function renderAdminFacultyTable() {
   const query = document.getElementById('admin-faculty-search')?.value || '';
-  const faculty = filterItems(DEMO_DATA.professors, query, ['name', 'department', 'email', 'phone']);
+  const allProfessors = getStorage('users_professors') || DEMO_DATA.professors;
+  const faculty = filterItems(allProfessors, query, ['name', 'department', 'email', 'phone']);
   
   const container = document.getElementById('admin-faculty-table');
   if (!container) return;
@@ -250,6 +261,7 @@ function renderAdminFacultyTable() {
             <th>Department</th>
             <th>Email</th>
             <th>Phone</th>
+            <th>Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -260,6 +272,9 @@ function renderAdminFacultyTable() {
               <td>${escapeHtml(f.department)}</td>
               <td>${f.email}</td>
               <td>${f.phone}</td>
+              <td>
+                <button class="btn btn-sm btn-outline" onclick="openEditProfileModal('${f.id}', 'professor', true)">Edit</button>
+              </td>
             </tr>
           `).join('')}
         </tbody>

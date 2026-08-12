@@ -30,9 +30,15 @@ function initLoginPage() {
       return;
     }
 
-    const student = DEMO_DATA.students.find(s => s.regNo === regNo && s.password === password);
+    const students = getStorage('users_students') || DEMO_DATA.students;
+    const student = students.find(s => s.regNo === regNo && s.password === password);
     if (!student) {
       showError('Invalid credentials. Try demo chip below!');
+      return;
+    }
+    
+    if (student.isBlocked) {
+      showError('Your account has been temporarily blocked by an Administrator.');
       return;
     }
 
@@ -60,12 +66,18 @@ function initLoginPage() {
       return;
     }
 
-    const professor = DEMO_DATA.professors.find(p => 
+    const professors = getStorage('users_professors') || DEMO_DATA.professors;
+    const professor = professors.find(p => 
       p.phone === phone && p.name.toLowerCase() === name.toLowerCase()
     );
 
     if (!professor) {
       showError('Invalid credentials. Try demo chip below!');
+      return;
+    }
+    
+    if (professor.isBlocked) {
+      showError('Your account has been temporarily blocked by an Administrator.');
       return;
     }
 
@@ -91,9 +103,15 @@ function initLoginPage() {
       return;
     }
 
-    const admin = DEMO_DATA.admins.find(a => a.phone === phone && a.email === email);
+    const admins = getStorage('users_admins') || DEMO_DATA.admins;
+    const admin = admins.find(a => a.phone === phone && a.email === email);
     if (!admin) {
       showError('Invalid credentials. Try demo chip below!');
+      return;
+    }
+    
+    if (admin.isBlocked) {
+      showError('Your account has been blocked.');
       return;
     }
 
@@ -123,7 +141,8 @@ function autoFillDemo(type) {
       document.getElementById('student-reg-roll').value = '003';
       document.getElementById('student-password').value = '123';
       document.getElementById('student-hosteler').checked = true;
-      showToast('Hosteler student credentials filled!', 'info', 'Auto-Fill');
+      showToast('Logging in as Hosteler Student...', 'info', 'Auto-Login');
+      setTimeout(() => document.getElementById('form-student')?.dispatchEvent(new Event('submit')), 300);
     }
   } else if (type === 'student-dayscholar') {
     if (document.getElementById('student-reg-year')) {
@@ -132,27 +151,31 @@ function autoFillDemo(type) {
       document.getElementById('student-reg-roll').value = '057';
       document.getElementById('student-password').value = '123';
       document.getElementById('student-hosteler').checked = false;
-      showToast('Day scholar student credentials filled!', 'info', 'Auto-Fill');
+      showToast('Logging in as Day Scholar...', 'info', 'Auto-Login');
+      setTimeout(() => document.getElementById('form-student')?.dispatchEvent(new Event('submit')), 300);
     }
   } else if (type === 'professor') {
     if (document.getElementById('prof-phone')) {
       document.getElementById('prof-phone').value = '9900012345';
       document.getElementById('prof-name').value = 'Prof. Raju';
       if (document.getElementById('prof-warden')) document.getElementById('prof-warden').checked = false;
-      showToast('Professor credentials filled!', 'info', 'Auto-Fill');
+      showToast('Logging in as Professor...', 'info', 'Auto-Login');
+      setTimeout(() => document.getElementById('form-professor')?.dispatchEvent(new Event('submit')), 300);
     }
   } else if (type === 'warden') {
     if (document.getElementById('prof-phone')) {
       document.getElementById('prof-phone').value = '9876543221';
       document.getElementById('prof-name').value = 'Dr. Sunita Rao';
       if (document.getElementById('prof-warden')) document.getElementById('prof-warden').checked = true;
-      showToast('Warden credentials filled!', 'info', 'Auto-Fill');
+      showToast('Logging in as Warden...', 'info', 'Auto-Login');
+      setTimeout(() => document.getElementById('form-professor')?.dispatchEvent(new Event('submit')), 300);
     }
   } else if (type === 'admin') {
     if (document.getElementById('admin-phone')) {
       document.getElementById('admin-phone').value = '9999999999';
       document.getElementById('admin-email').value = 'admin@campus.edu';
-      showToast('Admin credentials filled!', 'info', 'Auto-Fill');
+      showToast('Logging in as Admin...', 'info', 'Auto-Login');
+      setTimeout(() => document.getElementById('form-admin')?.dispatchEvent(new Event('submit')), 300);
     }
   }
 }
