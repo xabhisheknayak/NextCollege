@@ -80,6 +80,27 @@
       margin: 0;
       line-height: 1.5;
     }
+    .unique-section {
+      margin: var(--sp-6) 0;
+      padding: var(--sp-6);
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.02));
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+    }
+    .unique-section h3 {
+      margin: 0 0 var(--sp-3) 0;
+      font-size: var(--fs-lg);
+    }
+    .unique-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: var(--sp-4);
+    }
+    .unique-card {
+      background: transparent;
+      border-radius: var(--radius-md);
+      padding: var(--sp-3);
+    }
     .features-footer {
       text-align: center;
       margin-top: var(--sp-6);
@@ -150,6 +171,32 @@
           <div class="feature-icon-large">🏠</div>
           <h3>Hostel & Admin Desk</h3>
           <p>Request out-passes, submit infrastructure complaints directly to wardens, and view dynamic ruleboards.</p>
+        </div>
+      </div>
+
+      <div class="unique-section">
+        <h3>Why This Platform Is Unique</h3>
+        <div class="unique-grid">
+          <div class="unique-card">
+            <strong>Local-first & Private:</strong>
+            <p style="margin:6px 0 0;color:var(--text-tertiary);">Demo data seeds into your browser's localStorage so the app works offline and keeps your data local by default.</p>
+          </div>
+          <div class="unique-card">
+            <strong>Integrated AI Copilot:</strong>
+            <p style="margin:6px 0 0;color:var(--text-tertiary);">Built-in study assistant gives quick answers, study plans and exam prep without leaving the dashboard.</p>
+          </div>
+          <div class="unique-card">
+            <strong>All-in-one Campus Toolset:</strong>
+            <p style="margin:6px 0 0;color:var(--text-tertiary);">Schedules, library, SOS, maps, chat and directory live together — no separate systems or logins required for demo use.</p>
+          </div>
+          <div class="unique-card">
+            <strong>Lightweight & Self-hostable:</strong>
+            <p style="margin:6px 0 0;color:var(--text-tertiary);">Static HTML/CSS/JS — easy to host on any static hosting (Vercel, Netlify, GitHub Pages) and fast to load.</p>
+          </div>
+          <div class="unique-card">
+            <strong>Modular Demo Data:</strong>
+            <p style="margin:6px 0 0;color:var(--text-tertiary);">`DEMO_DATA` provides easy examples you can extend; changes persist locally for quick prototyping.</p>
+          </div>
         </div>
       </div>
 
