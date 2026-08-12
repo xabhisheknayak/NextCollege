@@ -130,10 +130,14 @@ function switchSection(sectionId) {
 }
 
 // ── Progress Ring ──
-function createProgressRing(percent, size = 80) {
+function createProgressRing(percent, size = 80, isLight = false) {
   const radius = (size - 12) / 2;
   const circumference = 2 * Math.PI * radius;
   const offset = circumference - (percent / 100) * circumference;
+  
+  const strokeColor = isLight ? 'rgba(255,255,255,0.9)' : 'url(#ringGradient)';
+  const bgColor = isLight ? 'rgba(255,255,255,0.2)' : 'var(--clr-neutral-200)';
+  const textColor = isLight ? '#ffffff' : 'var(--text-primary)';
   
   return `
     <div class="progress-ring" style="width:${size}px;height:${size}px">
@@ -144,11 +148,11 @@ function createProgressRing(percent, size = 80) {
             <stop offset="100%" style="stop-color:#ea580c" />
           </linearGradient>
         </defs>
-        <circle class="ring-bg" cx="${size/2}" cy="${size/2}" r="${radius}"/>
+        <circle class="ring-bg" cx="${size/2}" cy="${size/2}" r="${radius}" style="stroke: ${bgColor}" />
         <circle class="ring-fill" cx="${size/2}" cy="${size/2}" r="${radius}"
-          stroke-dasharray="${circumference}" stroke-dashoffset="${offset}"/>
+          stroke-dasharray="${circumference}" stroke-dashoffset="${offset}" style="stroke: ${strokeColor}" />
       </svg>
-      <div class="ring-text">${percent}%</div>
+      <div class="ring-text" style="color: ${textColor}">${percent}%</div>
     </div>
   `;
 }

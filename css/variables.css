@@ -57,41 +57,34 @@
   --clr-neutral-900: #230e09;
   --clr-neutral-950: #110504;
 
-  /* ── Semantic Colors (Light / Neumorphism Theme - Max Contrast) ── */
-  --bg-body:        #e9ded4;   /* Warm parchment base */
-  --bg-surface:     #e9ded4;   /* Same as body for neumorphic bevels */
-  --bg-surface-alt: #dfcfc3;   /* Deeper warm tone for inset inputs */
-  --bg-glass:       rgba(233, 222, 212, 0.95);
-  --bg-glass-hover: rgba(233, 222, 212, 1);
-  --bg-sidebar:     #e9ded4;
-  --bg-input:       #ffffff;   /* Pure white inputs for maximum contrast */
-  --bg-overlay:     rgba(15, 4, 2, 0.75);
+  /* ── Semantic Colors (Light / Flat Theme) ── */
+  --bg-body:        #f3f4f6;   /* Clean light gray base */
+  --bg-surface:     #ffffff;   /* Clean white surface */
+  --bg-surface-alt: #f9fafb;   /* Slightly off-white for secondary areas */
+  --bg-glass:       rgba(255, 255, 255, 0.85);
+  --bg-glass-hover: rgba(255, 255, 255, 1);
+  --bg-sidebar:     #ffffff;
+  --bg-input:       #ffffff;
+  --bg-overlay:     rgba(15, 23, 42, 0.75);
 
-  --text-primary:   #000000;   /* Pure black for maximum crisp contrast */
-  --text-secondary: #241009;   /* Deep dark warm brown */
-  --text-tertiary:  #54281c;   /* Dark high-visibility tertiary text */
+  --text-primary:   #111827;
+  --text-secondary: #4b5563;
+  --text-tertiary:  #6b7280;
   --text-inverse:   #ffffff;
-  --text-link:      #b91c1c;   /* Deep high-contrast crimson red */
+  --text-link:      #dc2626;
 
-  --border-color:   #9e8677;   /* High contrast sharp border */
-  --border-light:   rgba(158, 134, 119, 0.8);
+  --border-color:   #e5e7eb;
+  --border-light:   #f3f4f6;
 
-  /* ── Neumorphism Shadows (High Contrast Crisp 3D) ── */
-  --neu-shadow:       6px 6px 14px #bca89a, -6px -6px 14px #ffffff;
-  --neu-shadow-sm:    3px 3px 8px  #bca89a, -3px -3px 8px  #ffffff;
-  --neu-shadow-lg:    10px 10px 24px #b09b8d, -10px -10px 24px #ffffff;
-  --neu-shadow-inset: inset 4px 4px 10px #bca89a, inset -4px -4px 10px #ffffff;
-  --neu-shadow-pressed: inset 3px 3px 8px #b09b8d, inset -3px -3px 8px #ffffff;
-
-  /* Standard shadows for compatibility */
-  --shadow-xs:    var(--neu-shadow-sm);
-  --shadow-sm:    var(--neu-shadow-sm);
-  --shadow-md:    var(--neu-shadow);
-  --shadow-lg:    var(--neu-shadow-lg);
-  --shadow-xl:    var(--neu-shadow-lg);
-  --shadow-2xl:   var(--neu-shadow-lg);
+  /* ── Standard Shadows ── */
+  --shadow-xs:    0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-sm:    0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px -1px rgba(0, 0, 0, 0.06);
+  --shadow-md:    0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.06);
+  --shadow-lg:    0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.05);
+  --shadow-xl:    0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.01);
+  --shadow-2xl:   0 25px 50px -12px rgba(0, 0, 0, 0.25);
   --shadow-glow:  0 0 24px rgba(220, 38, 38, 0.4);
-  --shadow-glass: var(--neu-shadow);
+  --shadow-glass: 0 8px 32px 0 rgba(31, 38, 135, 0.07);
 
   /* ── Gradients — Crimson Red & Orange ── */
   --grad-primary:   linear-gradient(135deg, #dc2626 0%, #ea580c 100%);

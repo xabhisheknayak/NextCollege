@@ -40,6 +40,7 @@
         <div class="nav-section">
           <div class="nav-section-title">Academic</div>
           <button class="nav-item" data-section="library"><span class="nav-icon">📚</span> Digital Library</button>
+          <button class="nav-item" data-section="attendance"><span class="nav-icon">📊</span> Attendance Tracker</button>
           <button class="nav-item" data-section="copilot"><span class="nav-icon">🤖</span> AI Copilot</button>
           <button class="nav-item" data-section="feedback"><span class="nav-icon">⭐</span> Feedback</button>
         </div>
@@ -114,6 +115,15 @@
             </div>
           </div>
 
+          <!-- Home Search Bar -->
+          <div class="card" style="margin-bottom: var(--sp-6);">
+            <div class="search-bar" style="margin-bottom: 0;">
+              <span class="search-icon">🔍</span>
+              <input type="text" placeholder="Search for people (students, professors)..." id="home-people-search" oninput="handleHomeSearch(this.value)">
+            </div>
+            <div id="home-search-results" style="display:none; margin-top: var(--sp-3); max-height: 200px; overflow-y: auto; border-top: 1px solid var(--border-color); padding-top: var(--sp-3);"></div>
+          </div>
+
           <!-- ID Card Preview -->
           <div class="id-card" style="margin-bottom: var(--sp-6);">
             <div class="id-card-content">
@@ -127,7 +137,7 @@
                   <h3 id="home-name">Student Name</h3>
                   <p id="home-reg">Registration No.</p>
                 </div>
-                <div style="margin-left:auto" id="home-attendance-ring"></div>
+                <div class="attendance-ring-wrapper" id="home-attendance-ring"></div>
               </div>
               <div class="id-card-meta">
                 <div class="id-card-meta-item">
@@ -162,6 +172,10 @@
               <span class="badge badge-neutral" id="today-day">Monday</span>
             </div>
             <div class="flex flex-col gap-3" id="today-schedule"></div>
+            <div style="margin-top:var(--sp-4); padding-top:var(--sp-3); border-top:1px solid var(--border-color); display:flex; align-items:center; justify-content:space-between;">
+              <span style="font-size:var(--fs-xs); color:var(--text-tertiary);">✅ Mark your attendance for today's classes</span>
+              <button class="btn btn-sm btn-secondary" onclick="switchToSection('attendance')">View All →</button>
+            </div>
           </div>
 
           <!-- Campus Feed Preview -->
@@ -204,6 +218,10 @@
               <div class="qa-icon" style="background:rgba(16,185,129,0.15)">🎪</div>
               <span class="qa-label">Events</span>
             </div>
+            <div class="quick-action-item" id="qa-hostel" onclick="switchToSection('hostel')" style="display:none;">
+              <div class="qa-icon" style="background:rgba(59,130,246,0.15)">🏠</div>
+              <span class="qa-label">Hostel</span>
+            </div>
           </div>
         </section>
 
@@ -215,6 +233,36 @@
           <div class="social-section-wrap">
             <div id="social-composer"></div>
             <div id="social-feed-container"></div>
+          </div>
+        </section>
+
+        <!-- ═══════════════ ATTENDANCE TRACKER SECTION ═══════════════ -->
+        <section class="dashboard-section" id="section-attendance">
+          <div class="section-header">
+            <h2>📊 Attendance Tracker</h2>
+            <button class="btn btn-sm btn-secondary" onclick="resetAllAttendance()">🔄 Reset All</button>
+          </div>
+
+          <!-- Overall Summary Card -->
+          <div class="card" style="margin-bottom:var(--sp-6);" id="overall-attendance-card">
+            <div class="card-header">
+              <h4>📈 Overall Attendance</h4>
+              <span class="badge badge-primary" id="overall-pct-badge">0%</span>
+            </div>
+            <div id="overall-attendance-bar" style="margin-top:var(--sp-3);"></div>
+          </div>
+
+          <!-- Subject-wise Cards -->
+          <h4 style="margin-bottom:var(--sp-4);">Subject-wise Breakdown</h4>
+          <div class="dashboard-grid cols-2" id="subject-attendance-grid" style="margin-bottom:var(--sp-6);"></div>
+
+          <!-- Attendance Log -->
+          <div class="card" id="attendance-log-card">
+            <div class="card-header">
+              <h4>🗓️ Recent Attendance Log</h4>
+              <span class="badge badge-neutral" id="log-count-badge">0 entries</span>
+            </div>
+            <div class="flex flex-col gap-2" id="attendance-log-list"></div>
           </div>
         </section>
 
@@ -640,6 +688,33 @@
       <p style="font-size:var(--fs-sm);color:var(--text-tertiary);">Stay calm and remain at your location.</p>
       <div class="modal-footer" style="justify-content:center;">
         <button class="btn btn-primary" onclick="closeModal('modal-sos')">OK, I understand</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- User Profile Modal -->
+  <div class="modal-overlay" id="modal-user-profile">
+    <div class="modal" style="text-align:center;">
+      <div class="modal-header">
+        <h3>User Profile</h3>
+        <button class="modal-close" onclick="closeModal('modal-user-profile')">✕</button>
+      </div>
+      <div class="avatar avatar-xl" style="margin:var(--sp-4) auto" id="up-avatar">?</div>
+      <h3 id="up-name">Name</h3>
+      <p id="up-role" style="color:var(--text-secondary); margin-bottom:var(--sp-2);">Role / Details</p>
+      <div class="flex justify-center gap-4" style="margin:var(--sp-4) 0;">
+        <div class="text-center">
+          <div class="stat-value" id="up-followers">0</div>
+          <div class="stat-label">Followers</div>
+        </div>
+        <div class="text-center">
+          <div class="stat-value" id="up-following">0</div>
+          <div class="stat-label">Following</div>
+        </div>
+      </div>
+      <div class="modal-footer" style="justify-content:center; gap:var(--sp-4);">
+        <button class="btn btn-primary" id="up-follow-btn" onclick="toggleFollowUser()">Follow</button>
+        <button class="btn btn-secondary" id="up-message-btn" onclick="messageUser()">Message</button>
       </div>
     </div>
   </div>

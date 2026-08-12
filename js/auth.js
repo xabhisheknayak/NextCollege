@@ -121,16 +121,16 @@ function autoFillDemo(type) {
       document.getElementById('student-reg-year').value = '25';
       document.getElementById('student-reg-branch').value = '105';
       document.getElementById('student-reg-roll').value = '003';
-      document.getElementById('student-password').value = '123456';
+      document.getElementById('student-password').value = '123';
       document.getElementById('student-hosteler').checked = true;
       showToast('Hosteler student credentials filled!', 'info', 'Auto-Fill');
     }
   } else if (type === 'student-dayscholar') {
     if (document.getElementById('student-reg-year')) {
       document.getElementById('student-reg-year').value = '25';
-      document.getElementById('student-reg-branch').value = '106';
-      document.getElementById('student-reg-roll').value = '007';
-      document.getElementById('student-password').value = '654321';
+      document.getElementById('student-reg-branch').value = '105';
+      document.getElementById('student-reg-roll').value = '057';
+      document.getElementById('student-password').value = '123';
       document.getElementById('student-hosteler').checked = false;
       showToast('Day scholar student credentials filled!', 'info', 'Auto-Fill');
     }

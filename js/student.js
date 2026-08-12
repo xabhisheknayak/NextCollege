@@ -19,6 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initStudentProfile();
   initHomeSection();
   initScheduleSection();
+  initAttendanceSection();
   initLibrarySection();
   initCopilotSection();
   initFeedbackSection();
@@ -34,6 +35,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
   if (currentUser.isHosteler) {
     document.getElementById('hostel-nav').style.display = 'block';
+    const qaHostel = document.getElementById('qa-hostel');
+    if (qaHostel) qaHostel.style.display = 'flex';
     initHostelSection();
   }
 
@@ -53,7 +56,7 @@ function switchToSection(sectionId) {
 /* ── 1. Init Profile & Header Data ── */
 function initStudentProfile() {
   const avatarText = getInitials(currentUser.name);
-  
+
   // Set avatars
   ['sidebar-avatar', 'home-avatar', 'id-avatar', 'profile-avatar'].forEach(id => {
     const el = document.getElementById(id);
@@ -67,7 +70,7 @@ function initStudentProfile() {
   // Header badges & greeting
   document.getElementById('greeting-text').textContent = `${getGreeting()}, ${currentUser.name.split(' ')[0]}!`;
   document.getElementById('greeting-name').textContent = `Reg: ${currentUser.regNo} • ${currentUser.isHosteler ? 'Hosteler 🏠' : 'Day Scholar 🚌'}`;
-  
+
   const parsed = currentUser.parsed || parseRegNumber(currentUser.regNo);
   if (parsed) {
     document.getElementById('user-branch-badge').textContent = parsed.branchShort;
@@ -97,7 +100,7 @@ function initHomeSection() {
   document.getElementById('home-name').textContent = currentUser.name;
   document.getElementById('home-reg').textContent = currentUser.regNo;
   document.getElementById('home-attend-text').textContent = `${currentUser.attendance}%`;
-  
+
   const parsed = currentUser.parsed || parseRegNumber(currentUser.regNo);
   document.getElementById('home-branch').textContent = parsed ? parsed.branchShort : 'ME';
   document.getElementById('home-yearsem').textContent = parsed ? `Year ${parsed.currentYear} / Sem ${parsed.semester}` : 'Yr 1';
@@ -105,37 +108,53 @@ function initHomeSection() {
   // Attendance ring
   const ringContainer = document.getElementById('home-attendance-ring');
   if (ringContainer) {
-    ringContainer.innerHTML = createProgressRing(currentUser.attendance, 76);
+    ringContainer.innerHTML = createProgressRing(currentUser.attendance, 76, true);
   }
 
   // Today's schedule
   const todayDayName = getDayName(new Date().getDay());
   document.getElementById('today-day').textContent = todayDayName;
 
-  const isScheduleUploaded = localStorage.getItem('ai_uploaded_schedule') === 'true';
   const todayClasses = DEMO_DATA.schedule[todayDayName] || DEMO_DATA.schedule['Monday'];
   const todayContainer = document.getElementById('today-schedule');
-  
+
   if (todayContainer) {
-    if (!isScheduleUploaded) {
+    if (!todayClasses || todayClasses.length === 0) {
       todayContainer.innerHTML = `
         <div class="empty-state">
-          <div class="empty-state-icon">📄</div>
-          <h4>Schedule Not Uploaded</h4>
-          <p>Professors have not uploaded the timetable yet.</p>
+          <div class="empty-state-icon">🎉</div>
+          <h4>No Classes Today</h4>
+          <p>Enjoy your off day!</p>
         </div>
       `;
     } else {
-      todayContainer.innerHTML = todayClasses.map(item => `
-        <div class="schedule-card">
-          <div class="schedule-time-bar ${item.color}"></div>
-          <div class="schedule-info">
-            <div class="schedule-subject">${escapeHtml(item.subject)}</div>
-            <div class="schedule-details">👨‍🏫 ${escapeHtml(item.faculty)} • 📍 ${escapeHtml(item.room)}</div>
-          </div>
-          <div class="schedule-time">${escapeHtml(item.time)}</div>
-        </div>
-      `).join('');
+      const dateKey = getTodayKey();
+      todayContainer.innerHTML = todayClasses
+        .filter(item => item.type !== 'Break')
+        .map((item, idx) => {
+          const storageKey = `attend_${dateKey}_${todayDayName}_${idx}`;
+          const status = localStorage.getItem(storageKey) || 'unmarked';
+          return `
+          <div class="today-class-row" id="tcr-${idx}">
+            <div class="tcr-left">
+              <div class="tcr-dot ${item.color}"></div>
+              <div>
+                <div class="tcr-subject">${escapeHtml(item.subject)}</div>
+                <div class="tcr-meta">${escapeHtml(item.time)} &ndash; ${escapeHtml(item.endTime)} &bull; Room ${escapeHtml(item.room)}</div>
+              </div>
+            </div>
+            <div class="tcr-right">
+              <label class="attend-checkbox-wrap ${status === 'present' ? 'is-present' : ''}" title="Present">
+                <input type="checkbox" class="attend-cb" data-day="${todayDayName}" data-idx="${idx}" data-status="present" ${status === 'present' ? 'checked' : ''} onchange="markTodayAttend('${todayDayName}', ${idx}, 'present', this)">
+                <span class="attend-cb-label">✅ Present</span>
+              </label>
+              <label class="attend-checkbox-wrap ${status === 'absent' ? 'is-absent' : ''}" title="Absent">
+                <input type="checkbox" class="attend-cb" data-day="${todayDayName}" data-idx="${idx}" data-status="absent" ${status === 'absent' ? 'checked' : ''} onchange="markTodayAttend('${todayDayName}', ${idx}, 'absent', this)">
+                <span class="attend-cb-label">❌ Absent</span>
+              </label>
+            </div>
+          </div>`;
+        }).join('');
     }
   }
 
@@ -195,6 +214,9 @@ function renderScheduleForDay(day) {
   const container = document.getElementById('schedule-content');
   if (!container) return;
 
+  const badge = document.getElementById('schedule-ai-badge');
+  if (badge) badge.style.display = 'none';
+
   if (classes.length === 0) {
     container.innerHTML = `
       <div class="empty-state">
@@ -206,26 +228,11 @@ function renderScheduleForDay(day) {
     return;
   }
 
-  const isScheduleUploaded = localStorage.getItem('ai_uploaded_schedule') === 'true';
-  const badge = document.getElementById('schedule-ai-badge');
-  if (badge) badge.style.display = isScheduleUploaded ? 'inline-block' : 'none';
-
-  if (!isScheduleUploaded) {
-    container.innerHTML = `
-      <div class="empty-state">
-        <div class="empty-state-icon">📄</div>
-        <h4>Schedule Not Uploaded</h4>
-        <p>Your faculty hasn't uploaded the timetable yet.</p>
-      </div>
-    `;
-    return;
-  }
-
   container.innerHTML = `
     <div class="flex flex-col gap-4">
       ${classes.map((item, index) => {
-        const attendanceState = localStorage.getItem(`self_attend_${day}_${index}`) || 'unmarked';
-        return `
+    const attendanceState = localStorage.getItem(`self_attend_${day}_${index}`) || 'unmarked';
+    return `
         <div class="card card-flat flex items-center justify-between" style="padding:var(--sp-5);">
           <div class="flex items-center gap-4">
             <div class="card-icon ${item.color}">📖</div>
@@ -247,7 +254,7 @@ function renderScheduleForDay(day) {
           </div>
         </div>
         `;
-      }).join('')}
+  }).join('')}
     </div>
   `;
 }
@@ -328,7 +335,7 @@ function sendCopilotMessage() {
   if (!query) return;
 
   const container = document.getElementById('copilot-chat');
-  
+
   // Render user message
   container.innerHTML += `
     <div class="chat-bubble sent">
@@ -389,11 +396,11 @@ function submitFeedback() {
 
   setStorage('feedback', feedbacks);
   showToast('Anonymous feedback submitted!', 'success');
-  
+
   document.getElementById('feedback-subject').value = '';
   document.getElementById('feedback-comment').value = '';
   createStarRating('feedback-stars', 0, (val) => { selectedRating = val; });
-  
+
   renderFeedbackList();
 }
 
@@ -463,7 +470,7 @@ function sendChatMessage() {
 
   const parsed = currentUser.parsed || parseRegNumber(currentUser.regNo);
   const key = currentChatTab === 'branch' ? `branch-${parsed ? parsed.branchCode : '105'}` : 'all-campus';
-  
+
   const allChats = getStorage('chatMessages', DEMO_DATA.chatMessages);
   if (!allChats[key]) allChats[key] = [];
 
@@ -768,7 +775,7 @@ function initCampusMap() {
   buildings.forEach(b => {
     const isAcademic = b.type === 'academic' || b.type === 'library' || b.type === 'lab';
     const color = isAcademic ? '#6366f1' : b.type === 'food' ? '#f59e0b' : b.type === 'hostel' ? '#8b5cf6' : '#f43f5e';
-    
+
     svgHtml += `
       <g class="map-node" style="cursor:pointer" onclick="showBuildingDetails('${b.id}')">
         <rect x="${b.x - 45}" y="${b.y - 30}" width="90" height="60" rx="12" fill="${color}" opacity="0.85" />
@@ -896,7 +903,7 @@ function submitOutpass() {
 function renderHostelComplaints() {
   const allComplaints = getStorage('complaints', DEMO_DATA.complaints);
   const myComplaints = allComplaints.filter(c => c.regNo === currentUser.regNo || c.category === 'hostel');
-  
+
   const container = document.getElementById('hostel-complaints');
   if (!container) return;
 
@@ -917,4 +924,315 @@ function renderHostelComplaints() {
       <p style="font-size:var(--fs-xs);margin:0" class="text-tertiary">${escapeHtml(c.description)}</p>
     </div>
   `).join('');
+}
+
+/* ── 15. Home People Search & User Profiles ── */
+let currentViewedUser = null;
+
+function handleHomeSearch(query) {
+  const resultsContainer = document.getElementById('home-search-results');
+  if (!query || query.trim().length < 2) {
+    resultsContainer.style.display = 'none';
+    return;
+  }
+
+  query = query.toLowerCase().trim();
+
+  const studentResults = DEMO_DATA.students.filter(s => s.name.toLowerCase().includes(query) || s.regNo.toLowerCase().includes(query));
+  const profResults = DEMO_DATA.professors.filter(p => p.name.toLowerCase().includes(query) || (p.department && p.department.toLowerCase().includes(query)));
+
+  const allResults = [...studentResults, ...profResults];
+
+  if (allResults.length === 0) {
+    resultsContainer.innerHTML = '<div style="padding:var(--sp-2) var(--sp-4); color:var(--text-tertiary);">No people found.</div>';
+    resultsContainer.style.display = 'block';
+    return;
+  }
+
+  resultsContainer.innerHTML = allResults.map(user => {
+    const isProf = user.hasOwnProperty('department');
+    const roleText = isProf ? user.title || 'Professor' : `Student • ${user.regNo}`;
+    const id = isProf ? user.id : user.regNo;
+    return `
+      <div class="search-result-item flex items-center gap-3" style="padding:var(--sp-2) var(--sp-4); cursor:pointer; border-bottom:1px solid var(--border-light); transition: background var(--transition-base);" onmouseover="this.style.background='var(--bg-surface-alt)'" onmouseout="this.style.background='transparent'" onclick="showUserProfile('${id}', ${isProf})">
+        <div class="avatar avatar-sm">${getInitials(user.name)}</div>
+        <div>
+          <div style="font-weight:var(--fw-medium); font-size:var(--fs-sm);">${escapeHtml(user.name)}</div>
+          <div style="font-size:var(--fs-xs); color:var(--text-tertiary);">${escapeHtml(roleText)}</div>
+        </div>
+      </div>
+    `;
+  }).join('');
+
+  resultsContainer.style.display = 'block';
+}
+
+function showUserProfile(id, isProf) {
+  document.getElementById('home-search-results').style.display = 'none';
+  document.getElementById('home-people-search').value = '';
+
+  let user = null;
+  if (isProf) {
+    user = DEMO_DATA.professors.find(p => p.id === id);
+  } else {
+    user = DEMO_DATA.students.find(s => s.regNo === id);
+  }
+
+  if (!user) return;
+  currentViewedUser = user;
+  currentViewedUser.isProf = isProf;
+
+  document.getElementById('up-avatar').textContent = getInitials(user.name);
+  document.getElementById('up-name').textContent = user.name;
+
+  if (isProf) {
+    document.getElementById('up-role').textContent = `${user.title || 'Professor'} • ${user.department}`;
+  } else {
+    const parsed = parseRegNumber(user.regNo);
+    document.getElementById('up-role').textContent = `Student • ${parsed ? parsed.branchShort : ''} • ${user.regNo}`;
+  }
+
+  document.getElementById('up-followers').textContent = user.followers || 0;
+  document.getElementById('up-following').textContent = user.following || 0;
+
+  const followBtn = document.getElementById('up-follow-btn');
+  const isFollowing = currentUser.followingList && currentUser.followingList.includes(id);
+
+  if (isFollowing) {
+    followBtn.textContent = 'Following';
+    followBtn.className = 'btn btn-secondary';
+  } else {
+    followBtn.textContent = 'Follow';
+    followBtn.className = 'btn btn-primary';
+  }
+
+  openModal('modal-user-profile');
+}
+
+function toggleFollowUser() {
+  if (!currentViewedUser) return;
+
+  const followBtn = document.getElementById('up-follow-btn');
+  const id = currentViewedUser.isProf ? currentViewedUser.id : currentViewedUser.regNo;
+
+  if (!currentUser.followingList) currentUser.followingList = [];
+
+  const index = currentUser.followingList.indexOf(id);
+  if (index > -1) {
+    currentUser.followingList.splice(index, 1);
+    currentViewedUser.followers = Math.max(0, (currentViewedUser.followers || 1) - 1);
+    followBtn.textContent = 'Follow';
+    followBtn.className = 'btn btn-primary';
+  } else {
+    currentUser.followingList.push(id);
+    currentViewedUser.followers = (currentViewedUser.followers || 0) + 1;
+    followBtn.textContent = 'Following';
+    followBtn.className = 'btn btn-secondary';
+  }
+
+  document.getElementById('up-followers').textContent = currentViewedUser.followers;
+}
+
+function messageUser() {
+  if (!currentViewedUser) return;
+  closeModal('modal-user-profile');
+
+  switchToSection('messages');
+
+  if (typeof showToast === 'function') {
+    showToast(`Started chat with ${currentViewedUser.name}`, 'success', 'Messages');
+  }
+}
+
+/* ── ATTENDANCE HELPER FUNCTIONS ── */
+function getTodayKey() {
+  const d = new Date();
+  return `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`;
+}
+
+function markTodayAttend(day, idx, status, checkbox) {
+  const dateKey = getTodayKey();
+  const storageKey = `attend_${dateKey}_${day}_${idx}`;
+  const currentStatus = localStorage.getItem(storageKey) || 'unmarked';
+
+  // Toggle: if clicking same status again, unmark it
+  if (currentStatus === status) {
+    localStorage.removeItem(storageKey);
+    checkbox.checked = false;
+  } else {
+    localStorage.setItem(storageKey, status);
+    // Uncheck the other checkbox in same row
+    const row = document.getElementById(`tcr-${idx}`);
+    if (row) {
+      row.querySelectorAll('.attend-cb').forEach(cb => {
+        if (cb.dataset.status !== status) cb.checked = false;
+      });
+    }
+  }
+
+  // Refresh row styles
+  const row = document.getElementById(`tcr-${idx}`);
+  if (row) {
+    const newStatus = localStorage.getItem(storageKey) || 'unmarked';
+    row.querySelectorAll('.attend-checkbox-wrap').forEach(wrap => {
+      wrap.classList.remove('is-present', 'is-absent');
+      if (newStatus === 'present') wrap.querySelector('.attend-cb').dataset.status === 'present' && wrap.classList.add('is-present');
+      if (newStatus === 'absent') wrap.querySelector('.attend-cb').dataset.status === 'absent' && wrap.classList.add('is-absent');
+    });
+  }
+
+  // Refresh attendance section if visible
+  if (document.getElementById('section-attendance')?.classList.contains('active')) {
+    renderAttendanceSection();
+  }
+
+  showToast(`${status === 'present' ? 'Marked Present ✅' : 'Marked Absent ❌'} for ${DEMO_DATA.schedule[day]?.filter(i => i.type !== 'Break')[idx]?.subject || 'class'}`, 'success', 'Attendance');
+}
+
+/* ── 16. Attendance Tracker Section ── */
+function initAttendanceSection() {
+  // Render when section becomes active
+  const navBtn = document.querySelector('.nav-item[data-section="attendance"]');
+  if (navBtn) {
+    navBtn.addEventListener('click', () => setTimeout(renderAttendanceSection, 50));
+  }
+}
+
+function getSubjectAttendanceData() {
+  const subjects = {};
+  const log = [];
+
+  // Gather all days
+  const allDays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+  allDays.forEach(day => {
+    const classes = (DEMO_DATA.schedule[day] || []).filter(i => i.type !== 'Break');
+    classes.forEach((item, idx) => {
+      const subj = item.subject;
+      if (!subjects[subj]) subjects[subj] = { present: 0, absent: 0, total: 0, color: item.color };
+
+      // Scan last 30 days worth of keys in localStorage
+      for (let daysAgo = 0; daysAgo < 30; daysAgo++) {
+        const d = new Date();
+        d.setDate(d.getDate() - daysAgo);
+        const dayName = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'][d.getDay()];
+        if (dayName !== day) continue;
+        const dateKey = `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`;
+        const storageKey = `attend_${dateKey}_${day}_${idx}`;
+        const status = localStorage.getItem(storageKey);
+        if (status) {
+          subjects[subj].total++;
+          if (status === 'present') subjects[subj].present++;
+          else subjects[subj].absent++;
+          log.push({ date: `${d.getDate()}/${d.getMonth() + 1}`, day, subject: subj, status, time: item.time });
+        }
+      }
+    });
+  });
+
+  log.sort((a, b) => b.date.localeCompare(a.date));
+  return { subjects, log };
+}
+
+function renderAttendanceSection() {
+  const { subjects, log } = getSubjectAttendanceData();
+
+  // Overall
+  let totalPresent = 0, totalClasses = 0;
+  Object.values(subjects).forEach(s => { totalPresent += s.present; totalClasses += s.total; });
+  const overallPct = totalClasses > 0 ? Math.round((totalPresent / totalClasses) * 100) : 0;
+  const pctBadge = document.getElementById('overall-pct-badge');
+  if (pctBadge) {
+    pctBadge.textContent = `${overallPct}%`;
+    pctBadge.className = `badge ${overallPct >= 75 ? 'badge-success' : overallPct >= 60 ? 'badge-warning' : 'badge-danger'}`;
+  }
+
+  const barEl = document.getElementById('overall-attendance-bar');
+  if (barEl) {
+    const barColor = overallPct >= 75 ? 'var(--clr-success-500)' : overallPct >= 60 ? '#f59e0b' : 'var(--clr-danger-500)';
+    barEl.innerHTML = `
+      <div style="display:flex; align-items:center; gap:var(--sp-3);">
+        <div style="flex:1; height:12px; border-radius:99px; background:var(--border-color); overflow:hidden;">
+          <div style="height:100%; width:${overallPct}%; background:${barColor}; border-radius:99px; transition:width 0.6s ease;"></div>
+        </div>
+        <span style="font-weight:var(--fw-bold); font-size:var(--fs-sm); color:${barColor};">${overallPct}%</span>
+      </div>
+      <div style="margin-top:var(--sp-2); font-size:var(--fs-xs); color:var(--text-tertiary);">${totalPresent} present out of ${totalClasses} tracked classes &bull; ${totalClasses === 0 ? 'Mark attendance from Today\'s Schedule on Home page' : (overallPct < 75 ? '⚠️ Below 75% threshold — attend more classes!' : '🙌 Great attendance!')}</div>
+    `;
+  }
+
+  // Subject cards
+  const grid = document.getElementById('subject-attendance-grid');
+  if (grid) {
+    const subjectKeys = Object.keys(subjects);
+    if (subjectKeys.length === 0) {
+      grid.innerHTML = `<div class="card" style="grid-column:1/-1;"><div class="empty-state"><div class="empty-state-icon">📝</div><h4>No Attendance Marked Yet</h4><p>Go to Home and mark your attendance using the checkboxes in Today's Schedule.</p></div></div>`;
+    } else {
+      grid.innerHTML = subjectKeys.map(subj => {
+        const s = subjects[subj];
+        const pct = s.total > 0 ? Math.round((s.present / s.total) * 100) : 0;
+        const barColor = pct >= 75 ? 'var(--clr-success-500)' : pct >= 60 ? '#f59e0b' : 'var(--clr-danger-500)';
+        const statusEmoji = pct >= 75 ? '🙌' : pct >= 60 ? '⚠️' : '🚨';
+        return `
+        <div class="card card-flat" style="padding:var(--sp-5);">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:var(--sp-3);">
+            <div style="display:flex; align-items:center; gap:var(--sp-2);">
+              <div class="card-icon ${s.color}" style="width:32px;height:32px;font-size:0.9rem;">📖</div>
+              <div>
+                <div style="font-weight:var(--fw-semibold); font-size:var(--fs-sm);">${escapeHtml(subj)}</div>
+                <div style="font-size:var(--fs-xs); color:var(--text-tertiary);">${s.present}/${s.total} classes</div>
+              </div>
+            </div>
+            <div style="text-align:right;">
+              <div style="font-weight:var(--fw-bold); font-size:var(--fs-lg); color:${barColor};">${pct}%</div>
+              <div style="font-size:0.7rem;">${statusEmoji}</div>
+            </div>
+          </div>
+          <div style="height:8px; border-radius:99px; background:var(--border-color); overflow:hidden;">
+            <div style="height:100%; width:${pct}%; background:${barColor}; border-radius:99px; transition:width 0.6s ease;"></div>
+          </div>
+          <div style="display:flex; justify-content:space-between; margin-top:var(--sp-2); font-size:var(--fs-xs); color:var(--text-tertiary);">
+            <span>🟢 ${s.present} Present</span>
+            <span>🔴 ${s.absent} Absent</span>
+          </div>
+        </div>`;
+      }).join('');
+    }
+  }
+
+  // Log
+  const logList = document.getElementById('attendance-log-list');
+  const logBadge = document.getElementById('log-count-badge');
+  if (logBadge) logBadge.textContent = `${log.length} entries`;
+  if (logList) {
+    if (log.length === 0) {
+      logList.innerHTML = `<div style="text-align:center; padding:var(--sp-6); color:var(--text-tertiary); font-size:var(--fs-sm);">📝 No attendance records yet.</div>`;
+    } else {
+      logList.innerHTML = log.slice(0, 20).map(entry => `
+        <div style="display:flex; align-items:center; justify-content:space-between; padding:var(--sp-3) var(--sp-4); border-radius:var(--radius-lg); background:var(--bg-surface); border:1px solid var(--border-color);">
+          <div style="display:flex; align-items:center; gap:var(--sp-3);">
+            <span style="font-size:1.1rem;">${entry.status === 'present' ? '✅' : '❌'}</span>
+            <div>
+              <div style="font-weight:var(--fw-medium); font-size:var(--fs-sm);">${escapeHtml(entry.subject)}</div>
+              <div style="font-size:var(--fs-xs); color:var(--text-tertiary);">${entry.day} &bull; ${entry.time}</div>
+            </div>
+          </div>
+          <span class="badge ${entry.status === 'present' ? 'badge-success' : 'badge-danger'}">${entry.status === 'present' ? 'Present' : 'Absent'}</span>
+        </div>
+      `).join('');
+    }
+  }
+}
+
+function resetAllAttendance() {
+  if (!confirm('Reset all attendance data? This cannot be undone.')) return;
+  const keysToRemove = [];
+  for (let i = 0; i < localStorage.length; i++) {
+    const key = localStorage.key(i);
+    if (key && key.startsWith('attend_')) keysToRemove.push(key);
+  }
+  keysToRemove.forEach(k => localStorage.removeItem(k));
+  renderAttendanceSection();
+  // Also re-render today's schedule
+  initHomeSection();
+  showToast('All attendance data has been reset.', 'info', 'Reset');
 }

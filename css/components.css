@@ -5,24 +5,24 @@
 /* ── Cards ── */
 .card {
   background: var(--bg-surface);
-  border: none;
+  border: 1px solid var(--border-light);
   border-radius: var(--radius-xl);
   padding: var(--sp-6);
-  box-shadow: var(--neu-shadow);
+  box-shadow: var(--shadow-md);
   transition: transform var(--transition-base), box-shadow var(--transition-base);
 }
 
 .card:hover {
   transform: translateY(-3px);
-  box-shadow: var(--neu-shadow-lg);
+  box-shadow: var(--shadow-lg);
 }
 
 .card-flat {
   background: var(--bg-surface-alt);
-  border: none;
+  border: 1px solid var(--border-light);
   border-radius: var(--radius-xl);
   padding: var(--sp-6);
-  box-shadow: var(--neu-shadow-sm);
+  box-shadow: var(--shadow-sm);
 }
 
 .card-gradient {
@@ -66,7 +66,7 @@
   justify-content: center;
   font-size: 1.25rem;
   flex-shrink: 0;
-  box-shadow: var(--neu-shadow-sm);
+  box-shadow: var(--shadow-sm);
 }
 
 .card-icon.primary { background: rgba(220, 38, 38, 0.15); color: var(--clr-crimson-600); }
@@ -108,13 +108,13 @@
 .btn-secondary {
   background: var(--bg-surface);
   color: var(--text-primary);
-  border: none;
-  box-shadow: var(--neu-shadow-sm);
+  border: 1px solid var(--border-color);
+  box-shadow: var(--shadow-sm);
 }
 
 .btn-secondary:hover {
   background: var(--bg-surface-alt);
-  box-shadow: var(--neu-shadow-pressed);
+  box-shadow: var(--shadow-sm);
 }
 
 .btn-accent {
@@ -181,12 +181,14 @@
   border-radius: var(--radius-lg);
   font-size: var(--fs-base);
   color: var(--text-primary);
-  box-shadow: var(--neu-shadow-inset);
+  border: 1px solid var(--border-color);
+  box-shadow: var(--shadow-xs);
   transition: all var(--transition-base);
 }
 
 .form-input:focus {
-  box-shadow: var(--neu-shadow-inset), 0 0 0 2px var(--clr-primary-500);
+  box-shadow: 0 0 0 2px var(--clr-primary-500);
+  border-color: var(--clr-primary-500);
 }
 
 .form-input::placeholder {
@@ -476,16 +478,17 @@ select.form-input {
   width: 100%;
   padding: var(--sp-3) var(--sp-4) var(--sp-3) 2.75rem;
   background: var(--bg-surface);
-  border: none;
+  border: 1px solid var(--border-color);
   border-radius: var(--radius-full);
   font-size: var(--fs-sm);
   color: var(--text-primary);
-  box-shadow: var(--neu-shadow-inset);
+  box-shadow: var(--shadow-xs);
   transition: all var(--transition-base);
 }
 
 .search-bar input:focus {
-  box-shadow: var(--neu-shadow-inset), 0 0 0 2px var(--clr-primary-500);
+  box-shadow: 0 0 0 2px var(--clr-primary-500);
+  border-color: var(--clr-primary-500);
   background: var(--bg-input);
 }
 

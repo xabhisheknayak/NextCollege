@@ -5,18 +5,23 @@
 const DEMO_DATA = {
   // ── Student Accounts ──
   students: [
-    { regNo: '25-105-131-003', name: 'Arjun Mehta', phone: '9876543210', password: '123456', isHosteler: true, branch: '105', attendance: 87, email: 'arjun.m@campus.edu', avatar: null, followers: 24, following: 18, badges: ['🏆 Hackathon Winner', '📚 Library Regular', '🎯 100% Assignment'] },
-    { regNo: '25-106-131-007', name: 'Priya Sharma', phone: '9876543211', password: '654321', isHosteler: false, branch: '106', attendance: 92, email: 'priya.s@campus.edu', avatar: null, followers: 31, following: 22, badges: ['🌟 Dean\'s List', '🎨 Design Club Lead'] },
-    { regNo: '25-101-131-001', name: 'Rahul Kumar', phone: '9876543212', password: '111111', isHosteler: true, branch: '101', attendance: 78, email: 'rahul.k@campus.edu', avatar: null, followers: 45, following: 30, badges: ['💻 Code Master', '🏅 Sports Captain'] },
-    { regNo: '25-101-131-002', name: 'Sneha Patel', phone: '9876543213', password: '222222', isHosteler: false, branch: '101', attendance: 95, email: 'sneha.p@campus.edu', avatar: null, followers: 67, following: 42, badges: ['📊 Data Wizard', '🎤 Cultural Head'] },
-    { regNo: '24-103-131-005', name: 'Vikram Singh', phone: '9876543214', password: '333333', isHosteler: true, branch: '103', attendance: 81, email: 'vikram.s@campus.edu', avatar: null, followers: 19, following: 15, badges: ['🔧 Circuit Champion'] },
-    { regNo: '24-102-131-004', name: 'Ananya Gupta', phone: '9876543215', password: '444444', isHosteler: false, branch: '102', attendance: 89, email: 'ananya.g@campus.edu', avatar: null, followers: 28, following: 20, badges: ['🌐 Web Dev Star'] },
-    { regNo: '25-110-131-010', name: 'Karan Reddy', phone: '9876543216', password: '555555', isHosteler: true, branch: '110', attendance: 84, email: 'karan.r@campus.edu', avatar: null, followers: 52, following: 35, badges: ['🤖 AI Enthusiast', '🏆 Kaggle Expert'] },
-    { regNo: '24-104-131-008', name: 'Divya Nair', phone: '9876543217', password: '666666', isHosteler: false, branch: '104', attendance: 91, email: 'divya.n@campus.edu', avatar: null, followers: 33, following: 25, badges: ['⚡ Power Systems Pro'] },
-    { regNo: '25-108-131-006', name: 'Amit Joshi', phone: '9876543218', password: '777777', isHosteler: true, branch: '108', attendance: 76, email: 'amit.j@campus.edu', avatar: null, followers: 15, following: 12, badges: ['🧬 Bio Research Fellow'] },
-    { regNo: '24-105-131-009', name: 'Meera Iyer', phone: '9876543219', password: '888888', isHosteler: false, branch: '105', attendance: 88, email: 'meera.i@campus.edu', avatar: null, followers: 22, following: 16, badges: ['🔩 Design Engineer'] },
-    { regNo: '24-101-131-011', name: 'Abhishek Nayak', phone: '9812345678', password: '999999', isHosteler: true, branch: '101', attendance: 82, email: 'abhishek.n@campus.edu', avatar: null, followers: 18, following: 14, badges: ['🎯 Consistent Learner'] },
-    { regNo: '24-101-131-012', name: 'Wadyant Giri', phone: '9876543210', password: 'wadyant', isHosteler: false, branch: '101', attendance: 95, email: 'wadyant.g@campus.edu', avatar: null, followers: 45, following: 30, badges: ['💻 Open Source Contributor'] }
+    { regNo: '24-105-131-053', name: 'Sanjana Kumari', phone: '9876543210', password: '123', isHosteler: false, branch: '105', attendance: 73, email: 'sanjana@campus.edu', followers: 24, following: 18, badges: [] },
+    { regNo: '25-105-131-029', name: 'Lakshya Raj', phone: '9876543210', password: '123', isHosteler: true, branch: '105', attendance: 55, email: 'lakshya@campus.edu', followers: 12, following: 5, badges: [] },
+    { regNo: '25-105-131-017', name: 'Harsh Raj', phone: '9876543210', password: '123', isHosteler: true, branch: '105', attendance: 55, email: 'harsh@campus.edu', followers: 8, following: 10, badges: [] },
+    { regNo: '25-105-131-009', name: 'Vivek Kumar', phone: '9876543210', password: '123', isHosteler: false, branch: '105', attendance: 55, email: 'vivek@campus.edu', followers: 15, following: 20, badges: [] },
+    { regNo: '25-105-131-042', name: 'Mausam Kumari', phone: '9876543210', password: '123', isHosteler: true, branch: '105', attendance: 82, email: 'mausam@campus.edu', followers: 30, following: 25, badges: [] },
+    { regNo: '25-105-131-030', name: 'Anish Kumar Jha', phone: '9876543210', password: '123', isHosteler: true, branch: '105', attendance: 100, email: 'anish@campus.edu', followers: 45, following: 30, badges: ['🌟 Perfect Attendance'] },
+    { regNo: '25-105-131-013', name: 'Aadya Kumari', phone: '9876543210', password: '123', isHosteler: false, branch: '105', attendance: 82, email: 'aadya@campus.edu', followers: 22, following: 18, badges: [] },
+    { regNo: '25-105-131-047', name: 'Sudhanshu Kumar', phone: '9876543210', password: '123', isHosteler: true, branch: '105', attendance: 73, email: 'sudhanshu@campus.edu', followers: 19, following: 15, badges: [] },
+    { regNo: '25-105-131-020', name: 'Akanksha Roy', phone: '9876543210', password: '123', isHosteler: false, branch: '105', attendance: 64, email: 'akanksha@campus.edu', followers: 28, following: 20, badges: [] },
+    { regNo: '25-105-131-059', name: 'Ankit Kumar', phone: '9876543210', password: '123', isHosteler: true, branch: '105', attendance: 91, email: 'ankit@campus.edu', followers: 52, following: 35, badges: [] },
+    { regNo: '25-105-131-039', name: 'Anuska Ranjan', phone: '9876543210', password: '123', isHosteler: false, branch: '105', attendance: 100, email: 'anuska@campus.edu', followers: 33, following: 25, badges: ['🌟 Perfect Attendance'] },
+    { regNo: '25-105-131-019', name: 'Swati Kumari', phone: '9876543210', password: '123', isHosteler: false, branch: '105', attendance: 82, email: 'swati@campus.edu', followers: 15, following: 12, badges: [] },
+    { regNo: '25-105-131-025', name: 'Shruti Kumari', phone: '9876543210', password: '123', isHosteler: true, branch: '105', attendance: 73, email: 'shruti@campus.edu', followers: 22, following: 16, badges: [] },
+    { regNo: '25-105-131-003', name: 'Abhishek Nayak', phone: '9812345678', password: '123', isHosteler: true, branch: '105', attendance: 82, email: 'abhishek.n@campus.edu', followers: 18, following: 14, badges: ['🎯 Consistent Learner', '💻 Hackfest Presenter'] },
+    { regNo: '25-105-131-057', name: 'Wadyant Giri', phone: '9876543210', password: '123', isHosteler: false, branch: '105', attendance: 82, email: 'wadyant.g@campus.edu', followers: 45, following: 30, badges: ['💻 Open Source Contributor'] },
+    { regNo: '25-105-131-050', name: 'Kundan Kumar Sahu', phone: '9876543210', password: '123', isHosteler: true, branch: '105', attendance: 100, email: 'kundan@campus.edu', followers: 50, following: 20, badges: ['🌟 Perfect Attendance'] },
+    { regNo: '25-105-131-010', name: 'Danish Ansari', phone: '9876543210', password: '123', isHosteler: false, branch: '105', attendance: 100, email: 'danish@campus.edu', followers: 40, following: 15, badges: ['🌟 Perfect Attendance'] }
   ],
 
   // ── Professor Accounts ──
@@ -25,7 +30,7 @@ const DEMO_DATA = {
     { id: 'prof-002', name: 'Dr. Anil Kapoor', phone: '9876543220', department: 'Computer Science', branchCode: '101', email: 'anil.k@campus.edu', title: 'Associate Professor', isWarden: false, followers: 89, following: 20, badges: ['🏆 Best Teacher Award'] },
     { id: 'prof-003', name: 'Dr. Sunita Rao', phone: '9876543221', department: 'Civil Engineering', branchCode: '106', email: 'sunita.r@campus.edu', title: 'Assistant Professor', isWarden: true, followers: 65, following: 30, badges: ['📐 Structural Expert'] },
     { id: 'prof-004', name: 'Dr. Rajesh Verma', phone: '9876543222', department: 'Data Science & AI', branchCode: '110', email: 'rajesh.v@campus.edu', title: 'Professor', isWarden: false, followers: 150, following: 10, badges: ['🤖 AI Research Lead'] },
-    { id: 'prof-005', name: 'Prof. Raju', phone: '9900012345', department: 'Computer Science', branchCode: '101', email: 'raju@campus.edu', title: 'HOD & Professor', isWarden: false, followers: 210, following: 8, badges: ['🎓 HOD CSE', '🏅 25 Years Experience', '💡 Innovation Award'] }
+    { id: 'prof-005', name: 'Prof. Raju', phone: '9900012345', department: 'Computer Science', branchCode: '105', email: 'raju@campus.edu', title: 'HOD & Professor', isWarden: false, followers: 210, following: 8, badges: ['🎓 HOD CSE', '🏅 25 Years Experience', '💡 Innovation Award'] }
   ],
 
   // ── Admin Account ──
@@ -33,41 +38,52 @@ const DEMO_DATA = {
     { id: 'admin-001', name: 'Campus Admin', phone: '9999999999', email: 'admin@campus.edu', role: 'Super Admin' }
   ],
 
-  // ── Class Schedule (for ME branch, year 1) ──
+  // ── Class Schedule (for CSE branch, Group 1) ──
   schedule: {
     'Monday': [
-      { time: '09:00 AM', endTime: '10:00 AM', subject: 'Engineering Mathematics', faculty: 'Dr. Sharma', room: 'LH-201', type: 'Lecture', color: 'primary' },
-      { time: '10:15 AM', endTime: '11:15 AM', subject: 'Engineering Physics', faculty: 'Dr. Gupta', room: 'LH-105', type: 'Lecture', color: 'accent' },
-      { time: '11:30 AM', endTime: '12:30 PM', subject: 'Workshop Practice', faculty: 'Mr. Kumar', room: 'WS-01', type: 'Lab', color: 'warning' },
-      { time: '02:00 PM', endTime: '03:00 PM', subject: 'Technical Drawing', faculty: 'Dr. Patil', room: 'DH-03', type: 'Lecture', color: 'danger' }
+      { time: '10:00 AM', endTime: '10:50 AM', subject: 'Digital Electronics (DE)', faculty: 'TBD', room: 'Classroom', type: 'Lecture', color: 'primary' },
+      { time: '10:50 AM', endTime: '11:40 AM', subject: 'Object Oriented Programming (OOP)', faculty: 'TBD', room: 'Classroom', type: 'Lecture', color: 'accent' },
+      { time: '11:40 AM', endTime: '12:30 PM', subject: 'Operating System (OS)', faculty: 'TBD', room: 'Classroom', type: 'Lecture', color: 'warning' },
+      { time: '12:30 PM', endTime: '01:20 PM', subject: 'Data Structures & Algorithms (DSA)', faculty: 'TBD', room: 'Classroom', type: 'Lecture', color: 'danger' },
+      { time: '02:00 PM', endTime: '04:00 PM', subject: 'GATE', faculty: 'Prof R Yezdhani', room: 'Classroom', type: 'Special', color: 'primary' },
+      { time: '04:00 PM', endTime: '04:50 PM', subject: 'Indian Knowledge System (IKS)', faculty: 'TBD', room: 'Classroom', type: 'Lecture', color: 'accent' }
     ],
     'Tuesday': [
-      { time: '09:00 AM', endTime: '10:00 AM', subject: 'Engineering Chemistry', faculty: 'Dr. Rao', room: 'LH-202', type: 'Lecture', color: 'accent' },
-      { time: '10:15 AM', endTime: '12:15 PM', subject: 'Physics Lab', faculty: 'Dr. Gupta', room: 'PL-01', type: 'Lab', color: 'warning' },
-      { time: '02:00 PM', endTime: '03:00 PM', subject: 'Engineering Mathematics', faculty: 'Dr. Sharma', room: 'LH-201', type: 'Lecture', color: 'primary' },
-      { time: '03:15 PM', endTime: '04:15 PM', subject: 'Communication Skills', faculty: 'Ms. Nair', room: 'LH-301', type: 'Lecture', color: 'danger' }
+      { time: '10:00 AM', endTime: '10:50 AM', subject: 'Object Oriented Programming (OOP)', faculty: 'TBD', room: 'Classroom', type: 'Lecture', color: 'accent' },
+      { time: '10:50 AM', endTime: '11:40 AM', subject: 'Operating System (OS)', faculty: 'TBD', room: 'Classroom', type: 'Lecture', color: 'warning' },
+      { time: '11:40 AM', endTime: '12:30 PM', subject: 'Discrete Mathematics & Graph Theory (DM & GT)', faculty: 'TBD', room: 'Classroom', type: 'Lecture', color: 'primary' },
+      { time: '12:30 PM', endTime: '01:20 PM', subject: 'Library (LIB)', faculty: 'TBD', room: 'Library', type: 'Activity', color: 'danger' },
+      { time: '04:00 PM', endTime: '04:50 PM', subject: 'Spoken Tutorial', faculty: 'TBD', room: 'Classroom', type: 'Activity', color: 'accent' }
     ],
     'Wednesday': [
-      { time: '09:00 AM', endTime: '10:00 AM', subject: 'Engineering Physics', faculty: 'Dr. Gupta', room: 'LH-105', type: 'Lecture', color: 'accent' },
-      { time: '10:15 AM', endTime: '11:15 AM', subject: 'Technical Drawing', faculty: 'Dr. Patil', room: 'DH-03', type: 'Lecture', color: 'danger' },
-      { time: '11:30 AM', endTime: '01:30 PM', subject: 'Chemistry Lab', faculty: 'Dr. Rao', room: 'CL-02', type: 'Lab', color: 'warning' },
-      { time: '02:30 PM', endTime: '03:30 PM', subject: 'Environmental Science', faculty: 'Dr. Jain', room: 'LH-401', type: 'Lecture', color: 'primary' }
+      { time: '10:00 AM', endTime: '10:50 AM', subject: 'Universal Human Values (UHV)', faculty: 'TBD', room: 'Classroom', type: 'Lecture', color: 'primary' },
+      { time: '10:50 AM', endTime: '11:40 AM', subject: 'Discrete Mathematics & Graph Theory (DM & GT)', faculty: 'TBD', room: 'Classroom', type: 'Lecture', color: 'accent' },
+      { time: '11:40 AM', endTime: '01:20 PM', subject: 'OOP LAB', faculty: 'TBD', room: 'Lab', type: 'Lab', color: 'warning' },
+      { time: '02:00 PM', endTime: '04:00 PM', subject: 'DSA LAB', faculty: 'TBD', room: 'Lab', type: 'Lab', color: 'danger' },
+      { time: '04:00 PM', endTime: '04:50 PM', subject: 'Indian Knowledge System (IKS)', faculty: 'TBD', room: 'Classroom', type: 'Lecture', color: 'primary' }
     ],
     'Thursday': [
-      { time: '09:00 AM', endTime: '10:00 AM', subject: 'Engineering Mathematics', faculty: 'Dr. Sharma', room: 'LH-201', type: 'Lecture', color: 'primary' },
-      { time: '10:15 AM', endTime: '11:15 AM', subject: 'Engineering Chemistry', faculty: 'Dr. Rao', room: 'LH-202', type: 'Lecture', color: 'accent' },
-      { time: '11:30 AM', endTime: '12:30 PM', subject: 'Communication Skills', faculty: 'Ms. Nair', room: 'LH-301', type: 'Lecture', color: 'danger' },
-      { time: '02:00 PM', endTime: '04:00 PM', subject: 'Workshop Practice', faculty: 'Mr. Kumar', room: 'WS-01', type: 'Lab', color: 'warning' }
+      { time: '10:00 AM', endTime: '10:50 AM', subject: 'Operating System (OS)', faculty: 'TBD', room: 'Classroom', type: 'Lecture', color: 'warning' },
+      { time: '10:50 AM', endTime: '11:40 AM', subject: 'Object Oriented Programming (OOP)', faculty: 'TBD', room: 'Classroom', type: 'Lecture', color: 'accent' },
+      { time: '11:40 AM', endTime: '12:30 PM', subject: 'Discrete Mathematics & Graph Theory (DM & GT)', faculty: 'TBD', room: 'Classroom', type: 'Lecture', color: 'primary' },
+      { time: '12:30 PM', endTime: '01:20 PM', subject: 'Universal Human Values (UHV)', faculty: 'TBD', room: 'Classroom', type: 'Lecture', color: 'danger' },
+      { time: '02:00 PM', endTime: '04:00 PM', subject: 'GATE', faculty: 'TBD', room: 'Classroom', type: 'Special', color: 'primary' },
+      { time: '04:00 PM', endTime: '04:50 PM', subject: 'Spoken Tutorial', faculty: 'TBD', room: 'Classroom', type: 'Activity', color: 'warning' }
     ],
     'Friday': [
-      { time: '09:00 AM', endTime: '10:00 AM', subject: 'Environmental Science', faculty: 'Dr. Jain', room: 'LH-401', type: 'Lecture', color: 'primary' },
-      { time: '10:15 AM', endTime: '11:15 AM', subject: 'Engineering Physics', faculty: 'Dr. Gupta', room: 'LH-105', type: 'Lecture', color: 'accent' },
-      { time: '11:30 AM', endTime: '12:30 PM', subject: 'Engineering Mathematics', faculty: 'Dr. Sharma', room: 'LH-201', type: 'Lecture', color: 'primary' },
-      { time: '02:00 PM', endTime: '03:00 PM', subject: 'Technical Drawing', faculty: 'Dr. Patil', room: 'DH-03', type: 'Lecture', color: 'danger' }
+      { time: '10:00 AM', endTime: '10:50 AM', subject: 'Universal Human Values (UHV)', faculty: 'TBD', room: 'Classroom', type: 'Lecture', color: 'primary' },
+      { time: '10:50 AM', endTime: '11:40 AM', subject: 'Data Structures & Algorithms (DSA)', faculty: 'TBD', room: 'Classroom', type: 'Lecture', color: 'danger' },
+      { time: '11:40 AM', endTime: '12:30 PM', subject: 'Digital Electronics (DE)', faculty: 'TBD', room: 'Classroom', type: 'Lecture', color: 'warning' },
+      { time: '12:30 PM', endTime: '01:20 PM', subject: 'DM & GT (T)', faculty: 'TBD', room: 'Classroom', type: 'Tutorial', color: 'accent' },
+      { time: '02:00 PM', endTime: '04:00 PM', subject: 'GATE', faculty: 'TBD', room: 'Classroom', type: 'Special', color: 'primary' },
+      { time: '04:00 PM', endTime: '04:50 PM', subject: 'Indian Knowledge System (IKS)', faculty: 'TBD', room: 'Classroom', type: 'Lecture', color: 'danger' }
     ],
     'Saturday': [
-      { time: '09:00 AM', endTime: '10:00 AM', subject: 'Engineering Chemistry', faculty: 'Dr. Rao', room: 'LH-202', type: 'Lecture', color: 'accent' },
-      { time: '10:15 AM', endTime: '11:15 AM', subject: 'Sports / Extra-Curricular', faculty: 'Coach Ravi', room: 'Ground', type: 'Activity', color: 'warning' }
+      { time: '10:00 AM', endTime: '10:50 AM', subject: 'Digital Electronics (DE)', faculty: 'TBD', room: 'Classroom', type: 'Lecture', color: 'warning' },
+      { time: '10:50 AM', endTime: '11:40 AM', subject: 'Data Structures & Algorithms (DSA)', faculty: 'TBD', room: 'Classroom', type: 'Lecture', color: 'danger' },
+      { time: '11:40 AM', endTime: '01:20 PM', subject: 'DE LAB', faculty: 'TBD', room: 'Lab', type: 'Lab', color: 'primary' },
+      { time: '02:00 PM', endTime: '04:00 PM', subject: 'OS LAB', faculty: 'TBD', room: 'Lab', type: 'Lab', color: 'accent' },
+      { time: '04:00 PM', endTime: '04:50 PM', subject: 'Library', faculty: 'TBD', room: 'Library', type: 'Activity', color: 'warning' }
     ]
   },
 
@@ -220,6 +236,30 @@ const DEMO_DATA = {
 
   // ── Social Posts ──
   socialPosts: [
+    {
+      id: 'post-new-1',
+      authorName: 'Abhishek Nayak',
+      authorRole: 'Student • CSE',
+      authorAvatar: 'AN',
+      image: 'images/hackfest.jpeg',
+      caption: 'Had an amazing time presenting at Hackfest! Thrilled to showcase our project to the judges. A big shoutout to Synapse Society for organizing such a brilliant event! 💻✨ #Hackfest #Avishkar',
+      likes: 85,
+      likedByMe: false,
+      timestamp: 'Just now',
+      comments: []
+    },
+    {
+      id: 'post-new-2',
+      authorName: 'Abhishek Nayak',
+      authorRole: 'Student • CSE',
+      authorAvatar: 'AN',
+      image: 'images/avishkar.jpeg',
+      caption: 'Avishkar is here! Synapse Society brings the best tech minds together. Let the innovation begin! 🔥',
+      likes: 120,
+      likedByMe: false,
+      timestamp: '1 hour ago',
+      comments: []
+    },
     {
       id: 'post-001',
       authorName: 'Sneha Patel',

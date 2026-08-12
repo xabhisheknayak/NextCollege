@@ -384,6 +384,10 @@
   margin: 0;
 }
 
+.attendance-ring-wrapper {
+  margin-left: auto;
+}
+
 .id-card-meta {
   display: flex;
   gap: var(--sp-6);
@@ -468,6 +472,11 @@
     text-align: center;
   }
   
+  .attendance-ring-wrapper {
+    margin-left: 0;
+    margin-top: var(--sp-4);
+  }
+  
   .id-card-meta {
     flex-wrap: wrap;
     gap: var(--sp-4);
@@ -482,5 +491,131 @@
   .section-header {
     flex-direction: column;
     align-items: flex-start;
+  }
+}
+
+/* ── Today's Class Row (Attendance Checkboxes) ── */
+.today-class-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-3);
+  padding: var(--sp-4);
+  border-radius: var(--radius-xl);
+  background: var(--bg-surface);
+  border: 1.5px solid var(--border-color);
+  transition: border-color var(--transition-base), background var(--transition-base);
+}
+
+.today-class-row:has(.attend-cb[data-status="present"]:checked) {
+  border-color: var(--clr-success-500);
+  background: rgba(16, 185, 129, 0.04);
+}
+
+.today-class-row:has(.attend-cb[data-status="absent"]:checked) {
+  border-color: var(--clr-danger-500);
+  background: rgba(244, 63, 94, 0.04);
+}
+
+.tcr-left {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  flex: 1;
+  min-width: 0;
+}
+
+.tcr-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  background: var(--clr-primary-500);
+}
+
+.card-icon-primary.tcr-dot  { background: var(--clr-primary-500); }
+.card-icon-accent.tcr-dot   { background: var(--clr-accent-500); }
+.card-icon-success.tcr-dot  { background: var(--clr-success-500); }
+.card-icon-warning.tcr-dot  { background: #f59e0b; }
+.card-icon-neutral.tcr-dot  { background: var(--text-tertiary); }
+
+.tcr-subject {
+  font-weight: var(--fw-semibold);
+  font-size: var(--fs-sm);
+  color: var(--text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.tcr-meta {
+  font-size: var(--fs-xs);
+  color: var(--text-tertiary);
+  margin-top: 2px;
+}
+
+.tcr-right {
+  display: flex;
+  gap: var(--sp-2);
+  flex-shrink: 0;
+}
+
+.attend-checkbox-wrap {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+  padding: 4px 10px;
+  border-radius: var(--radius-lg);
+  border: 1.5px solid var(--border-color);
+  background: var(--bg-base);
+  transition: all var(--transition-base);
+  user-select: none;
+}
+
+.attend-checkbox-wrap input[type="checkbox"] {
+  display: none;
+}
+
+.attend-cb-label {
+  font-size: 0.7rem;
+  font-weight: var(--fw-medium);
+  color: var(--text-secondary);
+  transition: color var(--transition-base);
+  white-space: nowrap;
+}
+
+.attend-checkbox-wrap.is-present {
+  border-color: var(--clr-success-500);
+  background: rgba(16,185,129,0.12);
+}
+
+.attend-checkbox-wrap.is-present .attend-cb-label {
+  color: var(--clr-success-500);
+}
+
+.attend-checkbox-wrap.is-absent {
+  border-color: var(--clr-danger-500);
+  background: rgba(244,63,94,0.10);
+}
+
+.attend-checkbox-wrap.is-absent .attend-cb-label {
+  color: var(--clr-danger-500);
+}
+
+.attend-checkbox-wrap:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+@media (max-width: 600px) {
+  .today-class-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--sp-3);
+  }
+  .tcr-right {
+    width: 100%;
+    justify-content: flex-start;
   }
 }
