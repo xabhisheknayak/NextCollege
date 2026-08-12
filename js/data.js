@@ -18,7 +18,7 @@ const DEMO_DATA = {
     { regNo: '25-105-131-039', name: 'Anuska Ranjan', phone: '9876543210', password: '123', isHosteler: false, branch: '105', attendance: 100, email: 'anuska@campus.edu', followers: 33, following: 25, badges: ['🌟 Perfect Attendance'] },
     { regNo: '25-105-131-019', name: 'Swati Kumari', phone: '9876543210', password: '123', isHosteler: false, branch: '105', attendance: 82, email: 'swati@campus.edu', followers: 15, following: 12, badges: [] },
     { regNo: '25-105-131-025', name: 'Shruti Kumari', phone: '9876543210', password: '123', isHosteler: true, branch: '105', attendance: 73, email: 'shruti@campus.edu', followers: 22, following: 16, badges: [] },
-    { regNo: '25-105-131-003', name: 'Abhishek Nayak', phone: '9812345678', password: '123', isHosteler: true, branch: '105', attendance: 82, email: 'abhishek.n@campus.edu', followers: 18, following: 14, badges: ['🎯 Consistent Learner', '💻 Hackfest Presenter'] },
+    { regNo: '25-105-131-003', name: 'Abhishek Nayak', phone: '9812345678', password: '123', isHosteler: true, branch: '105', semester: 3, attendance: 82, email: 'abhishek.n@campus.edu', followers: 18, following: 14, badges: ['🎯 Consistent Learner', '💻 Hackfest Presenter'] },
     { regNo: '25-105-131-057', name: 'Wadyant Giri', phone: '9876543210', password: '123', isHosteler: false, branch: '105', attendance: 82, email: 'wadyant.g@campus.edu', followers: 45, following: 30, badges: ['💻 Open Source Contributor'] },
     { regNo: '25-105-131-050', name: 'Kundan Kumar Sahu', phone: '9876543210', password: '123', isHosteler: true, branch: '105', attendance: 100, email: 'kundan@campus.edu', followers: 50, following: 20, badges: ['🌟 Perfect Attendance'] },
     { regNo: '25-105-131-010', name: 'Danish Ansari', phone: '9876543210', password: '123', isHosteler: false, branch: '105', attendance: 100, email: 'danish@campus.edu', followers: 40, following: 15, badges: ['🌟 Perfect Attendance'] }
@@ -26,10 +26,10 @@ const DEMO_DATA = {
 
   // ── Professor Accounts ──
   professors: [
-    { id: 'prof-001', name: 'Dr. Sharma', phone: '9876543210', department: 'Mechanical Engineering', branchCode: '105', email: 'sharma@campus.edu', title: 'Professor & HOD', isWarden: false, followers: 120, following: 15, badges: ['🎓 15+ Years Teaching', '📝 50+ Publications'] },
-    { id: 'prof-002', name: 'Dr. Anil Kapoor', phone: '9876543220', department: 'Computer Science', branchCode: '101', email: 'anil.k@campus.edu', title: 'Associate Professor', isWarden: false, followers: 89, following: 20, badges: ['🏆 Best Teacher Award'] },
-    { id: 'prof-003', name: 'Dr. Sunita Rao', phone: '9876543221', department: 'Civil Engineering', branchCode: '106', email: 'sunita.r@campus.edu', title: 'Assistant Professor', isWarden: true, followers: 65, following: 30, badges: ['📐 Structural Expert'] },
-    { id: 'prof-004', name: 'Dr. Rajesh Verma', phone: '9876543222', department: 'Data Science & AI', branchCode: '110', email: 'rajesh.v@campus.edu', title: 'Professor', isWarden: false, followers: 150, following: 10, badges: ['🤖 AI Research Lead'] },
+    { id: 'prof-001', name: 'prof. praveen', phone: '9876543210', department: 'computer science Engineering', branchCode: '105', email: 'sharma@campus.edu', title: 'Professor & HOD', isWarden: false, followers: 120, following: 15, badges: ['🎓 15+ Years Teaching', '📝 50+ Publications'] },
+    { id: 'prof-002', name: 'Prof. Subhalakshmi', phone: '9876543220', department: 'Computer Science', branchCode: '101', email: 'anil.k@campus.edu', title: 'Associate Professor', isWarden: false, followers: 89, following: 20, badges: ['🏆 Best Teacher Award'] },
+    { id: 'prof-003', name: 'Prof. R. Yezdhani', phone: '9876543221', department: 'Computer Science', branchCode: '101', email: 'sunita.r@campus.edu', title: 'Assistant Professor', isWarden: true, followers: 65, following: 30, badges: ['📐 Structural Expert'] },
+    { id: 'prof-004', name: 'Prof. Tapan', phone: '9876543222', department: 'Data Science & AI', branchCode: '110', email: 'rajesh.v@campus.edu', title: 'Professor', isWarden: false, followers: 150, following: 10, badges: ['🤖 AI Research Lead'] },
     { id: 'prof-005', name: 'Prof. Raju', phone: '9900012345', department: 'Computer Science', branchCode: '105', email: 'raju@campus.edu', title: 'HOD & Professor', isWarden: false, followers: 210, following: 8, badges: ['🎓 HOD CSE', '🏅 25 Years Experience', '💡 Innovation Award'] }
   ],
 
@@ -366,7 +366,7 @@ function getHostelName(student) {
 
 // Initialize demo data in localStorage if not exists
 function initDemoData() {
-  const CURRENT_DATA_VERSION = '1.2';
+  const CURRENT_DATA_VERSION = '1.3';
   if (getStorage('dataVersion') !== CURRENT_DATA_VERSION) {
     localStorage.removeItem('dataInitialized');
     localStorage.removeItem('usersInitialized');

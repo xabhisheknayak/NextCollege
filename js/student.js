@@ -612,7 +612,7 @@ function filterDirectory(type) {
 function renderDirectory() {
   const search = document.getElementById('directory-search')?.value || '';
   let students = DEMO_DATA.students;
-  let faculty = DEMO_DATA.professors;
+  let faculty = getStorage('users_professors') || DEMO_DATA.professors;
 
   if (currentDirectoryFilter === 'students') faculty = [];
   if (currentDirectoryFilter === 'faculty') students = [];
@@ -1007,7 +1007,7 @@ function handleHomeSearch(query) {
   query = query.toLowerCase().trim();
 
   const studentResults = DEMO_DATA.students.filter(s => s.name.toLowerCase().includes(query) || s.regNo.toLowerCase().includes(query));
-  const profResults = DEMO_DATA.professors.filter(p => p.name.toLowerCase().includes(query) || (p.department && p.department.toLowerCase().includes(query)));
+  const profResults = (getStorage('users_professors') || DEMO_DATA.professors).filter(p => p.name.toLowerCase().includes(query) || (p.department && p.department.toLowerCase().includes(query)));
 
   const allResults = [...studentResults, ...profResults];
 
@@ -1041,7 +1041,7 @@ function showUserProfile(id, isProf) {
 
   let user = null;
   if (isProf) {
-    user = DEMO_DATA.professors.find(p => p.id === id);
+    user = (getStorage('users_professors') || DEMO_DATA.professors).find(p => p.id === id);
   } else {
     user = DEMO_DATA.students.find(s => s.regNo === id);
   }
