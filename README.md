@@ -1,4 +1,4 @@
-# college-body
+# NextCollege
 
 
 Here is a comprehensive breakdown of all the features available on **NextCollege (Purnea College of Engineering)**:
